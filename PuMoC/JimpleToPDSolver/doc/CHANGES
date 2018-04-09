@@ -1,0 +1,19 @@
+
+
+CHANGE LOG
+==========
+
+
+
+Version 1.20:
+ moved Java source to their own packages.
+ 
+ 
+Version 1.10: 
+ using ANT to compile code
+ added mingw C/C++ compiler support
+ added SBL support (we are using an early beta version, be careful!)
+ 
+ 
+Version 1.00:
+ initial version on SourceForg

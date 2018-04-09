@@ -1,0 +1,2678 @@
+decl g0;
+bool unk() 
+begin 
+   if (*) then return T; 
+   else return F; 
+   fi 
+end  
+void main() 
+begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C14_B2_C14cr : c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C14cr_B4_C13 
+: c2bp_stmt_3_0: c2bpcall_3_0:  __init10_10();
+c2bpreturnpt_3_0: no_enforce_3_0: do_enforce_3_0: assume(T);
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C13_B6_C13cr
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C13cr_B8_C12
+: c2bp_stmt_7_0: c2bpcall_7_0:  __init8_8();
+c2bpreturnpt_7_0: no_enforce_7_0: do_enforce_7_0: assume(T);
+goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C12_B10_C12cr
+: c2bp_stmt_9_0: goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C12cr_B12_C11
+: c2bp_stmt_11_0: c2bpcall_11_0:  __init7_7();
+c2bpreturnpt_11_0: no_enforce_11_0: do_enforce_11_0: assume(T);
+goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C11_B14_C11cr
+: c2bp_stmt_13_0: goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C11cr_B16_C10
+: c2bp_stmt_15_0: c2bpcall_15_0:  __init6_6();
+c2bpreturnpt_15_0: no_enforce_15_0: do_enforce_15_0: assume(T);
+goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: EG_B16_C10_B18_C10cr
+: c2bp_stmt_17_0: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: EG_B18_C10cr_B20_C9
+: c2bp_stmt_19_0: c2bpcall_19_0:  __init5_5();
+c2bpreturnpt_19_0: no_enforce_19_0: do_enforce_19_0: assume(T);
+goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: goto L21;
+L21:
+c2bp_b_21: c2bp_i_21: EG_B20_C9_B22_C9cr
+: c2bp_stmt_21_0: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: goto L23;
+L23:
+c2bp_b_23: c2bp_i_23: EG_B22_C9cr_B24_C8
+: c2bp_stmt_23_0: c2bpcall_23_0:  __init4_4();
+c2bpreturnpt_23_0: no_enforce_23_0: do_enforce_23_0: assume(T);
+goto L24;
+L24:
+c2bp_b_24: c2bp_i_24: goto L25;
+L25:
+c2bp_b_25: c2bp_i_25: EG_B24_C8_B26_C8cr
+: c2bp_stmt_25_0: goto L26;
+L26:
+c2bp_b_26: c2bp_i_26: goto L27;
+L27:
+c2bp_b_27: c2bp_i_27: EG_B26_C8cr_B28_C7
+: c2bp_stmt_27_0: c2bpcall_27_0:  __init3_3();
+c2bpreturnpt_27_0: no_enforce_27_0: do_enforce_27_0: assume(T);
+goto L28;
+L28:
+c2bp_b_28: c2bp_i_28: goto L29;
+L29:
+c2bp_b_29: c2bp_i_29: EG_B28_C7_B30_C7cr
+: c2bp_stmt_29_0: goto L30;
+L30:
+c2bp_b_30: c2bp_i_30: goto L31;
+L31:
+c2bp_b_31: c2bp_i_31: EG_B30_C7cr_B32_C6
+: c2bp_stmt_31_0: c2bpcall_31_0:  __init2_2();
+c2bpreturnpt_31_0: no_enforce_31_0: do_enforce_31_0: assume(T);
+goto L32;
+L32:
+c2bp_b_32: c2bp_i_32: goto L33;
+L33:
+c2bp_b_33: c2bp_i_33: EG_B32_C6_B34_C6cr
+: c2bp_stmt_33_0: goto L34;
+L34:
+c2bp_b_34: c2bp_i_34: goto L35;
+L35:
+c2bp_b_35: c2bp_i_35: EG_B34_C6cr_B36_C4
+: c2bp_stmt_35_0: c2bpcall_35_0:  __init1_1();
+c2bpreturnpt_35_0: no_enforce_35_0: do_enforce_35_0: assume(T);
+goto L36;
+L36:
+c2bp_b_36: c2bp_i_36: goto L37;
+L37:
+c2bp_b_37: c2bp_i_37: EG_B36_C4_B38_C3
+: c2bp_stmt_37_0: goto L38;
+L38:
+c2bp_b_38: c2bp_i_38: goto L39;
+L39:
+c2bp_b_39: c2bp_i_39: EG_B38_C3_B40_C3cr
+: c2bp_stmt_39_0: goto L40;
+L40:
+c2bp_b_40: c2bp_i_40: goto L41;
+L41:
+c2bp_b_41: c2bp_i_41: EG_B40_C3cr_B42_C1
+: c2bp_stmt_41_0: c2bpcall_41_0:  sdv_main_8();
+c2bpreturnpt_41_0: no_enforce_41_0: do_enforce_41_0: assume(T);
+goto L42;
+L42:
+c2bp_b_42: c2bp_i_42: goto L43;
+L43:
+c2bp_b_43: c2bp_i_43: EG_B42_C1_B44_C1cr
+: c2bp_stmt_43_0: goto L44;
+L44:
+c2bp_b_44: c2bp_i_44: goto L45;
+L45:
+c2bp_b_45: c2bp_i_45: EG_B44_C1cr_B46_EXIT
+: return ;
+goto L46;
+L46:
+c2bp_b_46: c2bp_i_46: return ;
+end
+
+void InitializeListHead_1() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C2
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C2_B4_C1
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1_B6_C1cr
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C1cr_B8_EXIT
+: return ;
+goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: return ;
+end
+
+void WDF_DEVICE_PNP_CAPABILITIES_INIT_1() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C4_B2_C3
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C3_B4_C3cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C3cr_B6_C2
+: c2bp_stmt_5_0: c2bpcall_5_0:  sdv_RtlZeroMemory_8();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C2_B8_C1
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C1_B10_C1cr
+: c2bp_stmt_9_0: goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C1cr_B12_EXIT
+: return ;
+goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: return ;
+end
+
+void sdv_RtlZeroMemory_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void GetDeviceContext_1() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C5_B2_C4
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C4_B4_C4cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C4cr_B6_C3
+: c2bp_stmt_5_0: c2bpcall_5_0:  sdv_WdfObjectGetTypedContextWorker_8();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C3_B8_C3cr
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C3cr_B10_EXIT
+: return ;
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: return ;
+end
+
+void sdv_WdfObjectGetTypedContextWorker_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C4_B2_C3
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C3_B4_C3cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C3cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void __init1_1() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void DriverEntry_1() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C10_B2_C9
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C9_B4_C9cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C9cr_B6_C8
+: c2bp_stmt_5_0: c2bpcall_5_0:  sdv_WDF_DRIVER_CONFIG_INIT_8();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C8_B8_C8cr
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C8cr_B10_C7
+: c2bp_stmt_9_0: c2bpcall_9_0:  sdv_WdfDriverCreate_8();
+c2bpreturnpt_9_0: no_enforce_9_0: do_enforce_9_0: assume(T);
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C7_B12_C3
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C3_B14_C3cr
+: c2bp_stmt_13_0: goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C3cr_B16_EXIT
+: return ;
+goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: return ;
+end
+
+void sdv_WDF_DRIVER_CONFIG_INIT_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WdfDriverCreate_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C28_B2_C27
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3, L4;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C27_B5_C13
+: c2bp_stmt_3_0: goto L5;
+L4:
+c2bp_b_4: c2bp_i_4: EG_B2_C27_B21_C25
+: c2bp_stmt_4_0: goto L21;
+L5:
+c2bp_b_5: c2bp_i_5: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: EG_B5_C13_B7_C5
+: c2bp_stmt_6_0: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: goto L8, L9;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B7_C5_B10_C11
+: c2bp_stmt_8_0: goto L10;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B7_C5_B15_C29
+: c2bp_stmt_9_0: goto L15;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C11_B12_C11cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C11cr_B14_EXIT
+: return ;
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: return ;
+L15:
+c2bp_b_15: c2bp_i_15: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B15_C29_B17_C9
+: c2bp_stmt_16_0: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C9_B19_C9cr
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C9cr_B14_EXIT
+: return ;
+goto L14;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C25_B23_C17
+: c2bp_stmt_22_0: goto L23;
+L23:
+c2bp_b_23: c2bp_i_23: goto L24, L25;
+L24:
+c2bp_b_24: c2bp_i_24: EG_B23_C17_B26_C23
+: c2bp_stmt_24_0: goto L26;
+L25:
+c2bp_b_25: c2bp_i_25: EG_B23_C17_B30_C30
+: c2bp_stmt_25_0: goto L30;
+L26:
+c2bp_b_26: c2bp_i_26: goto L27;
+L27:
+c2bp_b_27: c2bp_i_27: EG_B26_C23_B28_C23cr
+: c2bp_stmt_27_0: goto L28;
+L28:
+c2bp_b_28: c2bp_i_28: goto L29;
+L29:
+c2bp_b_29: c2bp_i_29: EG_B28_C23cr_B14_EXIT
+: return ;
+goto L14;
+L30:
+c2bp_b_30: c2bp_i_30: goto L31;
+L31:
+c2bp_b_31: c2bp_i_31: EG_B30_C30_B32_C21
+: c2bp_stmt_31_0: goto L32;
+L32:
+c2bp_b_32: c2bp_i_32: goto L33;
+L33:
+c2bp_b_33: c2bp_i_33: EG_B32_C21_B34_C21cr
+: c2bp_stmt_33_0: goto L34;
+L34:
+c2bp_b_34: c2bp_i_34: goto L35;
+L35:
+c2bp_b_35: c2bp_i_35: EG_B34_C21cr_B14_EXIT
+: return ;
+goto L14;
+end
+
+void __init2_2() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+bool<1> kmdf1394_EvtDeviceAdd_3() begin
+decl l11_1, l11_0;
+decl t_l11_5, t_l11_4, t_l11_3, t_l11_2;
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C88_B2_C87
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C87_B4_C87cr
+: c2bp_stmt_3_0: g0, l11_0, l11_1 := schoose[g0,!g0], schoose[l11_0,!l11_0], schoose[T,F] ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C87cr_B6_C86
+: c2bp_stmt_5_0: c2bpcall_5_0:  sdv_do_paged_code_check_9();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C86_B8_C86cr
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C86cr_B10_C85
+: c2bp_stmt_9_0: c2bpcall_9_0:  sdv_WDF_PNPPOWER_EVENT_CALLBACKS_INIT_8();
+c2bpreturnpt_9_0: no_enforce_9_0: do_enforce_9_0: assume(T);
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C85_B12_C85cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C85cr_B14_C84
+: c2bp_stmt_13_0: c2bpcall_13_0:  sdv_WdfDeviceInitSetPnpPowerEventCallbacks_8();
+c2bpreturnpt_13_0: no_enforce_13_0: do_enforce_13_0: assume(T);
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15, L16;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C84_B17_C79
+: c2bp_stmt_15_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L17;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B14_C84_B240_C82
+: c2bp_stmt_16_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L240;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C79_B19_C79cr
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C79cr_B21_C78
+: c2bp_stmt_20_0: c2bpcall_20_0:  sdv_WdfDeviceInitSetExclusive_8();
+c2bpreturnpt_20_0: no_enforce_20_0: do_enforce_20_0: assume(T);
+goto L21;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C78_B23_C78cr
+: c2bp_stmt_22_0: goto L23;
+L23:
+c2bp_b_23: c2bp_i_23: goto L24;
+L24:
+c2bp_b_24: c2bp_i_24: EG_B23_C78cr_B25_C77
+: c2bp_stmt_24_0: c2bpcall_24_0:  sdv_WDF_OBJECT_ATTRIBUTES_INIT_8();
+c2bpreturnpt_24_0: no_enforce_24_0: do_enforce_24_0: assume(T);
+goto L25;
+L25:
+c2bp_b_25: c2bp_i_25: goto L26;
+L26:
+c2bp_b_26: c2bp_i_26: EG_B25_C77_B27_C77cr
+: c2bp_stmt_26_0: goto L27;
+L27:
+c2bp_b_27: c2bp_i_27: goto L28;
+L28:
+c2bp_b_28: c2bp_i_28: EG_B27_C77cr_B29_C76
+: c2bp_stmt_28_0: t_l11_2 := schoose[F,T] ;
+c2bpcall_28_0: t_l11_3, t_l11_4 :=  sdv_WdfDeviceCreate_8(t_l11_2);
+c2bpreturnpt_28_0: no_enforce_28_0: l11_1 := schoose[t_l11_4,!t_l11_4]  constrain (t_l11_3);
+dead t_l11_4, t_l11_3, t_l11_2;
+do_enforce_28_0: assume(T);
+goto L29;
+L29:
+c2bp_b_29: c2bp_i_29: goto L30, L31;
+L30:
+c2bp_b_30: c2bp_i_30: EG_B29_C76_B32_C71
+: c2bp_stmt_30_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L32;
+L31:
+c2bp_b_31: c2bp_i_31: EG_B29_C76_B232_C74
+: c2bp_stmt_31_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L232;
+L32:
+c2bp_b_32: c2bp_i_32: goto L33;
+L33:
+c2bp_b_33: c2bp_i_33: EG_B32_C71_B34_C71cr
+: c2bp_stmt_33_0: goto L34;
+L34:
+c2bp_b_34: c2bp_i_34: goto L35;
+L35:
+c2bp_b_35: c2bp_i_35: EG_B34_C71cr_B36_C70
+: c2bp_stmt_35_0: c2bpcall_35_0:  GetDeviceContext_1();
+c2bpreturnpt_35_0: no_enforce_35_0: do_enforce_35_0: assume(T);
+goto L36;
+L36:
+c2bp_b_36: c2bp_i_36: goto L37;
+L37:
+c2bp_b_37: c2bp_i_37: EG_B36_C70_B38_C70cr
+: c2bp_stmt_37_0: goto L38;
+L38:
+c2bp_b_38: c2bp_i_38: goto L39;
+L39:
+c2bp_b_39: c2bp_i_39: EG_B38_C70cr_B40_C69
+: c2bp_stmt_39_0: c2bpcall_39_0:  sdv_WdfDeviceCreateDeviceInterface_8();
+c2bpreturnpt_39_0: no_enforce_39_0: l11_1 := schoose[F,F] ;
+do_enforce_39_0: assume(T);
+goto L40;
+L40:
+c2bp_b_40: c2bp_i_40: goto L41, L42;
+L41:
+c2bp_b_41: c2bp_i_41: EG_B40_C69_B43_C64
+: c2bp_stmt_41_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L43;
+L42:
+c2bp_b_42: c2bp_i_42: EG_B40_C69_B224_C67
+: c2bp_stmt_42_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L224;
+L43:
+c2bp_b_43: c2bp_i_43: goto L44;
+L44:
+c2bp_b_44: c2bp_i_44: EG_B43_C64_B45_C64cr
+: c2bp_stmt_44_0: goto L45;
+L45:
+c2bp_b_45: c2bp_i_45: goto L46;
+L46:
+c2bp_b_46: c2bp_i_46: EG_B45_C64cr_B47_C63
+: c2bp_stmt_46_0: c2bpcall_46_0:  WDF_DEVICE_PNP_CAPABILITIES_INIT_1();
+c2bpreturnpt_46_0: no_enforce_46_0: do_enforce_46_0: assume(T);
+goto L47;
+L47:
+c2bp_b_47: c2bp_i_47: goto L48;
+L48:
+c2bp_b_48: c2bp_i_48: EG_B47_C63_B49_C63cr
+: c2bp_stmt_48_0: goto L49;
+L49:
+c2bp_b_49: c2bp_i_49: goto L50;
+L50:
+c2bp_b_50: c2bp_i_50: EG_B49_C63cr_B51_C62
+: c2bp_stmt_50_0: c2bpcall_50_0:  sdv_WdfDeviceSetPnpCapabilities_9();
+c2bpreturnpt_50_0: no_enforce_50_0: do_enforce_50_0: assume(T);
+goto L51;
+L51:
+c2bp_b_51: c2bp_i_51: goto L52;
+L52:
+c2bp_b_52: c2bp_i_52: EG_B51_C62_B53_C62cr
+: c2bp_stmt_52_0: goto L53;
+L53:
+c2bp_b_53: c2bp_i_53: goto L54;
+L54:
+c2bp_b_54: c2bp_i_54: EG_B53_C62cr_B55_C61
+: c2bp_stmt_54_0: c2bpcall_54_0:  sdv_WdfDeviceWdmGetPhysicalDevice_8();
+c2bpreturnpt_54_0: no_enforce_54_0: do_enforce_54_0: assume(T);
+goto L55;
+L55:
+c2bp_b_55: c2bp_i_55: goto L56, L57;
+L56:
+c2bp_b_56: c2bp_i_56: EG_B55_C61_B58_C59
+: c2bp_stmt_56_0: g0, l11_0, l11_1 := schoose[g0,!g0], schoose[l11_0,!l11_0], schoose[l11_1,!l11_1] ;
+goto L58;
+L57:
+c2bp_b_57: c2bp_i_57: EG_B55_C61_B67_C56
+: c2bp_stmt_57_0: g0, l11_0, l11_1 := schoose[g0,!g0], schoose[l11_0,!l11_0], schoose[l11_1,!l11_1] ;
+goto L67;
+L58:
+c2bp_b_58: c2bp_i_58: goto L59;
+L59:
+c2bp_b_59: c2bp_i_59: EG_B58_C59_B60_C59cr
+: c2bp_stmt_59_0: l11_0 := schoose[F,T] ;
+goto L60;
+L60:
+c2bp_b_60: c2bp_i_60: goto L61;
+L61:
+c2bp_b_61: c2bp_i_61: EG_B60_C59cr_B62_C90
+: c2bp_stmt_61_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_61_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_61_0: no_enforce_61_0: dead t_l11_5;
+do_enforce_61_0: assume(T);
+goto L62;
+L62:
+c2bp_b_62: c2bp_i_62: goto L63;
+L63:
+c2bp_b_63: c2bp_i_63: EG_B62_C90_B64_C90cr
+: c2bp_stmt_63_0: goto L64;
+L64:
+c2bp_b_64: c2bp_i_64: goto L65;
+L65:
+c2bp_b_65: c2bp_i_65: EG_B64_C90cr_B66_EXIT
+: return l11_0;
+goto L66;
+L66:
+c2bp_b_66: c2bp_i_66: return l11_0;
+L67:
+c2bp_b_67: c2bp_i_67: goto L68;
+L68:
+c2bp_b_68: c2bp_i_68: EG_B67_C56_B69_C56cr
+: c2bp_stmt_68_0: goto L69;
+L69:
+c2bp_b_69: c2bp_i_69: goto L70;
+L70:
+c2bp_b_70: c2bp_i_70: EG_B69_C56cr_B71_C55
+: c2bp_stmt_70_0: c2bpcall_70_0:  sdv_WdfDeviceGetIoTarget_8();
+c2bpreturnpt_70_0: no_enforce_70_0: do_enforce_70_0: assume(T);
+goto L71;
+L71:
+c2bp_b_71: c2bp_i_71: goto L72;
+L72:
+c2bp_b_72: c2bp_i_72: EG_B71_C55_B73_C55cr
+: c2bp_stmt_72_0: goto L73;
+L73:
+c2bp_b_73: c2bp_i_73: goto L74;
+L74:
+c2bp_b_74: c2bp_i_74: EG_B73_C55cr_B75_C54
+: c2bp_stmt_74_0: c2bpcall_74_0:  sdv_WdfDeviceWdmGetAttachedDevice_9();
+c2bpreturnpt_74_0: no_enforce_74_0: do_enforce_74_0: assume(T);
+goto L75;
+L75:
+c2bp_b_75: c2bp_i_75: goto L76, L77;
+L76:
+c2bp_b_76: c2bp_i_76: EG_B75_C54_B78_C52
+: c2bp_stmt_76_0: g0, l11_0, l11_1 := schoose[g0,!g0], schoose[l11_0,!l11_0], schoose[l11_1,!l11_1] ;
+goto L78;
+L77:
+c2bp_b_77: c2bp_i_77: EG_B75_C54_B86_C49
+: c2bp_stmt_77_0: g0, l11_0, l11_1 := schoose[g0,!g0], schoose[l11_0,!l11_0], schoose[l11_1,!l11_1] ;
+goto L86;
+L78:
+c2bp_b_78: c2bp_i_78: goto L79;
+L79:
+c2bp_b_79: c2bp_i_79: EG_B78_C52_B80_C52cr
+: c2bp_stmt_79_0: l11_0 := schoose[F,T] ;
+goto L80;
+L80:
+c2bp_b_80: c2bp_i_80: goto L81;
+L81:
+c2bp_b_81: c2bp_i_81: EG_B80_C52cr_B82_C91
+: c2bp_stmt_81_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_81_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_81_0: no_enforce_81_0: dead t_l11_5;
+do_enforce_81_0: assume(T);
+goto L82;
+L82:
+c2bp_b_82: c2bp_i_82: goto L83;
+L83:
+c2bp_b_83: c2bp_i_83: EG_B82_C91_B84_C91cr
+: c2bp_stmt_83_0: goto L84;
+L84:
+c2bp_b_84: c2bp_i_84: goto L85;
+L85:
+c2bp_b_85: c2bp_i_85: EG_B84_C91cr_B66_EXIT
+: return l11_0;
+goto L66;
+L86:
+c2bp_b_86: c2bp_i_86: goto L87;
+L87:
+c2bp_b_87: c2bp_i_87: EG_B86_C49_B88_C49cr
+: c2bp_stmt_87_0: goto L88;
+L88:
+c2bp_b_88: c2bp_i_88: goto L89;
+L89:
+c2bp_b_89: c2bp_i_89: EG_B88_C49cr_B90_C48
+: c2bp_stmt_89_0: c2bpcall_89_0:  sdv_WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE_8();
+c2bpreturnpt_89_0: no_enforce_89_0: do_enforce_89_0: assume(T);
+goto L90;
+L90:
+c2bp_b_90: c2bp_i_90: goto L91;
+L91:
+c2bp_b_91: c2bp_i_91: EG_B90_C48_B92_C48cr
+: c2bp_stmt_91_0: goto L92;
+L92:
+c2bp_b_92: c2bp_i_92: goto L93;
+L93:
+c2bp_b_93: c2bp_i_93: EG_B92_C48cr_B94_C47
+: c2bp_stmt_93_0: c2bpcall_93_0:  sdv_WdfIoQueueCreate_8();
+c2bpreturnpt_93_0: no_enforce_93_0: l11_1 := schoose[F,F] ;
+do_enforce_93_0: assume(T);
+goto L94;
+L94:
+c2bp_b_94: c2bp_i_94: goto L95, L96;
+L95:
+c2bp_b_95: c2bp_i_95: EG_B94_C47_B97_C42
+: c2bp_stmt_95_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L97;
+L96:
+c2bp_b_96: c2bp_i_96: EG_B94_C47_B216_C45
+: c2bp_stmt_96_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L216;
+L97:
+c2bp_b_97: c2bp_i_97: goto L98;
+L98:
+c2bp_b_98: c2bp_i_98: EG_B97_C42_B99_C42cr
+: c2bp_stmt_98_0: goto L99;
+L99:
+c2bp_b_99: c2bp_i_99: goto L100;
+L100:
+c2bp_b_100: c2bp_i_100: EG_B99_C42cr_B101_C41
+: c2bp_stmt_100_0: c2bpcall_100_0:  sdv_WDF_IO_QUEUE_CONFIG_INIT_8();
+c2bpreturnpt_100_0: no_enforce_100_0: do_enforce_100_0: assume(T);
+goto L101;
+L101:
+c2bp_b_101: c2bp_i_101: goto L102;
+L102:
+c2bp_b_102: c2bp_i_102: EG_B101_C41_B103_C41cr
+: c2bp_stmt_102_0: goto L103;
+L103:
+c2bp_b_103: c2bp_i_103: goto L104;
+L104:
+c2bp_b_104: c2bp_i_104: EG_B103_C41cr_B105_C40
+: c2bp_stmt_104_0: c2bpcall_104_0:  sdv_WdfIoQueueCreate_8();
+c2bpreturnpt_104_0: no_enforce_104_0: l11_1 := schoose[F,F] ;
+do_enforce_104_0: assume(T);
+goto L105;
+L105:
+c2bp_b_105: c2bp_i_105: goto L106, L107;
+L106:
+c2bp_b_106: c2bp_i_106: EG_B105_C40_B108_C35
+: c2bp_stmt_106_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L108;
+L107:
+c2bp_b_107: c2bp_i_107: EG_B105_C40_B208_C38
+: c2bp_stmt_107_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L208;
+L108:
+c2bp_b_108: c2bp_i_108: goto L109;
+L109:
+c2bp_b_109: c2bp_i_109: EG_B108_C35_B110_C35cr
+: c2bp_stmt_109_0: goto L110;
+L110:
+c2bp_b_110: c2bp_i_110: goto L111;
+L111:
+c2bp_b_111: c2bp_i_111: EG_B110_C35cr_B112_C34
+: c2bp_stmt_111_0: c2bpcall_111_0:  sdv_WDF_OBJECT_ATTRIBUTES_INIT_8();
+c2bpreturnpt_111_0: no_enforce_111_0: do_enforce_111_0: assume(T);
+goto L112;
+L112:
+c2bp_b_112: c2bp_i_112: goto L113;
+L113:
+c2bp_b_113: c2bp_i_113: EG_B112_C34_B114_C34cr
+: c2bp_stmt_113_0: goto L114;
+L114:
+c2bp_b_114: c2bp_i_114: goto L115;
+L115:
+c2bp_b_115: c2bp_i_115: EG_B114_C34cr_B116_C33
+: c2bp_stmt_115_0: c2bpcall_115_0:  sdv_WdfSpinLockCreate_8();
+c2bpreturnpt_115_0: no_enforce_115_0: l11_1 := schoose[F,F] ;
+do_enforce_115_0: assume(T);
+goto L116;
+L116:
+c2bp_b_116: c2bp_i_116: goto L117, L118;
+L117:
+c2bp_b_117: c2bp_i_117: EG_B116_C33_B119_C28
+: c2bp_stmt_117_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L119;
+L118:
+c2bp_b_118: c2bp_i_118: EG_B116_C33_B200_C31
+: c2bp_stmt_118_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L200;
+L119:
+c2bp_b_119: c2bp_i_119: goto L120;
+L120:
+c2bp_b_120: c2bp_i_120: EG_B119_C28_B121_C28cr
+: c2bp_stmt_120_0: goto L121;
+L121:
+c2bp_b_121: c2bp_i_121: goto L122;
+L122:
+c2bp_b_122: c2bp_i_122: EG_B121_C28cr_B123_C27
+: c2bp_stmt_122_0: c2bpcall_122_0:  sdv_WDF_OBJECT_ATTRIBUTES_INIT_8();
+c2bpreturnpt_122_0: no_enforce_122_0: do_enforce_122_0: assume(T);
+goto L123;
+L123:
+c2bp_b_123: c2bp_i_123: goto L124;
+L124:
+c2bp_b_124: c2bp_i_124: EG_B123_C27_B125_C27cr
+: c2bp_stmt_124_0: goto L125;
+L125:
+c2bp_b_125: c2bp_i_125: goto L126;
+L126:
+c2bp_b_126: c2bp_i_126: EG_B125_C27cr_B127_C26
+: c2bp_stmt_126_0: c2bpcall_126_0:  sdv_WdfSpinLockCreate_8();
+c2bpreturnpt_126_0: no_enforce_126_0: l11_1 := schoose[F,F] ;
+do_enforce_126_0: assume(T);
+goto L127;
+L127:
+c2bp_b_127: c2bp_i_127: goto L128, L129;
+L128:
+c2bp_b_128: c2bp_i_128: EG_B127_C26_B130_C21
+: c2bp_stmt_128_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L130;
+L129:
+c2bp_b_129: c2bp_i_129: EG_B127_C26_B192_C24
+: c2bp_stmt_129_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L192;
+L130:
+c2bp_b_130: c2bp_i_130: goto L131;
+L131:
+c2bp_b_131: c2bp_i_131: EG_B130_C21_B132_C21cr
+: c2bp_stmt_131_0: goto L132;
+L132:
+c2bp_b_132: c2bp_i_132: goto L133;
+L133:
+c2bp_b_133: c2bp_i_133: EG_B132_C21cr_B134_C20
+: c2bp_stmt_133_0: c2bpcall_133_0:  sdv_WDF_OBJECT_ATTRIBUTES_INIT_8();
+c2bpreturnpt_133_0: no_enforce_133_0: do_enforce_133_0: assume(T);
+goto L134;
+L134:
+c2bp_b_134: c2bp_i_134: goto L135;
+L135:
+c2bp_b_135: c2bp_i_135: EG_B134_C20_B136_C20cr
+: c2bp_stmt_135_0: goto L136;
+L136:
+c2bp_b_136: c2bp_i_136: goto L137;
+L137:
+c2bp_b_137: c2bp_i_137: EG_B136_C20cr_B138_C19
+: c2bp_stmt_137_0: c2bpcall_137_0:  sdv_WdfSpinLockCreate_8();
+c2bpreturnpt_137_0: no_enforce_137_0: l11_1 := schoose[F,F] ;
+do_enforce_137_0: assume(T);
+goto L138;
+L138:
+c2bp_b_138: c2bp_i_138: goto L139, L140;
+L139:
+c2bp_b_139: c2bp_i_139: EG_B138_C19_B141_C14
+: c2bp_stmt_139_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L141;
+L140:
+c2bp_b_140: c2bp_i_140: EG_B138_C19_B184_C17
+: c2bp_stmt_140_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L184;
+L141:
+c2bp_b_141: c2bp_i_141: goto L142;
+L142:
+c2bp_b_142: c2bp_i_142: EG_B141_C14_B143_C14cr
+: c2bp_stmt_142_0: goto L143;
+L143:
+c2bp_b_143: c2bp_i_143: goto L144;
+L144:
+c2bp_b_144: c2bp_i_144: EG_B143_C14cr_B145_C13
+: c2bp_stmt_144_0: c2bpcall_144_0:  sdv_WDF_OBJECT_ATTRIBUTES_INIT_8();
+c2bpreturnpt_144_0: no_enforce_144_0: do_enforce_144_0: assume(T);
+goto L145;
+L145:
+c2bp_b_145: c2bp_i_145: goto L146;
+L146:
+c2bp_b_146: c2bp_i_146: EG_B145_C13_B147_C13cr
+: c2bp_stmt_146_0: goto L147;
+L147:
+c2bp_b_147: c2bp_i_147: goto L148;
+L148:
+c2bp_b_148: c2bp_i_148: EG_B147_C13cr_B149_C12
+: c2bp_stmt_148_0: c2bpcall_148_0:  sdv_WdfSpinLockCreate_8();
+c2bpreturnpt_148_0: no_enforce_148_0: l11_1 := schoose[F,F] ;
+do_enforce_148_0: assume(T);
+goto L149;
+L149:
+c2bp_b_149: c2bp_i_149: goto L150, L151;
+L150:
+c2bp_b_150: c2bp_i_150: EG_B149_C12_B152_C7
+: c2bp_stmt_150_0: g0, l11_0, l11_1 := schoose[(!l11_1)| g0 ,(!l11_1)|(!g0)], schoose[(!l11_1)| l11_0 ,(!l11_1)|(!l11_0)], schoose[T,!l11_1]  constrain (l11_1);
+goto L152;
+L151:
+c2bp_b_151: c2bp_i_151: EG_B149_C12_B176_C10
+: c2bp_stmt_151_0: g0, l11_0, l11_1 := schoose[ l11_1 | g0 , l11_1 |(!g0)], schoose[ l11_1 | l11_0 , l11_1 |(!l11_0)], schoose[l11_1,T]  constrain (!l11_1);
+goto L176;
+L152:
+c2bp_b_152: c2bp_i_152: goto L153;
+L153:
+c2bp_b_153: c2bp_i_153: EG_B152_C7_B154_C7cr
+: c2bp_stmt_153_0: goto L154;
+L154:
+c2bp_b_154: c2bp_i_154: goto L155;
+L155:
+c2bp_b_155: c2bp_i_155: EG_B154_C7cr_B156_C6
+: c2bp_stmt_155_0: c2bpcall_155_0:  InitializeListHead_1();
+c2bpreturnpt_155_0: no_enforce_155_0: do_enforce_155_0: assume(T);
+goto L156;
+L156:
+c2bp_b_156: c2bp_i_156: goto L157;
+L157:
+c2bp_b_157: c2bp_i_157: EG_B156_C6_B158_C6cr
+: c2bp_stmt_157_0: goto L158;
+L158:
+c2bp_b_158: c2bp_i_158: goto L159;
+L159:
+c2bp_b_159: c2bp_i_159: EG_B158_C6cr_B160_C5
+: c2bp_stmt_159_0: c2bpcall_159_0:  InitializeListHead_1();
+c2bpreturnpt_159_0: no_enforce_159_0: do_enforce_159_0: assume(T);
+goto L160;
+L160:
+c2bp_b_160: c2bp_i_160: goto L161;
+L161:
+c2bp_b_161: c2bp_i_161: EG_B160_C5_B162_C5cr
+: c2bp_stmt_161_0: goto L162;
+L162:
+c2bp_b_162: c2bp_i_162: goto L163;
+L163:
+c2bp_b_163: c2bp_i_163: EG_B162_C5cr_B164_C4
+: c2bp_stmt_163_0: c2bpcall_163_0:  InitializeListHead_1();
+c2bpreturnpt_163_0: no_enforce_163_0: do_enforce_163_0: assume(T);
+goto L164;
+L164:
+c2bp_b_164: c2bp_i_164: goto L165;
+L165:
+c2bp_b_165: c2bp_i_165: EG_B164_C4_B166_C4cr
+: c2bp_stmt_165_0: goto L166;
+L166:
+c2bp_b_166: c2bp_i_166: goto L167;
+L167:
+c2bp_b_167: c2bp_i_167: EG_B166_C4cr_B168_C3
+: c2bp_stmt_167_0: c2bpcall_167_0:  InitializeListHead_1();
+c2bpreturnpt_167_0: no_enforce_167_0: do_enforce_167_0: assume(T);
+goto L168;
+L168:
+c2bp_b_168: c2bp_i_168: goto L169;
+L169:
+c2bp_b_169: c2bp_i_169: EG_B168_C3_B170_C3cr
+: c2bp_stmt_169_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L170;
+L170:
+c2bp_b_170: c2bp_i_170: goto L171;
+L171:
+c2bp_b_171: c2bp_i_171: EG_B170_C3cr_B172_C92
+: c2bp_stmt_171_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_171_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_171_0: no_enforce_171_0: dead t_l11_5;
+do_enforce_171_0: assume(T);
+goto L172;
+L172:
+c2bp_b_172: c2bp_i_172: goto L173;
+L173:
+c2bp_b_173: c2bp_i_173: EG_B172_C92_B174_C92cr
+: c2bp_stmt_173_0: goto L174;
+L174:
+c2bp_b_174: c2bp_i_174: goto L175;
+L175:
+c2bp_b_175: c2bp_i_175: EG_B174_C92cr_B66_EXIT
+: return l11_0;
+goto L66;
+L176:
+c2bp_b_176: c2bp_i_176: goto L177;
+L177:
+c2bp_b_177: c2bp_i_177: EG_B176_C10_B178_C10cr
+: c2bp_stmt_177_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L178;
+L178:
+c2bp_b_178: c2bp_i_178: goto L179;
+L179:
+c2bp_b_179: c2bp_i_179: EG_B178_C10cr_B180_C93
+: c2bp_stmt_179_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_179_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_179_0: no_enforce_179_0: dead t_l11_5;
+do_enforce_179_0: assume(T);
+goto L180;
+L180:
+c2bp_b_180: c2bp_i_180: goto L181;
+L181:
+c2bp_b_181: c2bp_i_181: EG_B180_C93_B182_C93cr
+: c2bp_stmt_181_0: goto L182;
+L182:
+c2bp_b_182: c2bp_i_182: goto L183;
+L183:
+c2bp_b_183: c2bp_i_183: EG_B182_C93cr_B66_EXIT
+: return l11_0;
+goto L66;
+L184:
+c2bp_b_184: c2bp_i_184: goto L185;
+L185:
+c2bp_b_185: c2bp_i_185: EG_B184_C17_B186_C17cr
+: c2bp_stmt_185_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L186;
+L186:
+c2bp_b_186: c2bp_i_186: goto L187;
+L187:
+c2bp_b_187: c2bp_i_187: EG_B186_C17cr_B188_C94
+: c2bp_stmt_187_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_187_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_187_0: no_enforce_187_0: dead t_l11_5;
+do_enforce_187_0: assume(T);
+goto L188;
+L188:
+c2bp_b_188: c2bp_i_188: goto L189;
+L189:
+c2bp_b_189: c2bp_i_189: EG_B188_C94_B190_C94cr
+: c2bp_stmt_189_0: goto L190;
+L190:
+c2bp_b_190: c2bp_i_190: goto L191;
+L191:
+c2bp_b_191: c2bp_i_191: EG_B190_C94cr_B66_EXIT
+: return l11_0;
+goto L66;
+L192:
+c2bp_b_192: c2bp_i_192: goto L193;
+L193:
+c2bp_b_193: c2bp_i_193: EG_B192_C24_B194_C24cr
+: c2bp_stmt_193_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L194;
+L194:
+c2bp_b_194: c2bp_i_194: goto L195;
+L195:
+c2bp_b_195: c2bp_i_195: EG_B194_C24cr_B196_C95
+: c2bp_stmt_195_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_195_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_195_0: no_enforce_195_0: dead t_l11_5;
+do_enforce_195_0: assume(T);
+goto L196;
+L196:
+c2bp_b_196: c2bp_i_196: goto L197;
+L197:
+c2bp_b_197: c2bp_i_197: EG_B196_C95_B198_C95cr
+: c2bp_stmt_197_0: goto L198;
+L198:
+c2bp_b_198: c2bp_i_198: goto L199;
+L199:
+c2bp_b_199: c2bp_i_199: EG_B198_C95cr_B66_EXIT
+: return l11_0;
+goto L66;
+L200:
+c2bp_b_200: c2bp_i_200: goto L201;
+L201:
+c2bp_b_201: c2bp_i_201: EG_B200_C31_B202_C31cr
+: c2bp_stmt_201_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L202;
+L202:
+c2bp_b_202: c2bp_i_202: goto L203;
+L203:
+c2bp_b_203: c2bp_i_203: EG_B202_C31cr_B204_C96
+: c2bp_stmt_203_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_203_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_203_0: no_enforce_203_0: dead t_l11_5;
+do_enforce_203_0: assume(T);
+goto L204;
+L204:
+c2bp_b_204: c2bp_i_204: goto L205;
+L205:
+c2bp_b_205: c2bp_i_205: EG_B204_C96_B206_C96cr
+: c2bp_stmt_205_0: goto L206;
+L206:
+c2bp_b_206: c2bp_i_206: goto L207;
+L207:
+c2bp_b_207: c2bp_i_207: EG_B206_C96cr_B66_EXIT
+: return l11_0;
+goto L66;
+L208:
+c2bp_b_208: c2bp_i_208: goto L209;
+L209:
+c2bp_b_209: c2bp_i_209: EG_B208_C38_B210_C38cr
+: c2bp_stmt_209_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L210;
+L210:
+c2bp_b_210: c2bp_i_210: goto L211;
+L211:
+c2bp_b_211: c2bp_i_211: EG_B210_C38cr_B212_C97
+: c2bp_stmt_211_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_211_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_211_0: no_enforce_211_0: dead t_l11_5;
+do_enforce_211_0: assume(T);
+goto L212;
+L212:
+c2bp_b_212: c2bp_i_212: goto L213;
+L213:
+c2bp_b_213: c2bp_i_213: EG_B212_C97_B214_C97cr
+: c2bp_stmt_213_0: goto L214;
+L214:
+c2bp_b_214: c2bp_i_214: goto L215;
+L215:
+c2bp_b_215: c2bp_i_215: EG_B214_C97cr_B66_EXIT
+: return l11_0;
+goto L66;
+L216:
+c2bp_b_216: c2bp_i_216: goto L217;
+L217:
+c2bp_b_217: c2bp_i_217: EG_B216_C45_B218_C45cr
+: c2bp_stmt_217_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L218;
+L218:
+c2bp_b_218: c2bp_i_218: goto L219;
+L219:
+c2bp_b_219: c2bp_i_219: EG_B218_C45cr_B220_C98
+: c2bp_stmt_219_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_219_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_219_0: no_enforce_219_0: dead t_l11_5;
+do_enforce_219_0: assume(T);
+goto L220;
+L220:
+c2bp_b_220: c2bp_i_220: goto L221;
+L221:
+c2bp_b_221: c2bp_i_221: EG_B220_C98_B222_C98cr
+: c2bp_stmt_221_0: goto L222;
+L222:
+c2bp_b_222: c2bp_i_222: goto L223;
+L223:
+c2bp_b_223: c2bp_i_223: EG_B222_C98cr_B66_EXIT
+: return l11_0;
+goto L66;
+L224:
+c2bp_b_224: c2bp_i_224: goto L225;
+L225:
+c2bp_b_225: c2bp_i_225: EG_B224_C67_B226_C67cr
+: c2bp_stmt_225_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L226;
+L226:
+c2bp_b_226: c2bp_i_226: goto L227;
+L227:
+c2bp_b_227: c2bp_i_227: EG_B226_C67cr_B228_C99
+: c2bp_stmt_227_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_227_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_227_0: no_enforce_227_0: dead t_l11_5;
+do_enforce_227_0: assume(T);
+goto L228;
+L228:
+c2bp_b_228: c2bp_i_228: goto L229;
+L229:
+c2bp_b_229: c2bp_i_229: EG_B228_C99_B230_C99cr
+: c2bp_stmt_229_0: goto L230;
+L230:
+c2bp_b_230: c2bp_i_230: goto L231;
+L231:
+c2bp_b_231: c2bp_i_231: EG_B230_C99cr_B66_EXIT
+: return l11_0;
+goto L66;
+L232:
+c2bp_b_232: c2bp_i_232: goto L233;
+L233:
+c2bp_b_233: c2bp_i_233: EG_B232_C74_B234_C74cr
+: c2bp_stmt_233_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L234;
+L234:
+c2bp_b_234: c2bp_i_234: goto L235;
+L235:
+c2bp_b_235: c2bp_i_235: EG_B234_C74cr_B236_C100
+: c2bp_stmt_235_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_235_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_235_0: no_enforce_235_0: dead t_l11_5;
+do_enforce_235_0: assume(T);
+goto L236;
+L236:
+c2bp_b_236: c2bp_i_236: goto L237;
+L237:
+c2bp_b_237: c2bp_i_237: EG_B236_C100_B238_C100cr
+: c2bp_stmt_237_0: goto L238;
+L238:
+c2bp_b_238: c2bp_i_238: goto L239;
+L239:
+c2bp_b_239: c2bp_i_239: EG_B238_C100cr_B66_EXIT
+: return l11_0;
+goto L66;
+L240:
+c2bp_b_240: c2bp_i_240: goto L241;
+L241:
+c2bp_b_241: c2bp_i_241: EG_B240_C82_B242_C82cr
+: c2bp_stmt_241_0: l11_0 := schoose[l11_1,!l11_1] ;
+goto L242;
+L242:
+c2bp_b_242: c2bp_i_242: goto L243;
+L243:
+c2bp_b_243: c2bp_i_243: EG_B242_C82cr_B244_C101
+: c2bp_stmt_243_0: t_l11_5 := schoose[l11_0,!l11_0] ;
+c2bpcall_243_0:  SLIC_kmdf1394_EvtDeviceAdd_exit_10(t_l11_5);
+c2bpreturnpt_243_0: no_enforce_243_0: dead t_l11_5;
+do_enforce_243_0: assume(T);
+goto L244;
+L244:
+c2bp_b_244: c2bp_i_244: goto L245;
+L245:
+c2bp_b_245: c2bp_i_245: EG_B244_C101_B246_C101cr
+: c2bp_stmt_245_0: goto L246;
+L246:
+c2bp_b_246: c2bp_i_246: goto L247;
+L247:
+c2bp_b_247: c2bp_i_247: EG_B246_C101cr_B66_EXIT
+: return l11_0;
+goto L66;
+end
+
+void sdv_do_paged_code_check_9() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void sdv_WDF_PNPPOWER_EVENT_CALLBACKS_INIT_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WdfDeviceInitSetPnpPowerEventCallbacks_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WdfDeviceInitSetExclusive_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WDF_OBJECT_ATTRIBUTES_INIT_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C2
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C2_B4_C1
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1_B6_C1cr
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C1cr_B8_EXIT
+: return ;
+goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: return ;
+end
+
+bool<2> sdv_WdfDeviceCreate_8(l17_0) begin
+decl l17_2, l17_1;
+decl t_l17_3;
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C105_B2_C105cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C105cr_B4_C87
+: c2bp_stmt_3_0: c2bpcall_3_0:  SLIC_sdv_WdfDeviceCreate_entry_10();
+c2bpreturnpt_3_0: no_enforce_3_0: do_enforce_3_0: assume(T);
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C87_B6_C86
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7, L8;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C86_B9_C79
+: c2bp_stmt_7_0: l17_0, g0, l17_2 := schoose[l17_0,T], schoose[ l17_0 | g0 , l17_0 |(!g0)], schoose[ l17_0 | l17_2 , l17_0 |(!l17_2)]  constrain (!l17_0);
+goto L9;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B6_C86_B127_C84
+: c2bp_stmt_8_0: l17_0, g0, l17_2 := schoose[T,!l17_0], schoose[(!l17_0)| g0 ,(!l17_0)|(!g0)], schoose[(!l17_0)| l17_2 ,(!l17_0)|(!l17_2)]  constrain (l17_0);
+goto L127;
+L9:
+c2bp_b_9: c2bp_i_9: goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: EG_B9_C79_B11_C5
+: c2bp_stmt_10_0: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: goto L12, L13;
+L12:
+c2bp_b_12: c2bp_i_12: EG_B11_C5_B14_C77
+: c2bp_stmt_12_0: goto L14;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B11_C5_B70_C88
+: c2bp_stmt_13_0: goto L70;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15, L16;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C77_B17_C47
+: c2bp_stmt_15_0: goto L17;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B14_C77_B32_C75
+: c2bp_stmt_16_0: goto L32;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C47_B19_C92
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C92_B21_C46
+: c2bp_stmt_20_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L21;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C46_B23_C44
+: c2bp_stmt_22_0: goto L23;
+L23:
+c2bp_b_23: c2bp_i_23: goto L24;
+L24:
+c2bp_b_24: c2bp_i_24: EG_B23_C44_B25_C44cr
+: c2bp_stmt_24_0: l17_2 := schoose[T,F] ;
+goto L25;
+L25:
+c2bp_b_25: c2bp_i_25: goto L26;
+L26:
+c2bp_b_26: c2bp_i_26: EG_B25_C44cr_B27_C102
+: c2bp_stmt_26_0: t_l17_3 := schoose[l17_2,!l17_2] ;
+c2bpcall_26_0:  SLIC_sdv_WdfDeviceCreate_exit_10(t_l17_3);
+c2bpreturnpt_26_0: no_enforce_26_0: dead t_l17_3;
+do_enforce_26_0: assume(T);
+goto L27;
+L27:
+c2bp_b_27: c2bp_i_27: goto L28;
+L28:
+c2bp_b_28: c2bp_i_28: EG_B27_C102_B29_C102cr
+: c2bp_stmt_28_0: goto L29;
+L29:
+c2bp_b_29: c2bp_i_29: goto L30;
+L30:
+c2bp_b_30: c2bp_i_30: EG_B29_C102cr_B31_EXIT
+: return l17_1, l17_2;
+goto L31;
+L31:
+c2bp_b_31: c2bp_i_31: return l17_1, l17_2;
+L32:
+c2bp_b_32: c2bp_i_32: goto L33, L34;
+L33:
+c2bp_b_33: c2bp_i_33: EG_B32_C75_B35_C53
+: c2bp_stmt_33_0: goto L35;
+L34:
+c2bp_b_34: c2bp_i_34: EG_B32_C75_B41_C74
+: c2bp_stmt_34_0: goto L41;
+L35:
+c2bp_b_35: c2bp_i_35: goto L36;
+L36:
+c2bp_b_36: c2bp_i_36: EG_B35_C53_B37_C93
+: c2bp_stmt_36_0: goto L37;
+L37:
+c2bp_b_37: c2bp_i_37: goto L38;
+L38:
+c2bp_b_38: c2bp_i_38: EG_B37_C93_B39_C52
+: c2bp_stmt_38_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L39;
+L39:
+c2bp_b_39: c2bp_i_39: goto L40;
+L40:
+c2bp_b_40: c2bp_i_40: EG_B39_C52_B23_C44
+: c2bp_stmt_40_0: goto L23;
+L41:
+c2bp_b_41: c2bp_i_41: goto L42, L43;
+L42:
+c2bp_b_42: c2bp_i_42: EG_B41_C74_B44_C58
+: c2bp_stmt_42_0: goto L44;
+L43:
+c2bp_b_43: c2bp_i_43: EG_B41_C74_B50_C73
+: c2bp_stmt_43_0: goto L50;
+L44:
+c2bp_b_44: c2bp_i_44: goto L45;
+L45:
+c2bp_b_45: c2bp_i_45: EG_B44_C58_B46_C94
+: c2bp_stmt_45_0: goto L46;
+L46:
+c2bp_b_46: c2bp_i_46: goto L47;
+L47:
+c2bp_b_47: c2bp_i_47: EG_B46_C94_B48_C57
+: c2bp_stmt_47_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L48;
+L48:
+c2bp_b_48: c2bp_i_48: goto L49;
+L49:
+c2bp_b_49: c2bp_i_49: EG_B48_C57_B23_C44
+: c2bp_stmt_49_0: goto L23;
+L50:
+c2bp_b_50: c2bp_i_50: goto L51, L52;
+L51:
+c2bp_b_51: c2bp_i_51: EG_B50_C73_B53_C63
+: c2bp_stmt_51_0: goto L53;
+L52:
+c2bp_b_52: c2bp_i_52: EG_B50_C73_B59_C71
+: c2bp_stmt_52_0: goto L59;
+L53:
+c2bp_b_53: c2bp_i_53: goto L54;
+L54:
+c2bp_b_54: c2bp_i_54: EG_B53_C63_B55_C95
+: c2bp_stmt_54_0: goto L55;
+L55:
+c2bp_b_55: c2bp_i_55: goto L56;
+L56:
+c2bp_b_56: c2bp_i_56: EG_B55_C95_B57_C62
+: c2bp_stmt_56_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L57;
+L57:
+c2bp_b_57: c2bp_i_57: goto L58;
+L58:
+c2bp_b_58: c2bp_i_58: EG_B57_C62_B23_C44
+: c2bp_stmt_58_0: goto L23;
+L59:
+c2bp_b_59: c2bp_i_59: goto L60, L61;
+L60:
+c2bp_b_60: c2bp_i_60: EG_B59_C71_B62_C69
+: c2bp_stmt_60_0: goto L62;
+L61:
+c2bp_b_61: c2bp_i_61: EG_B59_C71_B68_C90
+: c2bp_stmt_61_0: goto L68;
+L62:
+c2bp_b_62: c2bp_i_62: goto L63;
+L63:
+c2bp_b_63: c2bp_i_63: EG_B62_C69_B64_C96
+: c2bp_stmt_63_0: goto L64;
+L64:
+c2bp_b_64: c2bp_i_64: goto L65;
+L65:
+c2bp_b_65: c2bp_i_65: EG_B64_C96_B66_C68
+: c2bp_stmt_65_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L66;
+L66:
+c2bp_b_66: c2bp_i_66: goto L67;
+L67:
+c2bp_b_67: c2bp_i_67: EG_B66_C68_B23_C44
+: c2bp_stmt_67_0: goto L23;
+L68:
+c2bp_b_68: c2bp_i_68: goto L69;
+L69:
+c2bp_b_69: c2bp_i_69: EG_B68_C90_B23_C44
+: c2bp_stmt_69_0: goto L23;
+L70:
+c2bp_b_70: c2bp_i_70: goto L71;
+L71:
+c2bp_b_71: c2bp_i_71: EG_B70_C88_B72_C42
+: c2bp_stmt_71_0: goto L72;
+L72:
+c2bp_b_72: c2bp_i_72: goto L73, L74;
+L73:
+c2bp_b_73: c2bp_i_73: EG_B72_C42_B75_C12
+: c2bp_stmt_73_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L75;
+L74:
+c2bp_b_74: c2bp_i_74: EG_B72_C42_B89_C40
+: c2bp_stmt_74_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L89;
+L75:
+c2bp_b_75: c2bp_i_75: goto L76;
+L76:
+c2bp_b_76: c2bp_i_76: EG_B75_C12_B77_C97
+: c2bp_stmt_76_0: goto L77;
+L77:
+c2bp_b_77: c2bp_i_77: goto L78;
+L78:
+c2bp_b_78: c2bp_i_78: EG_B77_C97_B79_C11
+: c2bp_stmt_78_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L79;
+L79:
+c2bp_b_79: c2bp_i_79: goto L80;
+L80:
+c2bp_b_80: c2bp_i_80: EG_B79_C11_B81_C9
+: c2bp_stmt_80_0: goto L81;
+L81:
+c2bp_b_81: c2bp_i_81: goto L82;
+L82:
+c2bp_b_82: c2bp_i_82: EG_B81_C9_B83_C9cr
+: c2bp_stmt_82_0: l17_2 := schoose[F,T] ;
+goto L83;
+L83:
+c2bp_b_83: c2bp_i_83: goto L84;
+L84:
+c2bp_b_84: c2bp_i_84: EG_B83_C9cr_B85_C103
+: c2bp_stmt_84_0: t_l17_3 := schoose[l17_2,!l17_2] ;
+c2bpcall_84_0:  SLIC_sdv_WdfDeviceCreate_exit_10(t_l17_3);
+c2bpreturnpt_84_0: no_enforce_84_0: dead t_l17_3;
+do_enforce_84_0: assume(T);
+goto L85;
+L85:
+c2bp_b_85: c2bp_i_85: goto L86;
+L86:
+c2bp_b_86: c2bp_i_86: EG_B85_C103_B87_C103cr
+: c2bp_stmt_86_0: goto L87;
+L87:
+c2bp_b_87: c2bp_i_87: goto L88;
+L88:
+c2bp_b_88: c2bp_i_88: EG_B87_C103cr_B31_EXIT
+: return l17_1, l17_2;
+goto L31;
+L89:
+c2bp_b_89: c2bp_i_89: goto L90, L91;
+L90:
+c2bp_b_90: c2bp_i_90: EG_B89_C40_B92_C18
+: c2bp_stmt_90_0: goto L92;
+L91:
+c2bp_b_91: c2bp_i_91: EG_B89_C40_B98_C39
+: c2bp_stmt_91_0: goto L98;
+L92:
+c2bp_b_92: c2bp_i_92: goto L93;
+L93:
+c2bp_b_93: c2bp_i_93: EG_B92_C18_B94_C98
+: c2bp_stmt_93_0: goto L94;
+L94:
+c2bp_b_94: c2bp_i_94: goto L95;
+L95:
+c2bp_b_95: c2bp_i_95: EG_B94_C98_B96_C17
+: c2bp_stmt_95_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L96;
+L96:
+c2bp_b_96: c2bp_i_96: goto L97;
+L97:
+c2bp_b_97: c2bp_i_97: EG_B96_C17_B81_C9
+: c2bp_stmt_97_0: goto L81;
+L98:
+c2bp_b_98: c2bp_i_98: goto L99, L100;
+L99:
+c2bp_b_99: c2bp_i_99: EG_B98_C39_B101_C23
+: c2bp_stmt_99_0: goto L101;
+L100:
+c2bp_b_100: c2bp_i_100: EG_B98_C39_B107_C38
+: c2bp_stmt_100_0: goto L107;
+L101:
+c2bp_b_101: c2bp_i_101: goto L102;
+L102:
+c2bp_b_102: c2bp_i_102: EG_B101_C23_B103_C99
+: c2bp_stmt_102_0: goto L103;
+L103:
+c2bp_b_103: c2bp_i_103: goto L104;
+L104:
+c2bp_b_104: c2bp_i_104: EG_B103_C99_B105_C22
+: c2bp_stmt_104_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L105;
+L105:
+c2bp_b_105: c2bp_i_105: goto L106;
+L106:
+c2bp_b_106: c2bp_i_106: EG_B105_C22_B81_C9
+: c2bp_stmt_106_0: goto L81;
+L107:
+c2bp_b_107: c2bp_i_107: goto L108, L109;
+L108:
+c2bp_b_108: c2bp_i_108: EG_B107_C38_B110_C28
+: c2bp_stmt_108_0: goto L110;
+L109:
+c2bp_b_109: c2bp_i_109: EG_B107_C38_B116_C36
+: c2bp_stmt_109_0: goto L116;
+L110:
+c2bp_b_110: c2bp_i_110: goto L111;
+L111:
+c2bp_b_111: c2bp_i_111: EG_B110_C28_B112_C100
+: c2bp_stmt_111_0: goto L112;
+L112:
+c2bp_b_112: c2bp_i_112: goto L113;
+L113:
+c2bp_b_113: c2bp_i_113: EG_B112_C100_B114_C27
+: c2bp_stmt_113_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L114;
+L114:
+c2bp_b_114: c2bp_i_114: goto L115;
+L115:
+c2bp_b_115: c2bp_i_115: EG_B114_C27_B81_C9
+: c2bp_stmt_115_0: goto L81;
+L116:
+c2bp_b_116: c2bp_i_116: goto L117, L118;
+L117:
+c2bp_b_117: c2bp_i_117: EG_B116_C36_B119_C34
+: c2bp_stmt_117_0: goto L119;
+L118:
+c2bp_b_118: c2bp_i_118: EG_B116_C36_B125_C91
+: c2bp_stmt_118_0: goto L125;
+L119:
+c2bp_b_119: c2bp_i_119: goto L120;
+L120:
+c2bp_b_120: c2bp_i_120: EG_B119_C34_B121_C101
+: c2bp_stmt_120_0: goto L121;
+L121:
+c2bp_b_121: c2bp_i_121: goto L122;
+L122:
+c2bp_b_122: c2bp_i_122: EG_B121_C101_B123_C33
+: c2bp_stmt_122_0: l17_0, g0, l17_2 := schoose[l17_0,!l17_0], schoose[g0,!g0], schoose[l17_2,!l17_2] ;
+goto L123;
+L123:
+c2bp_b_123: c2bp_i_123: goto L124;
+L124:
+c2bp_b_124: c2bp_i_124: EG_B123_C33_B81_C9
+: c2bp_stmt_124_0: goto L81;
+L125:
+c2bp_b_125: c2bp_i_125: goto L126;
+L126:
+c2bp_b_126: c2bp_i_126: EG_B125_C91_B81_C9
+: c2bp_stmt_126_0: goto L81;
+L127:
+c2bp_b_127: c2bp_i_127: goto L128;
+L128:
+c2bp_b_128: c2bp_i_128: EG_B127_C84_B129_C84cr
+: c2bp_stmt_128_0: goto L129;
+L129:
+c2bp_b_129: c2bp_i_129: goto L130;
+L130:
+c2bp_b_130: c2bp_i_130: EG_B129_C84cr_B131_C83
+: c2bp_stmt_130_0: c2bpcall_130_0:  sdv_SetReturnStatus_8();
+c2bpreturnpt_130_0: no_enforce_130_0: l17_2, l17_1 := schoose[F,F], schoose[F,F] ;
+do_enforce_130_0: assume(T);
+goto L131;
+L131:
+c2bp_b_131: c2bp_i_131: goto L132;
+L132:
+c2bp_b_132: c2bp_i_132: EG_B131_C83_B133_C83cr
+: c2bp_stmt_132_0: goto L133;
+L133:
+c2bp_b_133: c2bp_i_133: goto L134;
+L134:
+c2bp_b_134: c2bp_i_134: EG_B133_C83cr_B135_C104
+: c2bp_stmt_134_0: t_l17_3 := schoose[l17_2,!l17_2] ;
+c2bpcall_134_0:  SLIC_sdv_WdfDeviceCreate_exit_10(t_l17_3);
+c2bpreturnpt_134_0: no_enforce_134_0: dead t_l17_3;
+do_enforce_134_0: assume(T);
+goto L135;
+L135:
+c2bp_b_135: c2bp_i_135: goto L136;
+L136:
+c2bp_b_136: c2bp_i_136: EG_B135_C104_B137_C104cr
+: c2bp_stmt_136_0: goto L137;
+L137:
+c2bp_b_137: c2bp_i_137: goto L138;
+L138:
+c2bp_b_138: c2bp_i_138: EG_B137_C104cr_B31_EXIT
+: return l17_1, l17_2;
+goto L31;
+end
+
+void sdv_WdfDeviceCreateDeviceInterface_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C5_B2_C4
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C4_B4_C4cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C4cr_B6_C3
+: c2bp_stmt_5_0: c2bpcall_5_0:  sdv_SetReturnStatus_8();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C3_B8_C3cr
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C3cr_B10_EXIT
+: return ;
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: return ;
+end
+
+void sdv_WdfDeviceSetPnpCapabilities_9() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void sdv_WdfDeviceWdmGetPhysicalDevice_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C4_B2_C3
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C3_B4_C3cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C3cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void SLIC_kmdf1394_EvtDeviceAdd_exit_10(l21_0) begin
+decl t_l21_1;
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1, L2;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C7_B3_C8
+: c2bp_stmt_1_0: g0, l21_0 := schoose[(!l21_0)| g0 ,(!l21_0)|(!g0)], schoose[T,!l21_0]  constrain (l21_0);
+goto L3;
+L2:
+c2bp_b_2: c2bp_i_2: EG_B0_C7_B21_C9
+: c2bp_stmt_2_0: g0, l21_0 := schoose[ l21_0 | g0 , l21_0 |(!g0)], schoose[l21_0,T]  constrain (!l21_0);
+goto L21;
+L3:
+c2bp_b_3: c2bp_i_3: goto L4, L5;
+L4:
+c2bp_b_4: c2bp_i_4: EG_B3_C8_B6_C4
+: c2bp_stmt_4_0: g0, l21_0 := schoose[T,!g0], schoose[(!g0)| l21_0 ,(!g0)|(!l21_0)]  constrain (g0);
+goto L6;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B3_C8_B15_C10
+: c2bp_stmt_5_0: g0, l21_0 := schoose[g0,T], schoose[ g0 | l21_0 , g0 |(!l21_0)]  constrain (!g0);
+goto L15;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C4_B8_C4cr
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C4cr_B10_C2
+: c2bp_stmt_9_0: t_l21_1 := schoose[l21_0,!l21_0] ;
+c2bpcall_9_0:  SLIC_ABORT_3_0_10(t_l21_1);
+c2bpreturnpt_9_0: no_enforce_9_0: dead t_l21_1;
+do_enforce_9_0: assume(T);
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C2_B12_C2cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C2cr_B14_EXIT
+: return ;
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: return ;
+L15:
+c2bp_b_15: c2bp_i_15: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B15_C10_B17_C6
+: c2bp_stmt_16_0: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C6_B19_C6cr
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C6cr_B10_C2
+: c2bp_stmt_20_0: c2bpcall_20_0:  SLIC_EXIT_ROUTINE_10();
+c2bpreturnpt_20_0: no_enforce_20_0: do_enforce_20_0: assume(T);
+goto L10;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C9_B17_C6
+: c2bp_stmt_22_0: goto L17;
+end
+
+void sdv_WdfDeviceGetIoTarget_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C4_B2_C3
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C3_B4_C3cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C3cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WdfDeviceWdmGetAttachedDevice_9() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void sdv_WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_WdfIoQueueCreate_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C28_B2_C27
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3, L4;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C27_B5_C13
+: c2bp_stmt_3_0: goto L5;
+L4:
+c2bp_b_4: c2bp_i_4: EG_B2_C27_B21_C25
+: c2bp_stmt_4_0: goto L21;
+L5:
+c2bp_b_5: c2bp_i_5: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: EG_B5_C13_B7_C5
+: c2bp_stmt_6_0: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: goto L8, L9;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B7_C5_B10_C11
+: c2bp_stmt_8_0: goto L10;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B7_C5_B15_C29
+: c2bp_stmt_9_0: goto L15;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C11_B12_C11cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C11cr_B14_EXIT
+: return ;
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: return ;
+L15:
+c2bp_b_15: c2bp_i_15: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B15_C29_B17_C9
+: c2bp_stmt_16_0: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C9_B19_C9cr
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C9cr_B14_EXIT
+: return ;
+goto L14;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C25_B23_C17
+: c2bp_stmt_22_0: goto L23;
+L23:
+c2bp_b_23: c2bp_i_23: goto L24, L25;
+L24:
+c2bp_b_24: c2bp_i_24: EG_B23_C17_B26_C23
+: c2bp_stmt_24_0: goto L26;
+L25:
+c2bp_b_25: c2bp_i_25: EG_B23_C17_B30_C30
+: c2bp_stmt_25_0: goto L30;
+L26:
+c2bp_b_26: c2bp_i_26: goto L27;
+L27:
+c2bp_b_27: c2bp_i_27: EG_B26_C23_B28_C23cr
+: c2bp_stmt_27_0: goto L28;
+L28:
+c2bp_b_28: c2bp_i_28: goto L29;
+L29:
+c2bp_b_29: c2bp_i_29: EG_B28_C23cr_B14_EXIT
+: return ;
+goto L14;
+L30:
+c2bp_b_30: c2bp_i_30: goto L31;
+L31:
+c2bp_b_31: c2bp_i_31: EG_B30_C30_B32_C21
+: c2bp_stmt_31_0: goto L32;
+L32:
+c2bp_b_32: c2bp_i_32: goto L33;
+L33:
+c2bp_b_33: c2bp_i_33: EG_B32_C21_B34_C21cr
+: c2bp_stmt_33_0: goto L34;
+L34:
+c2bp_b_34: c2bp_i_34: goto L35;
+L35:
+c2bp_b_35: c2bp_i_35: EG_B34_C21cr_B14_EXIT
+: return ;
+goto L14;
+end
+
+void sdv_WDF_IO_QUEUE_CONFIG_INIT_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C2
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C2_B4_C1
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1_B6_C1cr
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C1cr_B8_EXIT
+: return ;
+goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: return ;
+end
+
+void sdv_WdfSpinLockCreate_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C17_B2_C16
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3, L4;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C16_B5_C14
+: c2bp_stmt_3_0: goto L5;
+L4:
+c2bp_b_4: c2bp_i_4: EG_B2_C16_B23_C1
+: c2bp_stmt_4_0: goto L23;
+L5:
+c2bp_b_5: c2bp_i_5: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: EG_B5_C14_B7_C5
+: c2bp_stmt_6_0: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: goto L8, L9;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B7_C5_B10_C12
+: c2bp_stmt_8_0: goto L10;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B7_C5_B15_C18
+: c2bp_stmt_9_0: goto L15;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C12_B12_C12cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C12cr_B14_EXIT
+: return ;
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: return ;
+L15:
+c2bp_b_15: c2bp_i_15: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: EG_B15_C18_B17_C10
+: c2bp_stmt_16_0: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: EG_B17_C10_B19_C9
+: c2bp_stmt_18_0: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: EG_B19_C9_B21_C9cr
+: c2bp_stmt_20_0: goto L21;
+L21:
+c2bp_b_21: c2bp_i_21: goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: EG_B21_C9cr_B14_EXIT
+: return ;
+goto L14;
+L23:
+c2bp_b_23: c2bp_i_23: goto L24;
+L24:
+c2bp_b_24: c2bp_i_24: EG_B23_C1_B25_C1cr
+: c2bp_stmt_24_0: goto L25;
+L25:
+c2bp_b_25: c2bp_i_25: goto L26;
+L26:
+c2bp_b_26: c2bp_i_26: EG_B25_C1cr_B14_EXIT
+: return ;
+goto L14;
+end
+
+void __init3_3() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void __init4_4() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void __init5_5() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void __init6_6() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void __init7_7() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void sdv_main_8() begin
+decl t_l33_0;
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C7_B2_C6
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C6_B4_C6cr
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C6cr_B6_C5
+: c2bp_stmt_5_0: c2bpcall_5_0:  DriverEntry_1();
+c2bpreturnpt_5_0: no_enforce_5_0: do_enforce_5_0: assume(T);
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C5_B8_C9
+: c2bp_stmt_7_0: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: EG_B8_C9_B10_C4
+: c2bp_stmt_9_0: g0 := schoose[g0,!g0] ;
+goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: EG_B10_C4_B12_C4cr
+: c2bp_stmt_11_0: goto L12;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C4cr_B14_C3
+: c2bp_stmt_13_0: c2bpcall_13_0: t_l33_0 :=  kmdf1394_EvtDeviceAdd_3();
+c2bpreturnpt_13_0: no_enforce_13_0: dead t_l33_0;
+do_enforce_13_0: assume(T);
+goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C3_B16_C10
+: c2bp_stmt_15_0: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: EG_B16_C10_B18_C1
+: c2bp_stmt_17_0: g0 := schoose[g0,!g0] ;
+goto L18;
+L18:
+c2bp_b_18: c2bp_i_18: goto L19;
+L19:
+c2bp_b_19: c2bp_i_19: EG_B18_C1_B20_C1cr
+: c2bp_stmt_19_0: goto L20;
+L20:
+c2bp_b_20: c2bp_i_20: goto L21;
+L21:
+c2bp_b_21: c2bp_i_21: EG_B20_C1cr_B22_EXIT
+: return ;
+goto L22;
+L22:
+c2bp_b_22: c2bp_i_22: return ;
+end
+
+void sdv_SetReturnStatus_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C12_B2_C11
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C11_B4_C3
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5, L6;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C3_B7_C9
+: c2bp_stmt_5_0: goto L7;
+L6:
+c2bp_b_6: c2bp_i_6: EG_B4_C3_B12_C13
+: c2bp_stmt_6_0: goto L12;
+L7:
+c2bp_b_7: c2bp_i_7: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B7_C9_B9_C9cr
+: c2bp_stmt_8_0: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: EG_B9_C9cr_B11_EXIT
+: return ;
+goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: return ;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C13_B14_C7
+: c2bp_stmt_13_0: goto L14;
+L14:
+c2bp_b_14: c2bp_i_14: goto L15;
+L15:
+c2bp_b_15: c2bp_i_15: EG_B14_C7_B16_C7cr
+: c2bp_stmt_15_0: goto L16;
+L16:
+c2bp_b_16: c2bp_i_16: goto L17;
+L17:
+c2bp_b_17: c2bp_i_17: EG_B16_C7cr_B11_EXIT
+: return ;
+goto L11;
+end
+
+void SLIC_sdv_WdfDeviceCreate_entry_10() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C2_B2_C2cr
+: c2bp_stmt_1_0: g0 := schoose[T,F] ;
+goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C2cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void SLIC_sdv_WdfDeviceCreate_exit_10(l36_0) begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1, L2;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C5_B3_C4
+: c2bp_stmt_1_0: g0, l36_0 := schoose[(!l36_0)| g0 ,(!l36_0)|(!g0)], schoose[T,!l36_0]  constrain (l36_0);
+goto L3;
+L2:
+c2bp_b_2: c2bp_i_2: EG_B0_C5_B12_C6
+: c2bp_stmt_2_0: g0, l36_0 := schoose[ l36_0 | g0 , l36_0 |(!g0)], schoose[l36_0,T]  constrain (!l36_0);
+goto L12;
+L3:
+c2bp_b_3: c2bp_i_3: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: EG_B3_C4_B5_C4cr
+: c2bp_stmt_4_0: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: EG_B5_C4cr_B7_C2
+: c2bp_stmt_6_0: c2bpcall_6_0:  SLIC_EXIT_ROUTINE_10();
+c2bpreturnpt_6_0: no_enforce_6_0: do_enforce_6_0: assume(T);
+goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: EG_B7_C2_B9_C2cr
+: c2bp_stmt_8_0: goto L9;
+L9:
+c2bp_b_9: c2bp_i_9: goto L10;
+L10:
+c2bp_b_10: c2bp_i_10: EG_B9_C2cr_B11_EXIT
+: return ;
+goto L11;
+L11:
+c2bp_b_11: c2bp_i_11: return ;
+L12:
+c2bp_b_12: c2bp_i_12: goto L13;
+L13:
+c2bp_b_13: c2bp_i_13: EG_B12_C6_B7_C2
+: c2bp_stmt_13_0: goto L7;
+end
+
+void __init10_10() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: g0 := schoose[F,T] ;
+goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void __init8_8() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C2
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C2_B4_C1
+: c2bp_stmt_3_0: goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1_B6_C1cr
+: c2bp_stmt_5_0: goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: goto L7;
+L7:
+c2bp_b_7: c2bp_i_7: EG_B6_C1cr_B8_EXIT
+: return ;
+goto L8;
+L8:
+c2bp_b_8: c2bp_i_8: return ;
+end
+
+void malloc_9() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B4_EXIT
+: return ;
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: return ;
+end
+
+void SLIC_ABORT_3_0_10(l40_0) begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C1_B2_C1cr
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1cr_B0_C1
+: c2bp_stmt_3_0: c2bpcall_3_0:  SLIC_ERROR_ROUTINE_10();
+c2bpreturnpt_3_0: no_enforce_3_0: do_enforce_3_0: assume(T);
+goto L0;
+end
+
+void SLIC_EXIT_ROUTINE_10() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: SLIC_EXIT: assume(F);
+goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: g0 := schoose[T,T]  constrain (F);
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+
+void SLIC_ERROR_ROUTINE_10() begin
+enforce T;
+do_enforce: goto L0;
+L0:
+c2bp_b_0: c2bp_i_0: goto L1;
+L1:
+c2bp_b_1: c2bp_i_1: EG_B0_C3_B2_C1
+: c2bp_stmt_1_0: goto L2;
+L2:
+c2bp_b_2: c2bp_i_2: SLIC_ERROR: goto L3;
+L3:
+c2bp_b_3: c2bp_i_3: EG_B2_C1_B4_C1cr
+: c2bp_stmt_3_0: g0 := schoose[T,T]  constrain (F);
+goto L4;
+L4:
+c2bp_b_4: c2bp_i_4: goto L5;
+L5:
+c2bp_b_5: c2bp_i_5: EG_B4_C1cr_B6_EXIT
+: return ;
+goto L6;
+L6:
+c2bp_b_6: c2bp_i_6: return ;
+end
+

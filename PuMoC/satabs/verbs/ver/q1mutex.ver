@@ -1,0 +1,33 @@
+MAIN 
+x:(0..2);
+y:(0..2);
+b[1..2]:(0|1);
+#
+x=0;
+y=0;
+b[1]=0;
+b[2]=0;
+#
+p1:mm(1);
+p2:mm(2);
+#
+AG(!(p1.STEP=6&p2.STEP=6));
+AG(!((p1.STEP=1)|(p2.STEP=1))|AF(p1.STEP=6|p2.STEP=6));
+AG((!(p1.STEP=1)|AF(p1.STEP=6))&(!(p2.STEP=1)|AF(p2.STEP=6)));
+
+MODULE mm(i)
+STEP:(0..6);
+#
+STEP=0;
+#
+STEP 0:  b[i]=1&x=i; 		goto STEP 1;
+STEP 1: !y=0: b[i]=0; 		goto STEP 2;
+STEP 1:  y=0: y=i; 		goto STEP 3;
+STEP 2:  y=0: 			goto STEP 0;
+STEP 3: !x=i: b[i]=0;		goto STEP 4;
+STEP 3:  x=i: 			goto STEP 6;
+STEP 4:  b[1]=0:b[2]=0: 	goto STEP 5;
+STEP 5: !y=i:y=0:		goto STEP 0;
+STEP 5:  y=i:			goto STEP 6;
+STEP 6:  y=0&b[i]=0;		goto STEP 0;
+#

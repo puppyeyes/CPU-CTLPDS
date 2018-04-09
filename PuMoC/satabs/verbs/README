@@ -1,0 +1,5 @@
+Compilation steps:
+
+1. update "config.h" for specification of the SAT-solver to be used.
+2. type "make" to compile the program.
+3. run "./verbs ver/rr09vp7.ver" to check the program execution.

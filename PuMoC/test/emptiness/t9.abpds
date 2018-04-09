@@ -1,0 +1,49 @@
+# It has no accepting run. 
+# It is an error version of t8.pds
+# Just let p24 to be unaccepting control location. Then there is a cycle from p25 which will not infinitly visit
+# some configurations with control location accepting.
+
+(p0 <r0 r3>)
+
+ACCEPTING  p18,p19          #p24
+
+p0 <r0> --> p1 <r1 r2> & p2 <r2 r3>
+
+p1 <r1> --> p11 <r0 r2> & p12 <r1 r3> & p13 <r2 r4> & p14 <r4 r0>
+p1 <r1> --> p15 <r2 r1> & p16 <r4 r3> & p17 <r1 r4>
+p1 <r1> --> p18 <r3 r1> & p19 <r0 r3>
+
+p2 <r2> --> p21 <r1 r3> & p22 <r2 r1> & p23 <r3 r2> 
+p2 <r2> --> p24 <r4> & p25 <r3 r0>
+
+p21 <r1> -->p22 <r2> & p24 <r4>
+p22 <r1> -->p23 <r3> & p25 <r3>
+p23 <r1> -->p18 <r1> & p24 <r4>
+
+p24 <r4> -->p25 <r3> & p24 <r4> & p19 <r1>
+p25 <r3> -->p3 <r3> & p24 <r4 r1>
+
+p3 <r3> --> p18 <r1>
+ 
+
+p11 <r0> --> p11 <r0> & p15 <r2>
+p12 <r1> --> p12 <r1> & p16 <r4>
+p13 <r2> --> p13 <r2> & p17 <r1>
+p14 <r4> --> p14 <r3> & p18 <r3>
+
+p15 <r2> --> p12 <r1> & p18 <r3>
+p16 <r4> --> p13 <r2> & p19 <r0>
+p17 <r1> --> p14 <r4> & p1 <r1 r3>
+
+p18 <r3> --> p19 <> & p18 <>
+p18 <r1> --> p19 <r3> & p18 <r1>
+
+p19 <r0> --> p19 <> & p18 <r3 r1>
+p19 <r1> --> p19 <r3> & p2 <r2>
+p19 <r3> --> p2 <r2> & p18 <r1>
+
+
+
+
+
+

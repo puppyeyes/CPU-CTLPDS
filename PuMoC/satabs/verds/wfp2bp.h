@@ -1,0 +1,17 @@
+tree *ARITmod(tree *s1,tree *s2);
+tree *ARITdiv(tree *x1,tree *x2);
+tree *ARITdoublekt(tree *s2,int k);
+tree *listreduce(tree *s1);
+tree *ARITadd(tree *s1,tree *s2,tree *s0);
+tree *ARITsub(tree *s1,tree *s2,tree *s0);
+tree *ARITdouble(tree *s2);
+tree *ARITmul(tree *x1,tree *x2);
+tree *ARITeq(tree *s1,tree *s2,tree *s0);
+tree *ARITband(tree *s1,tree *s2,tree *s0);
+tree *ARITbor(tree *s1,tree *s2,tree *s0);
+tree *ARITapply(tree *t);
+tree *BOOLconstructnum(int i);
+tree *BOOLconstructvar(int a,int b);
+void BOOLreplace(tree *t,tree *vlist,int booln);
+tree *BOOLconverttrans(tree *t);
+workspace *p2bp(workspace *ws1);

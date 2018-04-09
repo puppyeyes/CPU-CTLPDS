@@ -1,0 +1,100 @@
+MODULE main
+VAR
+p0: boolean;
+p1: boolean;
+p2: boolean;
+p3: boolean;
+p4: boolean;
+p5: boolean;
+p6: boolean;
+p7: boolean;
+p8: boolean;
+q0: boolean;
+q1: boolean;
+q2: boolean;
+q3: boolean;
+q4: boolean;
+q5: boolean;
+q6: boolean;
+q7: boolean;
+q8: boolean;
+r0: boolean;
+r1: boolean;
+r2: boolean;
+r3: boolean;
+r4: boolean;
+r5: boolean;
+r6: boolean;
+r7: boolean;
+r8: boolean;
+qq: process proc(q0,q1,q2,q3,q4,q5,q6,q7,q8);
+rr: process proc(r0,r1,r2,r3,r4,r5,r6,r7,r8);
+cp: {c0,c1,c2,c3,c4,c5,c6,c7,c8};
+ASSIGN
+	init (cp):=c0;
+	next (cp):=case
+		cp=c0: c1;
+		cp=c1: c2;
+		cp=c2: c3;
+		cp=c3: c4;
+		cp=c4: c5;
+		cp=c5: c6;
+		cp=c6: c7;
+		cp=c7: c8;
+		cp=c8: c0;
+	esac;
+	init (p0):=0;
+	init (p1):=0;
+	init (p2):=0;
+	init (p3):=0;
+	init (p4):=0;
+	init (p5):=0;
+	init (p6):=0;
+	init (p7):=0;
+	init (p8):=0;
+	next (p0):=case cp=c0: !p0; 1: p0; esac;
+	next (p1):=case cp=c1: !p1; 1: p1; esac;
+	next (p2):=case cp=c2: !p2; 1: p2; esac;
+	next (p3):=case cp=c3: !p3; 1: p3; esac;
+	next (p4):=case cp=c4: !p4; 1: p4; esac;
+	next (p5):=case cp=c5: !p5; 1: p5; esac;
+	next (p6):=case cp=c6: !p6; 1: p6; esac;
+	next (p7):=case cp=c7: !p7; 1: p7; esac;
+	next (p8):=case cp=c8: !p8; 1: p8; esac;
+SPEC
+A[(!p1 &!q1 &!r1 )U!E[(!p3 &!q3 &!r3 )U!(!p5 &!q5 &!r5 )]]
+
+MODULE proc(p0,p1,p2,p3,p4,p5,p6,p7,p8)
+VAR 
+cp: {c0,c1,c2,c3,c4,c5,c6,c7,c8};
+ASSIGN
+	init (cp):=c0;
+	next (cp):=case
+		cp=c0: c1;
+		cp=c1: c2;
+		cp=c2: c3;
+		cp=c3: c4;
+		cp=c4: c5;
+		cp=c5: c6;
+		cp=c6: c7;
+		cp=c7: c8;
+		cp=c8: c0;
+	esac;
+	init (p0):=0;
+	init (p1):=0;
+	init (p2):=0;
+	init (p3):=0;
+	init (p4):=0;
+	init (p5):=0;
+	init (p6):=0;
+	init (p7):=0;
+	init (p8):=0;
+	next (p0):=case cp=c0: !p0; 1: p0; esac;
+	next (p1):=case cp=c1: !p1; 1: p1; esac;
+	next (p2):=case cp=c2: !p2; 1: p2; esac;
+	next (p3):=case cp=c3: !p3; 1: p3; esac;
+	next (p4):=case cp=c4: !p4; 1: p4; esac;
+	next (p5):=case cp=c5: !p5; 1: p5; esac;
+	next (p6):=case cp=c6: !p6; 1: p6; esac;
+	next (p7):=case cp=c7: !p7; 1: p7; esac;
+	next (p8):=case cp=c8: !p8; 1: p8; esac;

@@ -1,0 +1,7 @@
+
+(Q1 <main$$0 >)
+
+ATOMS   main$$0   !(main::argc == 1)
+
+Q1 <main$$0 > --> Q1 <l1>
+

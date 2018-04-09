@@ -1,0 +1,12 @@
+
+This is the JBDD, a Java BDD interface.
+
+To compile the source, you will need the following software:
+
+
+JAVA, version 1.4.2 or higher
+ANT, version 1.6 or better
+GCC, version 3.2 or higher
+MS VISUAL C/C++, version 7.0 or higher
+
+You may also need to modify the ANT buld file (build.xml) for your system.
