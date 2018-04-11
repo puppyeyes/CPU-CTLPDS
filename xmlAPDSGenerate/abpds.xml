@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<abpds>
+  <finalState size="1">
+    <state>p1</state>
+  </finalState>
+  <delta size="5">
+    <rule toSize="1">
+      <from controlLocation="p2.1.2" stack="r2"/>
+      <to controlLocation="p2" stack1="r2" stack2="r1"/>
+    </rule>
+    <rule toSize="4">
+      <from controlLocation="p0" stack="r0"/>
+      <to controlLocation="p1" stack1="r1"/>
+      <to controlLocation="p2" stack1="r2"/>
+      <to controlLocation="p2.1" stack1="epsilon.1"/>
+      <to controlLocation="p2.1.2" stack1="r2"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p1" stack="r1"/>
+      <to controlLocation="p2" stack1="*"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p2" stack="r2"/>
+      <to controlLocation="p1" stack1="r1"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p2" stack="r3"/>
+      <to controlLocation="p1" stack1="r1" stack2="r3"/>
+    </rule>
+  </delta>
+</abpds>
