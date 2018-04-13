@@ -46,7 +46,7 @@ public class GenerateXML {
 			line = br.readLine();
 
 			while (line != null) {
-				line = br.readLine(); // 一次读入一行数据
+				
 
 				if (line != null && !line.startsWith("FinalState:")) {
 
@@ -114,6 +114,7 @@ public class GenerateXML {
 					}
 				}
 				// System.out.println(br.readLine());
+				line = br.readLine(); // 一次读入一行数据
 			}
 			abpds.setFinalState(final_state);
 			abpds.setRulelist(rule_list);
