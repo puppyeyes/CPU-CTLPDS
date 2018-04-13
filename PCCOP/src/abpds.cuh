@@ -8,29 +8,45 @@
 #ifndef ABPDS_H_
 #define ABPDS_H_
 
+
 typedef struct FromConfig{
-	int controlLocation;
+	short int controlLocation;
 	int stack;
 }FromConfig;
 
 typedef struct ToConfig{
-	int controlLocation;
+	short int controlLocation;
 	int stack1;
 	int stack2;
-}ToConfig;
+}Config;
 
-typedef struct TransitionRule{
+struct TransitionRule{
 	bool tag;
 	FromConfig from;
 	ToConfig *to;
 
-}TransitionRule;
+};
 
 typedef struct ABPDS{
 	int *finalState;
 	int finalStateSize;
 }ABPDS;
 
+struct RuleNode{
+	Config config;
+	RuleNode *next;
+	RuleNode *andConfig;
+};
+
+typedef struct RuleHead{
+	RuleNode *next;
+}*Delta;
+
+extern Delta delta;
+
+void initDelta(int delta_size,Delta delta);
+
+void addRuleToDelta(TransitionRule t,Delta delta);
 
 
 

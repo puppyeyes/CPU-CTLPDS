@@ -12,6 +12,8 @@ typedef struct AMANode{
 	int *next;
 };
 
+extern int *finalStateArray;
+
 typedef struct AMAHead{
 	/* from 表示链表的头结点 表现为一个格局的编码 类型long int
 	 * tail 指向链表的尾部节点 表现为一个state的编码 类型是int的指针

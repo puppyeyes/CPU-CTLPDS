@@ -8,8 +8,17 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+struct ABPDSInfo{
+	int state_size;
+	int stack_size;
+};
 
-typedef struct Trans{
+struct InitConfig{
+	int initState;
+	int *stack;
+};
+
+struct Trans{
 	int fromState;
 	int stack;
 	int toState;
