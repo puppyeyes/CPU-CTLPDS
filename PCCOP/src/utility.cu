@@ -92,7 +92,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 							string from_stack = (char *) xmlGetProp(configCur,
 							BAD_CAST "stack");
 							cout << "," << from_stack << "-->";
-							if (from_stack.compare("*")==0) {
+							if (from_stack.compare("*") == 0) {
 								printf("xml parse error:syntax error\n");
 							}
 							if (!stack_mp.count(from_stack)) {
@@ -112,8 +112,9 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 						}
 
 						if (to_config_size == 1) {
-							r.tag = 0;
-							if ((!xmlStrcmp(configCur->name, (const xmlChar *) "to"))) {
+							r.tag = false;
+							if ((!xmlStrcmp(configCur->name,
+									(const xmlChar *) "to"))) {
 								string to_control_location =
 										(char *) xmlGetProp(configCur,
 										BAD_CAST "controlLocation");
@@ -154,7 +155,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 										r.to[0].stack1 = it_find->second;
 									} else {
 										printf(
-												"xml parse error:inter error 3\n");
+												"xml parse error:inter error 4\n");
 									}
 								}
 								if ((char *) xmlGetProp(configCur,
@@ -162,7 +163,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 									string to_control_stack_2 =
 											(char *) xmlGetProp(configCur,
 											BAD_CAST "stack2");
-									cout << " " << to_control_stack_2<<endl;
+									cout << " " << to_control_stack_2 << endl;
 									if (!stack_mp.count(to_control_stack_2)) {
 										stack_mp.insert(
 												pair<string, int>(
@@ -177,16 +178,78 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 											r.to[0].stack2 = it_find->second;
 										} else {
 											printf(
-													"xml parse error:inter error 3\n");
+													"xml parse error:inter error 5\n");
 										}
 									}
-								}else{
-									cout<<endl;
+								} else {
+									cout << endl;
 								}
 
 							}
-						}else{
-
+						} else {
+							r.tag = true;
+							if ((!xmlStrcmp(configCur->name,
+									(const xmlChar *) "to"))) {
+								r.to = (ToConfig *) malloc(
+										sizeof(ToConfig) * to_config_size);
+								int i = 0;
+								while (configCur != NULL) {
+									if ((!xmlStrcmp(configCur->name,
+											(const xmlChar *) "to"))) {
+										string to_control_location =
+												(char *) xmlGetProp(configCur,
+												BAD_CAST "controlLocation");
+										cout << to_control_location;
+										if (!state_mp.count(
+												to_control_location)) {
+											state_mp.insert(
+													pair<string, int>(
+															to_control_location,
+															state_count));
+											r.to[i].controlLocation =
+													state_count;
+											state_count++;
+										} else {
+											it_find = state_mp.find(
+													to_control_location);
+											if (it_find != state_mp.end()) {
+												r.to[i].controlLocation =
+														it_find->second;
+											} else {
+												printf(
+														"xml parse error:inter error 6\n");
+											}
+										}
+										string to_control_stack_1 =
+												(char *) xmlGetProp(configCur,
+												BAD_CAST "stack1");
+										cout << "," << to_control_stack_1<<"&";
+										if (!stack_mp.count(
+												to_control_stack_1)) {
+											stack_mp.insert(
+													pair<string, int>(
+															to_control_stack_1,
+															stack_count));
+											r.to[0].stack1 = stack_count;
+											stack_count++;
+										} else {
+											it_find = stack_mp.find(
+													to_control_stack_1);
+											if (it_find != stack_mp.end()) {
+												r.to[0].stack1 =
+														it_find->second;
+											} else {
+												printf(
+														"xml parse error:inter error 7\n");
+											}
+										}
+									}
+									configCur = configCur->next;
+									i++;
+								}
+								cout<<endl;
+								continue;
+							}
 						}
 						configCur = configCur->next;
 					}
