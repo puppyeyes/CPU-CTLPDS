@@ -5,6 +5,8 @@ import java.util.List;
 public class PDS {
 	List<Rule> rulelist;
 	List<String> finalState;
+	int stateSize;
+	int stackSize;
 	public List<Rule> getRulelist() {
 		return rulelist;
 	}
@@ -21,6 +23,19 @@ public class PDS {
 		super();
 		this.rulelist = rulelist;
 		this.finalState = finalState;
+	}
+	
+	public int getStateSize() {
+		return stateSize;
+	}
+	public void setStateSize(int stateSize) {
+		this.stateSize = stateSize;
+	}
+	public int getStackSize() {
+		return stackSize;
+	}
+	public void setStackSize(int stackSize) {
+		this.stackSize = stackSize;
 	}
 	public PDS() {
 		super();

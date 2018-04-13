@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,12 +27,14 @@ import ABPDS.Configuration;
 import ABPDS.PDS;
 import ABPDS.Rule;
 
-public class GenerateJson {
+public class GenerateXML {
 
 	public static void main(String[] args) throws Exception {
 		PDS abpds = new PDS();
 		List<Rule> rule_list = new LinkedList<Rule>();
 		List<String> final_state = new LinkedList<String>();
+		List<String> state_list = new LinkedList<>();
+		List<String> stack_list = new LinkedList<>();
 		try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
 
 			/* 读入TXT文件 */
@@ -51,7 +55,16 @@ public class GenerateJson {
 					String[] configure_string = line.split("-->");
 					String[] from_string = configure_string[0].trim().substring(1, configure_string[0].length() - 2)
 							.split(",");
+
 					Configuration from = new Configuration(from_string[0], from_string[1]);
+					if (!state_list.contains(from_string[0])) {
+						state_list.add(from_string[0]);
+					}
+					if (!stack_list.contains(from_string[1])) {
+						stack_list.add(from_string[1]);
+						//System.out.println(from_string[1]);
+					}
+
 					String[] to_configure_string = configure_string[1].trim()
 							.substring(2, configure_string[1].length() - 3).split("><");
 					for (int i = 0; i < to_configure_string.length; i++) {
@@ -60,8 +73,30 @@ public class GenerateJson {
 						Configuration to;
 						if (stack_string.length == 1) {
 							to = new Configuration(to_string[0].trim(), stack_string[0].trim());
+							if (!state_list.contains(to_string[0].trim())) {
+								state_list.add(to_string[0].trim());
+							}
+							if (!stack_list.contains(stack_string[0].trim())) {
+								if (!stack_string[0].trim().equals("*")) {
+									stack_list.add(stack_string[0].trim());
+									//System.out.println(stack_string[0].trim());
+								}
+							}
 						} else {
-							to = new Configuration(to_string[0].trim(), stack_string[0].trim(),stack_string[1].trim());
+							to = new Configuration(to_string[0].trim(), stack_string[0].trim(), stack_string[1].trim());
+							if (!state_list.contains(to_string[0].trim())) {
+								state_list.add(to_string[0].trim());
+							}
+							if (!stack_list.contains(stack_string[0].trim())) {
+								if (!stack_string[0].trim().equals("*")) {
+									stack_list.add(stack_string[0].trim());
+									//System.out.println(stack_string[0].trim());
+								}
+							}
+							if (!stack_list.contains(stack_string[1].trim())) {
+								stack_list.add(stack_string[1].trim());
+								//System.out.println(stack_string[1].trim());
+							}
 						}
 						to_list.add(to);
 					}
@@ -71,14 +106,23 @@ public class GenerateJson {
 					String final_state_string = line.substring(11, line.length() - 1);
 					String[] state = final_state_string.split(";");
 					for (int i = 0; i < state.length; i++) {
-						System.out.println(state[i]);
+						//System.out.println(state[i]);
 						final_state.add(state[i]);
+						if (!state_list.contains(state[i])) {
+							state_list.add(state[i]);
+						}
 					}
 				}
 				// System.out.println(br.readLine());
 			}
 			abpds.setFinalState(final_state);
 			abpds.setRulelist(rule_list);
+			abpds.setStateSize(state_list.size());
+			abpds.setStackSize(stack_list.size());
+//			for(String s:stack_list)
+//			{
+//				System.out.println(s);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,6 +132,8 @@ public class GenerateJson {
 	public static void createXMLDemo(PDS abpds) throws Exception {
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("abpds");
+		root.addAttribute("state_size", String.valueOf(abpds.getStateSize()));
+		root.addAttribute("stack_size", String.valueOf(abpds.getStackSize()));
 		Element finalStateElement = root.addElement("finalState").addAttribute("size",
 				String.valueOf(abpds.getFinalState().size()));
 		Element deltaElement = root.addElement("delta").addAttribute("size",
