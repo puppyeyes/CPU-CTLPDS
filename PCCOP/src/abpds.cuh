@@ -9,19 +9,19 @@
 #define ABPDS_H_
 
 
-typedef struct FromConfig{
+struct FromConfig{
 	short int controlLocation;
 	int stack;
-}FromConfig;
+};
 
-typedef struct ToConfig{
+struct ToConfig{
 	short int controlLocation;
 	int stack1;
 	int stack2;
-}Config;
+};
 
 struct TransitionRule{
-	bool tag;
+	short int to_config_size;
 	FromConfig from;
 	ToConfig *to;
 	TransitionRule *next;
@@ -48,9 +48,9 @@ extern Delta delta;
 
 void initABPDSInfo();
 
-void initDelta(int delta_size,Delta delta);
+void initDelta(int delta_size);
 
-void addRuleToDelta(TransitionRule t,Delta delta);
+void addRuleToDelta(TransitionRule *t);
 
 
 

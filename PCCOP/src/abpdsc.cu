@@ -8,7 +8,7 @@ void initABPDSInfo() {
 	cudaMallocManaged(&abpds_info, sizeof(int) * 2);
 }
 
-void initDelta(int delta_size, Delta delta) {
+void initDelta(int delta_size) {
 	cudaMallocManaged(&delta, sizeof(int) * delta_size);
 }
 
@@ -17,7 +17,7 @@ int getTransitionPos(TransitionRule *t) {
 	return pos;
 }
 
-void addRuleToDelta(TransitionRule *t, Delta delta) {
+void addRuleToDelta(TransitionRule *t) {
 	//头插法
 	int pos=getTransitionPos(t);
 	if(delta[pos].next==NULL)
@@ -29,3 +29,5 @@ void addRuleToDelta(TransitionRule *t, Delta delta) {
 		delta[pos].next=t;
 	}
 }
+
+

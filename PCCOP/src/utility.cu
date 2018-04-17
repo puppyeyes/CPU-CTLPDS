@@ -1,7 +1,9 @@
 #include "utility.cuh"
-#include "abpds.cuh"
+
 map<string, int> state_mp;
+map<int, string> rv_state_mp;
 map<string, int> stack_mp;
+map<int, string> rv_stack_mp;
 int *finalStateArray;
 static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	int state_count = 0; //记录state的个数
@@ -15,6 +17,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	 * 初始化映射stack * 爲0
 	 */
 	stack_mp.insert(pair<string, int>("*", stack_count));
+	rv_stack_mp.insert(pair<int, string>(stack_count, "*"));
 	stack_count++;
 
 	/*统计delta的大小*/
@@ -24,10 +27,10 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 		int stack_size = atoi((char *) xmlGetProp(cur, BAD_CAST "stack_size"));
 		delta_size = state_size * state_size;
 		initABPDSInfo();
-		abpds_info->stack_size=stack_size;
-		abpds_info->state_size=state_size;
+		abpds_info->stack_size = stack_size;
+		abpds_info->state_size = state_size;
 	}
-	initDelta(delta_size, delta);
+	initDelta(delta_size);
 	/*
 	 * 计算finalStateArray的存放位置
 	 * */
@@ -41,17 +44,20 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 
 			finalStateSize = atoi((char *) xmlGetProp(cur, BAD_CAST "size"));
 			printf("final state size: %d\n", finalStateSize);
-			CUDA_SAFE_CALL(cudaMallocManaged(&finalStateArray, sizeof(int) * finalStateSize));
+			CUDA_SAFE_CALL(
+					cudaMallocManaged(&finalStateArray,
+							sizeof(int) * finalStateSize));
 			xmlNodePtr stateCur = cur->xmlChildrenNode;
 			while (stateCur != NULL) {
 				if (!xmlStrcmp(stateCur->name, (const xmlChar *) "state")) {
 					tmp = (char*) xmlNodeGetContent(stateCur);
 					if (!state_mp.count(tmp)) {
 						state_mp.insert(pair<string, int>(tmp, state_count));
+						rv_state_mp.insert(pair<int, string>(state_count, tmp));
 						finalStateArray[finalStateCount] = state_count;
 						finalStateCount++;
 						state_count++;
-						cout << tmp << endl;
+						//cout << tmp << endl;
 					}
 				}
 				stateCur = stateCur->next;
@@ -68,18 +74,22 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 							(char *) xmlGetProp(ruleCur, BAD_CAST "toSize"));
 
 					TransitionRule *r;
-					CUDA_SAFE_CALL(cudaMallocManaged(&r, sizeof(TransitionRule)));
+					CUDA_SAFE_CALL(
+							cudaMallocManaged(&r, sizeof(TransitionRule)));
 					xmlNodePtr configCur = ruleCur->xmlChildrenNode;
 					while (configCur != NULL) {
 						if ((!xmlStrcmp(configCur->name, BAD_CAST "from"))) {
 							string from_control_location = (char *) xmlGetProp(
 									configCur,
 									BAD_CAST "controlLocation");
-							cout << from_control_location;
+							//cout << from_control_location;
 							if (!state_mp.count(from_control_location)) {
 								state_mp.insert(
 										pair<string, int>(from_control_location,
 												state_count));
+								rv_state_mp.insert(
+										pair<int, string>(state_count,
+												from_control_location));
 								r->from.controlLocation = state_count;
 								state_count++;
 							} else {
@@ -92,7 +102,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 							}
 							string from_stack = (char *) xmlGetProp(configCur,
 							BAD_CAST "stack");
-							cout << "," << from_stack << "-->";
+							//cout << "," << from_stack << "-->";
 							if (from_stack.compare("*") == 0) {
 								printf("xml parse error:syntax error\n");
 							}
@@ -100,33 +110,39 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								stack_mp.insert(
 										pair<string, int>(from_stack,
 												stack_count));
+								rv_stack_mp.insert(
+										pair<int, string>(stack_count,
+												from_stack));
 								r->from.stack = stack_count;
 								stack_count++;
 							} else {
 								it_find = stack_mp.find(from_stack);
 								if (it_find != stack_mp.end()) {
 									r->from.stack = it_find->second;
-								} else {
-									printf("xml parse error:inter error 2\n");
 								}
 							}
 						}
 
 						if (to_config_size == 1) {
-							r->tag = false;
+							r->to_config_size = to_config_size;
 							if ((!xmlStrcmp(configCur->name,
 									(const xmlChar *) "to"))) {
 								string to_control_location =
 										(char *) xmlGetProp(configCur,
 										BAD_CAST "controlLocation");
-								cout << to_control_location;
+								//cout << to_control_location;
 								//r.to = (ToConfig *) malloc(sizeof(ToConfig));
-								CUDA_SAFE_CALL(cudaMallocManaged(&(r->to), sizeof(ToConfig)));
+								CUDA_SAFE_CALL(
+										cudaMallocManaged(&(r->to),
+												sizeof(ToConfig)));
 								if (!state_mp.count(to_control_location)) {
 									state_mp.insert(
 											pair<string, int>(
 													to_control_location,
 													state_count));
+									rv_state_mp.insert(
+											pair<int, string>(state_count,
+													to_control_location));
 									r->to[0].controlLocation = state_count;
 									state_count++;
 								} else {
@@ -143,21 +159,21 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								string to_control_stack_1 = (char *) xmlGetProp(
 										configCur,
 										BAD_CAST "stack1");
-								cout << "," << to_control_stack_1;
+								//cout << "," << to_control_stack_1;
 								if (!stack_mp.count(to_control_stack_1)) {
 									stack_mp.insert(
 											pair<string, int>(
 													to_control_stack_1,
 													stack_count));
+									rv_stack_mp.insert(
+											pair<int, string>(stack_count,
+													to_control_stack_1));
 									r->to[0].stack1 = stack_count;
 									stack_count++;
 								} else {
 									it_find = stack_mp.find(to_control_stack_1);
 									if (it_find != stack_mp.end()) {
 										r->to[0].stack1 = it_find->second;
-									} else {
-										printf(
-												"xml parse error:inter error 4\n");
 									}
 								}
 								if ((char *) xmlGetProp(configCur,
@@ -165,12 +181,15 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 									string to_control_stack_2 =
 											(char *) xmlGetProp(configCur,
 											BAD_CAST "stack2");
-									cout << " " << to_control_stack_2 << endl;
+									//cout << " " << to_control_stack_2 << endl;
 									if (!stack_mp.count(to_control_stack_2)) {
 										stack_mp.insert(
 												pair<string, int>(
 														to_control_stack_2,
 														stack_count));
+										rv_stack_mp.insert(
+												pair<int, string>(stack_count,
+														to_control_stack_2));
 										r->to[0].stack2 = stack_count;
 										stack_count++;
 									} else {
@@ -178,37 +197,39 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 												to_control_stack_2);
 										if (it_find != stack_mp.end()) {
 											r->to[0].stack2 = it_find->second;
-										} else {
-											printf(
-													"xml parse error:inter error 5\n");
 										}
 									}
-								} else {
-									cout << endl;
 								}
-
 							}
 						} else {
-							r->tag = true;
+							r->to_config_size = to_config_size;
 							if ((!xmlStrcmp(configCur->name,
 									(const xmlChar *) "to"))) {
-//								r.to = (ToConfig *) malloc(
-//										sizeof(ToConfig) * to_config_size);
-								CUDA_SAFE_CALL(cudaMallocManaged(&(r->to), sizeof(ToConfig)* to_config_size));
-								int i = 0;
+								CUDA_SAFE_CALL(
+										cudaMallocManaged(&(r->to),
+												sizeof(ToConfig)
+														* to_config_size));
+								//int toSize = sizeof(ToConfig);
+								//cout<<toSize<<endl;
+								int i = -1;
 								while (configCur != NULL) {
 									if ((!xmlStrcmp(configCur->name,
 											(const xmlChar *) "to"))) {
+										i++;
 										string to_control_location =
 												(char *) xmlGetProp(configCur,
 												BAD_CAST "controlLocation");
-										cout << to_control_location;
+										//cout << to_control_location;
 										if (!state_mp.count(
 												to_control_location)) {
 											state_mp.insert(
 													pair<string, int>(
 															to_control_location,
 															state_count));
+											rv_state_mp.insert(
+													pair<int, string>(
+															state_count,
+															to_control_location));
 											r->to[i].controlLocation =
 													state_count;
 											state_count++;
@@ -218,45 +239,41 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 											if (it_find != state_mp.end()) {
 												r->to[i].controlLocation =
 														it_find->second;
-											} else {
-												printf(
-														"xml parse error:inter error 6\n");
 											}
 										}
 										string to_control_stack_1 =
 												(char *) xmlGetProp(configCur,
 												BAD_CAST "stack1");
-										cout << "," << to_control_stack_1<<"&";
 										if (!stack_mp.count(
 												to_control_stack_1)) {
 											stack_mp.insert(
 													pair<string, int>(
 															to_control_stack_1,
 															stack_count));
-											r->to[0].stack1 = stack_count;
+											rv_stack_mp.insert(
+													pair<int, string>(
+															stack_count,
+															to_control_stack_1));
+											r->to[i].stack1 = stack_count;
 											stack_count++;
 										} else {
 											it_find = stack_mp.find(
 													to_control_stack_1);
 											if (it_find != stack_mp.end()) {
-												r->to[0].stack1 =
+												r->to[i].stack1 =
 														it_find->second;
-											} else {
-												printf(
-														"xml parse error:inter error 7\n");
 											}
 										}
 									}
 									configCur = configCur->next;
-									i++;
 								}
-								cout<<endl;
+								//cout << endl;
 								continue;
 							}
 						}
 						configCur = configCur->next;
 					}
-
+					addRuleToDelta(r);
 				}
 				ruleCur = ruleCur->next;
 			}
@@ -306,4 +323,60 @@ int parse_abpds_xml(const char *file_name) {
 		xmlFreeDoc(doc);
 	}
 	return -1;
+}
+
+void printTransitionRule(TransitionRule *r) {
+	map<int, string>::iterator it_find;
+	string from_stack;
+	string from_state;
+	string to_stack1;
+	string to_stack2;
+	string to_state;
+	it_find = rv_state_mp.find(r->from.controlLocation);
+	if (it_find != rv_state_mp.end()) {
+		from_state = it_find->second;
+	} else {
+		printf("xml parse error:inter error 7\n");
+	}
+
+	it_find = rv_stack_mp.find(r->from.stack);
+	if (it_find != rv_stack_mp.end()) {
+		from_stack = it_find->second;
+	}
+	cout << from_state << "," << from_stack << "-->";
+	for (int i = 0; i < r->to_config_size; i++) {
+		it_find = rv_state_mp.find(r->to[i].controlLocation);
+		if (it_find != rv_state_mp.end()) {
+			to_state = it_find->second;
+		}
+
+		it_find = rv_stack_mp.find(r->to[i].stack1);
+		if (it_find != rv_stack_mp.end()) {
+			to_stack1 = it_find->second;
+		}
+		cout << to_state << "," << to_stack1 << " ";
+		if (r->to_config_size == 1) {
+			it_find = rv_stack_mp.find(r->to[i].stack2);
+			if (it_find != rv_stack_mp.end()) {
+				to_stack2 = it_find->second;
+			}
+			if (to_stack2.compare("*") != 0) {
+				cout << to_stack2;
+			}
+		} else {
+			cout << "&";
+		}
+	}
+	cout << endl;
+}
+
+void print_parse_result() {
+	for (int i = 0; i < ((abpds_info->stack_size) * (abpds_info->state_size));
+			i++) {
+		TransitionRule *r = delta[i].next;
+		while (r != NULL) {
+			printTransitionRule(r);
+			r = r->next;
+		}
+	}
 }

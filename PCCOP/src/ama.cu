@@ -1,4 +1,4 @@
-#include"ama.h"
+#include"ama.cuh"
 #include <stdio.h>
 void insertTransToAMA(Trans t,AMA *ama,Pool *pool){
 	int pool_position = pool->tail++;

@@ -1,4 +1,4 @@
-#include "ama.h"
+#include "ama.cuh"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -19,33 +19,33 @@ static void CheckCudaErrorAux(const char *file, unsigned line,
 	exit(1);
 }
 
-int main(void){
-	AMA *ama;
-	Pool *pool;
-	CUDA_CHECK_RETURN(cudaMallocManaged(&ama, sizeof(AMA)));
-	CUDA_CHECK_RETURN(cudaMallocManaged (&ama->list, sizeof(AMAList)*AMASIZE));
-
-
-	//初始化ama.list
-	for (int i = 0; i < AMASIZE; i++) {
-		ama->list[i].mutex = 0;
-//		CUDA_CHECK_RETURN(cudaMallocManaged (&ama->list[i].tail, sizeof(AMANode)));
-		//尾指针指向头结点
-		ama->list[i].tail=&(ama->list[i].head);
-	}
-	CUDA_CHECK_RETURN(cudaMallocManaged(&pool, sizeof(Pool)));
-	CUDA_CHECK_RETURN(cudaMallocManaged (&pool->item, sizeof(AMANode) * AMAPOOLSIZE));
-	pool->size=AMAPOOLSIZE;
-	pool->tail=0;
-
-
-	Trans t={1,2,1};
-	insertTransToAMA(t,ama,pool);
-	Trans t2={1,2,2};
-	insertTransToAMA(t2,ama,pool);
-//	cout<<ama->list[2].head.next->state<<endl;
-//	cout<<ama->list[2].head.next->next->state<<endl;
-
-	cout<<isTransInAMA(t2,ama);
-	return 0;
-}
+//int main(void){
+//	AMA *ama;
+//	Pool *pool;
+//	CUDA_CHECK_RETURN(cudaMallocManaged(&ama, sizeof(AMA)));
+//	CUDA_CHECK_RETURN(cudaMallocManaged (&ama->list, sizeof(AMAList)*AMASIZE));
+//
+//
+//	//初始化ama.list
+//	for (int i = 0; i < AMASIZE; i++) {
+//		ama->list[i].mutex = 0;
+////		CUDA_CHECK_RETURN(cudaMallocManaged (&ama->list[i].tail, sizeof(AMANode)));
+//		//尾指针指向头结点
+//		ama->list[i].tail=&(ama->list[i].head);
+//	}
+//	CUDA_CHECK_RETURN(cudaMallocManaged(&pool, sizeof(Pool)));
+//	CUDA_CHECK_RETURN(cudaMallocManaged (&pool->item, sizeof(AMANode) * AMAPOOLSIZE));
+//	pool->size=AMAPOOLSIZE;
+//	pool->tail=0;
+//
+//
+//	Trans t={1,2,1};
+//	insertTransToAMA(t,ama,pool);
+//	Trans t2={1,2,2};
+//	insertTransToAMA(t2,ama,pool);
+////	cout<<ama->list[2].head.next->state<<endl;
+////	cout<<ama->list[2].head.next->next->state<<endl;
+//
+//	cout<<isTransInAMA(t2,ama);
+//	return 0;
+//}

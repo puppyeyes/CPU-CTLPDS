@@ -4,13 +4,13 @@
  *  Created on: Apr 11, 2018
  *      Author: scott
  */
-#include "common.h"
+#include "common.cuh"
 #ifndef AMA_H_
 #define AMA_H_
 
 #define AMASIZE 1000 //ama.list大小
 #define AMAPOOLSIZE 1000 //ama poll大小
-typedef struct AMANode{
+struct AMANode{
 	int state;
 	AMANode *next;
 };
@@ -24,14 +24,14 @@ typedef struct AMAHead{
 	AMANode *tail;
 	int mutex;//互斥量
 }AMAList;
-typedef struct AMA{
+struct AMA{
 	int count;
 	AMAList *list;
 };
 
 
 /*为链表预先开设的空间*/
-typedef struct Pool{
+struct Pool{
 	/**
 	 * size: pool的大小
 	 * head: pool的开始位置
