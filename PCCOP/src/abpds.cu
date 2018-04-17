@@ -4,6 +4,7 @@ Delta delta;
 
 ABPDSInfo *abpds_info;
 
+int *finalStateArray;
 void initABPDSInfo() {
 	cudaMallocManaged(&abpds_info, sizeof(int) * 2);
 }

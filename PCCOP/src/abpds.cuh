@@ -46,6 +46,8 @@ extern ABPDSInfo *abpds_info;
 
 extern Delta delta;
 
+extern int *finalStateArray;
+
 void initABPDSInfo();
 
 void initDelta(int delta_size);

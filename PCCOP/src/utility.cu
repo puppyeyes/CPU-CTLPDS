@@ -4,7 +4,6 @@ map<string, int> state_mp;
 map<int, string> rv_state_mp;
 map<string, int> stack_mp;
 map<int, string> rv_stack_mp;
-int *finalStateArray;
 static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	int state_count = 0; //记录state的个数
 	int stack_count = 0; //记录state的个数

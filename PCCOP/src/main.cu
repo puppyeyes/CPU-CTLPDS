@@ -31,8 +31,15 @@ int main() {
 
 	void **kernelArgs = NULL;
 	kernelArgs = (void**) malloc(ARGSNUM * sizeof(*kernelArgs));
-	kernelArgs[0] = malloc(sizeof(bool));
-	memcpy(kernelArgs[0], &isReach, sizeof(bool));
+
+	kernelArgs[0] = malloc(sizeof(isReach));
+	memcpy(kernelArgs[0], &isReach, sizeof(isReach));
+
+	kernelArgs[1] = malloc(sizeof(delta));
+	memcpy(kernelArgs[1], &isReach, sizeof(delta));
+
+	kernelArgs[2] = malloc(sizeof(delta));
+	memcpy(kernelArgs[1], &isReach, sizeof(delta));
 
 	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
 			kernelArgs, NULL, NULL);
