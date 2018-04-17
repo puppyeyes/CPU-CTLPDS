@@ -24,6 +24,7 @@ struct TransitionRule{
 	bool tag;
 	FromConfig from;
 	ToConfig *to;
+	TransitionRule *next;
 
 };
 
@@ -32,17 +33,20 @@ typedef struct ABPDS{
 	int finalStateSize;
 }ABPDS;
 
-struct RuleNode{
-	Config config;
-	RuleNode *next;
-	RuleNode *andConfig;
-};
-
 typedef struct RuleHead{
-	RuleNode *next;
+	TransitionRule *next;
 }*Delta;
 
+struct ABPDSInfo{
+	int state_size;
+	int stack_size;
+};
+
+extern ABPDSInfo *abpds_info;
+
 extern Delta delta;
+
+void initABPDSInfo();
 
 void initDelta(int delta_size,Delta delta);
 
