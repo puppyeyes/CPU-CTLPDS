@@ -28,5 +28,7 @@ struct Gqueue{
 	TransQueue queue;
 };
 
+extern Gqueue *gqueue;
+
 void initGQueue(int queue_size);
 #endif /* COMMON_H_ */

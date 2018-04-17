@@ -27,7 +27,7 @@ void print_parse_result();
 
 void printTransitionRule(TransitionRule *r);
 
-void updateStateSuperScript();
+void updateStateSuperScript(int super_script,int state);//最新上标
 
 extern map<string,int> state_mp;
 extern map<string,int> stack_mp;
