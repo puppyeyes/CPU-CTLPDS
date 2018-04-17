@@ -22,24 +22,25 @@ int main() {
 
 	 print_parse_result();*/
 
-	AMA ama_1,ama_2;
+
+	AMA *ama_1,*ama_2;
 
 	initGQueue(QUEUEBASESIZE * abpds_info->stack_size);
 
 	dim3 dimBlock(THREADPERNUM, 1, 1); //一个块中开threadsPerBlock个线程
 	dim3 dimGrid(BLOCKSIZE, 1, 1); //一个gird里开blockSize个块
 
-	bool *isReach;
-	CUDA_SAFE_CALL(cudaMallocManaged(&isReach, sizeof(bool)));
+	int *finish;
+	CUDA_SAFE_CALL(cudaMallocManaged(&finish, sizeof(int)));
 
 	void **kernelArgs = NULL;
 	kernelArgs = (void**) malloc(ARGSNUM * sizeof(*kernelArgs));
 
-	kernelArgs[0] = malloc(sizeof(isReach));
-	memcpy(kernelArgs[0], &isReach, sizeof(isReach));
+	kernelArgs[0] = malloc(sizeof(finish));
+	memcpy(kernelArgs[0], &finish, sizeof(finish));
 
 	kernelArgs[1] = malloc(sizeof(delta));
-	memcpy(kernelArgs[1], &isReach, sizeof(delta));
+	memcpy(kernelArgs[1], &delta, sizeof(delta));
 
 	kernelArgs[2] = malloc(sizeof(ama_1));
 	memcpy(kernelArgs[2], &ama_1, sizeof(ama_1));
@@ -57,7 +58,7 @@ int main() {
 	memcpy(kernelArgs[6], &abpds_info, sizeof(abpds_info));
 
 	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
-			kernelArgs, NULL, NULL);
+			kernelArgs);
 	cudaDeviceSynchronize();
 
 	return 0;

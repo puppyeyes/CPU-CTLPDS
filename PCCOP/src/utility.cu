@@ -56,7 +56,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 						finalStateArray[finalStateCount] = state_count;
 						finalStateCount++;
 						state_count++;
-						//cout << tmp << endl;
 					}
 				}
 				stateCur = stateCur->next;

@@ -17,9 +17,9 @@ struct InitConfig{
 };
 
 typedef struct Trans{
-	int fromState;
+	unsigned short int fromState;
 	int stack;
-	int toState;
+	unsigned short int toState;
 }*TransQueue;
 
 struct Gqueue{
