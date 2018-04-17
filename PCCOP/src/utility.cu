@@ -23,15 +23,15 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 		int state_size = atoi((char *) xmlGetProp(cur, BAD_CAST "state_size"));
 		int stack_size = atoi((char *) xmlGetProp(cur, BAD_CAST "stack_size"));
 		delta_size = state_size * state_size;
+		initABPDSInfo();
+		abpds_info->stack_size=stack_size;
+		abpds_info->state_size=state_size;
 	}
 	initDelta(delta_size, delta);
 	/*
 	 * 计算finalStateArray的存放位置
 	 * */
 	int finalStateCount = 0;
-	/*临时在cpu中存放rule方便处理*/
-	TransitionRule *transitionRuleList;
-	//printf("name %s\n", cur->name);
 	cur = cur->xmlChildrenNode;
 	string tmp;
 	while (cur != NULL) {
@@ -41,7 +41,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 
 			finalStateSize = atoi((char *) xmlGetProp(cur, BAD_CAST "size"));
 			printf("final state size: %d\n", finalStateSize);
-			cudaMallocManaged(&finalStateArray, sizeof(int) * finalStateSize);
+			CUDA_SAFE_CALL(cudaMallocManaged(&finalStateArray, sizeof(int) * finalStateSize));
 			xmlNodePtr stateCur = cur->xmlChildrenNode;
 			while (stateCur != NULL) {
 				if (!xmlStrcmp(stateCur->name, (const xmlChar *) "state")) {
@@ -67,7 +67,8 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 					int to_config_size = atoi(
 							(char *) xmlGetProp(ruleCur, BAD_CAST "toSize"));
 
-					TransitionRule r;
+					TransitionRule *r;
+					CUDA_SAFE_CALL(cudaMallocManaged(&r, sizeof(TransitionRule)));
 					xmlNodePtr configCur = ruleCur->xmlChildrenNode;
 					while (configCur != NULL) {
 						if ((!xmlStrcmp(configCur->name, BAD_CAST "from"))) {
@@ -79,12 +80,12 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								state_mp.insert(
 										pair<string, int>(from_control_location,
 												state_count));
-								r.from.controlLocation = state_count;
+								r->from.controlLocation = state_count;
 								state_count++;
 							} else {
 								it_find = state_mp.find(from_control_location);
 								if (it_find != state_mp.end()) {
-									r.from.controlLocation = it_find->second;
+									r->from.controlLocation = it_find->second;
 								} else {
 									printf("xml parse error:inter error 1\n");
 								}
@@ -99,12 +100,12 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								stack_mp.insert(
 										pair<string, int>(from_stack,
 												stack_count));
-								r.from.stack = stack_count;
+								r->from.stack = stack_count;
 								stack_count++;
 							} else {
 								it_find = stack_mp.find(from_stack);
 								if (it_find != stack_mp.end()) {
-									r.from.stack = it_find->second;
+									r->from.stack = it_find->second;
 								} else {
 									printf("xml parse error:inter error 2\n");
 								}
@@ -112,26 +113,27 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 						}
 
 						if (to_config_size == 1) {
-							r.tag = false;
+							r->tag = false;
 							if ((!xmlStrcmp(configCur->name,
 									(const xmlChar *) "to"))) {
 								string to_control_location =
 										(char *) xmlGetProp(configCur,
 										BAD_CAST "controlLocation");
 								cout << to_control_location;
-								r.to = (ToConfig *) malloc(sizeof(ToConfig));
+								//r.to = (ToConfig *) malloc(sizeof(ToConfig));
+								CUDA_SAFE_CALL(cudaMallocManaged(&(r->to), sizeof(ToConfig)));
 								if (!state_mp.count(to_control_location)) {
 									state_mp.insert(
 											pair<string, int>(
 													to_control_location,
 													state_count));
-									r.to[0].controlLocation = state_count;
+									r->to[0].controlLocation = state_count;
 									state_count++;
 								} else {
 									it_find = state_mp.find(
 											to_control_location);
 									if (it_find != state_mp.end()) {
-										r.to[0].controlLocation =
+										r->to[0].controlLocation =
 												it_find->second;
 									} else {
 										printf(
@@ -147,12 +149,12 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 											pair<string, int>(
 													to_control_stack_1,
 													stack_count));
-									r.to[0].stack1 = stack_count;
+									r->to[0].stack1 = stack_count;
 									stack_count++;
 								} else {
 									it_find = stack_mp.find(to_control_stack_1);
 									if (it_find != stack_mp.end()) {
-										r.to[0].stack1 = it_find->second;
+										r->to[0].stack1 = it_find->second;
 									} else {
 										printf(
 												"xml parse error:inter error 4\n");
@@ -169,13 +171,13 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 												pair<string, int>(
 														to_control_stack_2,
 														stack_count));
-										r.to[0].stack2 = stack_count;
+										r->to[0].stack2 = stack_count;
 										stack_count++;
 									} else {
 										it_find = stack_mp.find(
 												to_control_stack_2);
 										if (it_find != stack_mp.end()) {
-											r.to[0].stack2 = it_find->second;
+											r->to[0].stack2 = it_find->second;
 										} else {
 											printf(
 													"xml parse error:inter error 5\n");
@@ -187,11 +189,12 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 
 							}
 						} else {
-							r.tag = true;
+							r->tag = true;
 							if ((!xmlStrcmp(configCur->name,
 									(const xmlChar *) "to"))) {
-								r.to = (ToConfig *) malloc(
-										sizeof(ToConfig) * to_config_size);
+//								r.to = (ToConfig *) malloc(
+//										sizeof(ToConfig) * to_config_size);
+								CUDA_SAFE_CALL(cudaMallocManaged(&(r->to), sizeof(ToConfig)* to_config_size));
 								int i = 0;
 								while (configCur != NULL) {
 									if ((!xmlStrcmp(configCur->name,
@@ -206,14 +209,14 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 													pair<string, int>(
 															to_control_location,
 															state_count));
-											r.to[i].controlLocation =
+											r->to[i].controlLocation =
 													state_count;
 											state_count++;
 										} else {
 											it_find = state_mp.find(
 													to_control_location);
 											if (it_find != state_mp.end()) {
-												r.to[i].controlLocation =
+												r->to[i].controlLocation =
 														it_find->second;
 											} else {
 												printf(
@@ -230,13 +233,13 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 													pair<string, int>(
 															to_control_stack_1,
 															stack_count));
-											r.to[0].stack1 = stack_count;
+											r->to[0].stack1 = stack_count;
 											stack_count++;
 										} else {
 											it_find = stack_mp.find(
 													to_control_stack_1);
 											if (it_find != stack_mp.end()) {
-												r.to[0].stack1 =
+												r->to[0].stack1 =
 														it_find->second;
 											} else {
 												printf(

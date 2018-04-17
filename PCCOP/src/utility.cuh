@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <assert.h>
+#include <cuda_util.h>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
