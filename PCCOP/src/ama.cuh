@@ -63,5 +63,8 @@ __device__ bool isTransInAMA(Trans t,AMA *ama);
 /*更新AMA中state上标*/
 void updateAMA(AMA *ama);
 
+/*初始化AMA*/
+void initAMA(AMA *ama,Pool *pool);
+
 
 #endif /* AMA_H_ */
