@@ -7,6 +7,7 @@
 #include <cuda_util.h>
 #include <stdio.h>
 #include "stdlib.h"
+#include "utility.cuh"
 
 #ifndef COMMON_H_
 #define COMMON_H_
@@ -19,12 +20,13 @@ struct InitConfig{
 typedef struct Trans{
 	unsigned short int fromState;
 	int stack;
-	unsigned short int toState;
+	short int toState;
 }*TransQueue;
 
 struct Gqueue{
-	unsigned short head;
-	unsigned short tail;
+	int head;
+	int tail;
+	short size;
 	int mutex;
 	TransQueue queue;
 };
@@ -32,6 +34,9 @@ struct Gqueue{
 extern Gqueue *gqueue;
 
 void initGQueue(int queue_size);
+
+void add_one_to_queue(Trans t);
+__device__ void d_add_one_to_queue(Trans t,Gqueue *gqueue);
 __device__  void get_Gqueue_Mutex(Gqueue *gqueue);
 __device__  void free_Gqueue_Mutex(Gqueue *gqueue);
 #endif /* COMMON_H_ */

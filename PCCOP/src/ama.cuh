@@ -57,7 +57,7 @@ void deleteAMA(AMA *ama,Pool *pool);
 
 
 /*判断ama中是否存在trans*/
-__device__ bool isTransInAMA(Trans t,AMA *ama);
+__device__ __host__  bool isTransInAMA(Trans t,AMA *ama);
 
 
 /*更新AMA中state上标*/

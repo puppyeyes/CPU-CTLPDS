@@ -51,7 +51,7 @@ bool isEqual(AMA *ama_1,AMA *ama_2){
 	}
 	return false;
 }
-__device__ bool isTransInAMA(Trans t,AMA *ama){
+__device__ __host__ bool isTransInAMA(Trans t,AMA *ama){
 
 	AMANode *currentNode=ama->list[t.fromState*t.stack].head.next;
 	while(currentNode!=NULL){
@@ -63,7 +63,7 @@ __device__ bool isTransInAMA(Trans t,AMA *ama){
 	return false;
 }
 
-void initAMA(AMA *ama,Pool *pool){
+/*void initAMA(AMA *ama,Pool *pool){
 		int amaSize=abpds_info->stack_size*abpds_info->state_size;
 		CUDA_CHECK_RETURN(cudaMallocManaged(&ama, sizeof(AMA)));
 		CUDA_CHECK_RETURN(cudaMallocManaged (&ama->list, sizeof(AMAList)*amaSize));
@@ -85,4 +85,4 @@ void initAMA(AMA *ama,Pool *pool){
 //			}
 //		}
 		//cout<<isTransInAMA(t2,ama);
-}
+}*/

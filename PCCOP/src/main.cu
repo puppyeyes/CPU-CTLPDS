@@ -1,4 +1,3 @@
-#include "utility.cuh"
 #include "abpdspre.cuh"
 #include "common.cuh"
 #include <cooperative_groups.h>
@@ -11,6 +10,20 @@ using namespace cooperative_groups;
 #define THREADPERNUM 32
 #define BLOCKSIZE 1
 
+void add_initTrans_to_GQueue_AMA(AMA *ama,Pool *pool){
+	for(int i=0;i<abpds_info->finalStateSize;i++){
+		for(int j=1;i<abpds_info->stack_size;j++)
+		{
+			Trans new_t={finalStateArray[i],j,-1};
+			add_one_to_queue(new_t);
+			if(isTransInAMA(new_t,ama))
+			{
+				insertTransToAMA(new_t,ama,pool);
+			}
+		}
+	}
+}
+
 int main() {
 
 	/*	char * file_name = DEFAULT_XML_FILE;
@@ -22,7 +35,7 @@ int main() {
 
 	 print_parse_result();*/
 
-	AMA *ama_1, *ama_2, *tmp_ama;
+	AMA *ama_1, *ama_2;
 	Pool *pool;
 	initGQueue(QUEUEBASESIZE * abpds_info->stack_size);
 
@@ -42,29 +55,27 @@ int main() {
 	memcpy(kernelArgs[1], &delta, sizeof(delta));
 
 	kernelArgs[2] = malloc(sizeof(ama_1));
-	memcpy(kernelArgs[2], &ama_1, sizeof(ama_1));
+	memcpy(kernelArgs[3], &ama_1, sizeof(ama_1));
 
-	kernelArgs[3] = malloc(sizeof(ama_2));
-	memcpy(kernelArgs[3], &ama_2, sizeof(ama_2));
-
-	kernelArgs[4] = malloc(sizeof(finalStateArray));
+	kernelArgs[3] = malloc(sizeof(finalStateArray));
 	memcpy(kernelArgs[4], &finalStateArray, sizeof(finalStateArray));
 
-	kernelArgs[5] = malloc(sizeof(gqueue));
+	kernelArgs[4] = malloc(sizeof(gqueue));
 	memcpy(kernelArgs[5], &gqueue, sizeof(gqueue));
 
-	kernelArgs[6] = malloc(sizeof(abpds_info));
+	kernelArgs[5] = malloc(sizeof(abpds_info));
 	memcpy(kernelArgs[6], &abpds_info, sizeof(abpds_info));
 
-	kernelArgs[7] = malloc(sizeof(tmp_ama));
-	memcpy(kernelArgs[7], &tmp_ama, sizeof(tmp_ama));
-	kernelArgs[8] = malloc(sizeof(pool));
-	memcpy(kernelArgs[8], &pool, sizeof(pool));
+	kernelArgs[6] = malloc(sizeof(pool));
+	memcpy(kernelArgs[7], &pool, sizeof(pool));
 	int i = 0;
-	//初始化ama
+	//向queue中添加初始化数据
+	add_initTrans_to_GQueue_AMA(ama_1,pool);
+
+
 	i++;
 	bool isEqual = false;
-	while (i > 2 && !isEqual) {
+	while (!(i > 2 && isEqual)) {
 
 		cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 				dimBlock, kernelArgs);
