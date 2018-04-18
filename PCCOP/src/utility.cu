@@ -46,6 +46,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 			CUDA_SAFE_CALL(
 					cudaMallocManaged(&finalStateArray,
 							sizeof(int) * finalStateSize));
+			abpds_info->finalStateSize=finalStateSize;
 			xmlNodePtr stateCur = cur->xmlChildrenNode;
 			while (stateCur != NULL) {
 				if (!xmlStrcmp(stateCur->name, (const xmlChar *) "state")) {

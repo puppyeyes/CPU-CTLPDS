@@ -31,5 +31,7 @@ void updateStateSuperScript(int super_script,int state);//最新上标
 
 extern map<string,int> state_mp;
 extern map<string,int> stack_mp;
+extern map<int, string> rv_state_mp;
+extern map<int, string> rv_stack_mp;
 
 #endif /* UTILITY_H_ */

@@ -25,10 +25,13 @@ typedef struct Trans{
 struct Gqueue{
 	unsigned short head;
 	unsigned short tail;
+	int mutex;
 	TransQueue queue;
 };
 
 extern Gqueue *gqueue;
 
 void initGQueue(int queue_size);
+__device__  void get_Gqueue_Mutex(Gqueue *gqueue);
+__device__  void free_Gqueue_Mutex(Gqueue *gqueue);
 #endif /* COMMON_H_ */

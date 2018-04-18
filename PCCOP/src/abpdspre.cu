@@ -10,37 +10,49 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *ama1,
 
 	__shared__ Trans queue[32][64];
 	__shared__ int count[32];
-	__shared__ int start[32];
+	__shared__ int offset[32];
 	__shared__ bool isDone;
 
 	while (true) {
 		if (thread_num == 0) {
 			isDone = true;
+			get_Gqueue_Mutex(gqueue);
+		}
+		int active_thread_num=gqueue->head-gqueue->tail;
+		//初始化 offset[] count[]
+		count[thread_num]=0;
+		offset[thread_num]=0;
+		if(thread_num<active_thread_num){
+			//取出一条边
+			Trans t =gqueue->queue[thread_num];
+			if(thread_num==0){
+
+			}
+			//计算
 		}
 
 
 
 
-
-
+		//计算完成之后进行同步
 		__syncthreads();
 		if ((gqueue->head - gqueue->tail == 0) && isDone) {
 			atomicExch(finish, 1);
 		}
 		if(!isDone){
-			start[0]=0;
+			offset[0]=0;
 			for(int i=1;i<32;i++)
 			{
-				count[i]=count[i-1]+start[0];
+				count[i]=count[i-1]+offset[0];
 			}
 		}
 		__syncthreads();
 
-		int thread_start_offset=start[thread_num];
+		int thread_offset=offset[thread_num];
 		int thread_count=count[thread_num];
 
 		for(int i=0;i<thread_count;i++){
-			gqueue->queue[gqueue->head+thread_start_offset+i]=queue[thread_num][i];
+			gqueue->queue[gqueue->head+thread_offset+i]=queue[thread_num][i];
 		}
 
 		if (*finish == 1) {
