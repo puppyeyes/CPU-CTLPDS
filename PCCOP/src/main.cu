@@ -7,7 +7,7 @@ using namespace std;
 using namespace cooperative_groups;
 #define QUEUEBASESIZE 5
 #define DEFAULT_XML_FILE "abpds.xml"
-#define ARGSNUM 7
+#define ARGSNUM 9
 #define THREADPERNUM 32
 #define BLOCKSIZE 1
 
@@ -22,9 +22,8 @@ int main() {
 
 	 print_parse_result();*/
 
-
-	AMA *ama_1,*ama_2;
-
+	AMA *ama_1, *ama_2, *tmp_ama;
+	Pool *pool;
 	initGQueue(QUEUEBASESIZE * abpds_info->stack_size);
 
 	dim3 dimBlock(THREADPERNUM, 1, 1); //一个块中开threadsPerBlock个线程
@@ -57,9 +56,23 @@ int main() {
 	kernelArgs[6] = malloc(sizeof(abpds_info));
 	memcpy(kernelArgs[6], &abpds_info, sizeof(abpds_info));
 
-	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
-			kernelArgs);
-	cudaDeviceSynchronize();
+	kernelArgs[7] = malloc(sizeof(tmp_ama));
+	memcpy(kernelArgs[7], &tmp_ama, sizeof(tmp_ama));
+	kernelArgs[8] = malloc(sizeof(pool));
+	memcpy(kernelArgs[8], &pool, sizeof(pool));
+	int i = 0;
+	//初始化ama
+	i++;
+	bool isEqual = false;
+	while (i > 2 && !isEqual) {
+
+		cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
+				dimBlock, kernelArgs);
+		cudaDeviceSynchronize();
+
+		//更新ama，对比ama
+		i++;
+	}
 
 	return 0;
 }

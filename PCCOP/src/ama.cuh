@@ -18,7 +18,7 @@ typedef struct AMAHead{
 	/* from 表示链表的头结点 表现为一个格局的编码 类型long int
 	 * tail 指向链表的尾部节点 表现为一个state的编码 类型是int的指针
 	 * */
-	long int from;
+	//long int from;
 	//AMANode *tail;//尾指针
 	AMANode head; //记录头     初始化时要将尾指针指向头结点的地址
 	AMANode *tail;
@@ -57,7 +57,7 @@ void deleteAMA(AMA *ama,Pool *pool);
 
 
 /*判断ama中是否存在trans*/
-bool isTransInAMA(Trans t,AMA *ama);
+__device__ bool isTransInAMA(Trans t,AMA *ama);
 
 
 /*更新AMA中state上标*/

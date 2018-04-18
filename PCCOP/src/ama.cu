@@ -51,7 +51,7 @@ bool isEqual(AMA *ama_1,AMA *ama_2){
 	}
 	return false;
 }
-bool isTransInAMA(Trans t,AMA *ama){
+__device__ bool isTransInAMA(Trans t,AMA *ama){
 
 	AMANode *currentNode=ama->list[t.fromState*t.stack].head.next;
 	while(currentNode!=NULL){
