@@ -40,3 +40,7 @@ __device__ void get_Gqueue_Mutex(Gqueue *gqueue) {
 __device__ void free_Gqueue_Mutex(Gqueue *gqueue) {
 	atomicCAS(&(gqueue->mutex), 1, 0);
 }
+
+__device__ __host__ void printTrans(Trans t){
+	printf("%d %d --> %d\n",t.fromState,t.stack,t.toState);
+}

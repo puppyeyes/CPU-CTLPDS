@@ -7,8 +7,8 @@ using namespace cooperative_groups;
 //extern __shared__ Trans queue[32][64];
 
 __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
-		Trans t, ABPDSInfo abpds_info, int thread_num, Trans queue[32][64]) {
-	TransitionRule *tmp_rule = delta[t.fromState * abpds_info.stack_size
+		Trans t, ABPDSInfo *abpds_info, int thread_num, Trans queue[32][64]) {
+	TransitionRule *tmp_rule = delta[t.fromState * abpds_info->stack_size
 			+ t.stack].next;
 	int queue_count = 0;
 	while (tmp_rule != NULL) {
@@ -21,8 +21,8 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 				Trans new_t = { tmp_rule->from.controlLocation,
 						tmp_rule->from.stack, t.toState };
 				//<p,r>--><p,r>
-				if (!isTransInAMA(new_t, latest_ama)) {
-					d_insertTransToAMA(new_t, latest_ama, pool);
+				if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
+					d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
 					queue[thread_num][queue_count] = new_t;
 					queue_count++;
 				}
@@ -30,13 +30,13 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 				//<p,r>--><p,r,r>
 				int tmp_state = t.toState;
 				AMANode *tmp_node =
-						latest_ama->list[tmp_state * abpds_info.state_size
+						latest_ama->list[tmp_state * abpds_info->state_size
 								+ tmp_rule->to->stack2].head.next;
 				while (tmp_node != NULL) {
 					Trans new_t = { tmp_rule->from.controlLocation,
 							tmp_rule->from.stack, tmp_node->state };
-					if (!isTransInAMA(new_t, latest_ama)) {
-						d_insertTransToAMA(new_t, latest_ama, pool);
+					if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
+						d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
 						queue[thread_num][queue_count] = new_t;
 						queue_count++;
 					}
@@ -48,7 +48,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 			int isSatify = true;
 			for (int i = 0; i < tmp_rule->to_config_size; i++) {
 				if (!latest_ama->list[tmp_rule->to[i].controlLocation
-						* abpds_info.state_size + tmp_rule->to[i].stack1].head.next
+						* abpds_info->state_size + tmp_rule->to[i].stack1].head.next
 						!= NULL) {
 					isSatify = false;
 					break;
@@ -58,14 +58,14 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 				for (int i = 0; i < tmp_rule->to_config_size; i++) {
 					AMANode *tmp_node =
 							latest_ama->list[tmp_rule->to[i].controlLocation
-									* abpds_info.state_size
+									* abpds_info->state_size
 									+ tmp_rule->to[i].stack1].head.next;
 					while (tmp_node != NULL) {
 						int new_to_state = tmp_node->state;
 						Trans new_t = { tmp_rule->from.controlLocation,
 								tmp_rule->from.stack, new_to_state };
-						if (!isTransInAMA(new_t, latest_ama)) {
-							d_insertTransToAMA(new_t, latest_ama, pool);
+						if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
+							d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
 							queue[thread_num][queue_count] = new_t;
 							queue_count++;
 						}
@@ -81,7 +81,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 ;
 
 __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
-		int *finalStateArray, Gqueue *gqueue, ABPDSInfo abpds_info,
+		int *finalStateArray, Gqueue *gqueue, ABPDSInfo *abpds_info,
 		Pool *pool) {
 	grid_group grid = this_grid();
 	int thread_num = threadIdx.x;
@@ -104,7 +104,7 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 			//取出一条边
 			Trans t = gqueue->queue[thread_num];
 			if (thread_num == 0) {
-				atomicSub(&(gqueue->head),active_thread_num);
+				atomicSub(&(gqueue->head), active_thread_num);
 				free_Gqueue_Mutex(gqueue);
 			}
 			//计算
@@ -123,15 +123,23 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 			}
 		}
 		__syncthreads();
+		if (!isDone) {
+			if(thread_num==0){
+				get_Gqueue_Mutex(gqueue);
+			}
+			int thread_offset = offset[thread_num];
+			int thread_count = count[thread_num];
 
-		int thread_offset = offset[thread_num];
-		int thread_count = count[thread_num];
-		//将计算结果加入queue
-		for (int i = 0; i < thread_count; i++) {
-			gqueue->queue[gqueue->head + thread_offset + i] =
-					queue[thread_num][i];
+			//将计算结果加入queue
+			for (int i = 0; i < thread_count; i++) {
+				gqueue->queue[gqueue->head + thread_offset + i] =
+						queue[thread_num][i];
+			}
+			if(thread_num==0){
+				atomicAdd(&(gqueue->head),count[31]+offset[31]);
+				free_Gqueue_Mutex(gqueue);
+						}
 		}
-//TODO
 		if (*finish == 1) {
 			grid.sync();
 			if ((gqueue->head - gqueue->tail == 0)) {
@@ -153,9 +161,10 @@ __global__ void compute_epsilon(Delta delta, AMA *ama, Pool *pool,
 			if (r_h->to_config_size == 1) {
 				Trans new_t = { r_h->from.controlLocation, r_h->from.stack,
 						r_h->to[0].controlLocation };
-				d_add_one_to_queue(new_t,gqueue);
-				if (!isTransInAMA(new_t, ama)) {
-					d_insertTransToAMA(new_t, ama, pool);
+				d_add_one_to_queue(new_t, gqueue);
+				if (!isTransInAMA(new_t, ama,abpds_info)) {
+					d_insertTransToAMA(new_t, ama, pool,abpds_info);
+					//printTrans(new_t);
 				}
 			}
 			r_h = r_h->next;

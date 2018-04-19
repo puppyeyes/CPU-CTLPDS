@@ -51,13 +51,13 @@ struct Pool{
 bool isEqual(AMA *ama_1,AMA *ama_2);
 /*插入一个trans到ama*/
 void insertTransToAMA(Trans t,AMA *ama,Pool *pool);
-__device__ void d_insertTransToAMA(Trans t,AMA *ama,Pool *pool);
+__device__ void d_insertTransToAMA(Trans t,AMA *ama,Pool *pool,ABPDSInfo *abpds_info);
 /*删除ama*/
 void deleteAMA(AMA *ama,Pool *pool);
 
 
 /*判断ama中是否存在trans*/
-__device__ __host__  bool isTransInAMA(Trans t,AMA *ama);
+__device__ __host__  bool isTransInAMA(Trans t,AMA *ama,ABPDSInfo *abpds_info);
 
 
 /*更新AMA中state上标*/
@@ -65,6 +65,8 @@ void updateAMA(AMA *ama);
 
 /*初始化AMA*/
 void initAMA(AMA *ama,Pool *pool);
+
+void printAMA(AMA *ama);
 
 
 #endif /* AMA_H_ */

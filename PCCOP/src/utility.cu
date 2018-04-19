@@ -39,10 +39,10 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	while (cur != NULL) {
 		//获取final state
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "finalState")) {
-			printf("parse finalState\n");
+			//printf("parse finalState\n");
 
 			finalStateSize = atoi((char *) xmlGetProp(cur, BAD_CAST "size"));
-			printf("final state size: %d\n", finalStateSize);
+			//printf("final state size: %d\n", finalStateSize);
 			CUDA_SAFE_CALL(
 					cudaMallocManaged(&finalStateArray,
 							sizeof(int) * finalStateSize));
