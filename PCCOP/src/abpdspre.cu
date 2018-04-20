@@ -23,6 +23,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 				//<p,r>--><p,r>
 				if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
 					d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
+					printTrans(new_t);
 					queue[thread_num][queue_count] = new_t;
 					queue_count++;
 				}
@@ -37,6 +38,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 							tmp_rule->from.stack, tmp_node->state };
 					if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
 						d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
+						printTrans(new_t);
 						queue[thread_num][queue_count] = new_t;
 						queue_count++;
 					}
@@ -66,6 +68,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 								tmp_rule->from.stack, new_to_state };
 						if (!isTransInAMA(new_t, latest_ama,abpds_info)) {
 							d_insertTransToAMA(new_t, latest_ama, pool,abpds_info);
+							printTrans(new_t);
 							queue[thread_num][queue_count] = new_t;
 							queue_count++;
 						}
@@ -102,7 +105,9 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 		offset[thread_num] = 0;
 		if (thread_num < active_thread_num) {
 			//取出一条边
-			Trans t = gqueue->queue[thread_num];
+			Trans t = gqueue->queue[gqueue->head-thread_num-1];
+//			printf("取出");
+//			printTrans(t);
 			if (thread_num == 0) {
 				atomicSub(&(gqueue->head), active_thread_num);
 				free_Gqueue_Mutex(gqueue);

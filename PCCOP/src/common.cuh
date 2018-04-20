@@ -40,6 +40,7 @@ __device__ void d_add_one_to_queue(Trans t,Gqueue *gqueue);
 __device__  void get_Gqueue_Mutex(Gqueue *gqueue);
 __device__  void free_Gqueue_Mutex(Gqueue *gqueue);
 __device__ __host__ void printTrans(Trans t);
+__device__ __host__ void printGQueue(Gqueue *gqueue);
 
 
 #endif /* COMMON_H_ */

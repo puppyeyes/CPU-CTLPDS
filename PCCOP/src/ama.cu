@@ -24,12 +24,13 @@ void insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 		ama->count++;
 	}
 	pool->item[pool_position].state = t.toState;
-	int insertPosition = t.fromState *abpds_info->stack_size+ t.stack;
+	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
 	//尾插
 	ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
 	ama->list[insertPosition].tail = &(pool->item[pool_position]);
 }
-__device__ void d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,ABPDSInfo *abpds_info) {
+__device__ void d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
+		ABPDSInfo *abpds_info) {
 	int pool_position = atomicAdd(&(pool->tail), 1);
 	if (pool_position > pool->size) {
 		printf("pool exceed \n");
@@ -38,7 +39,7 @@ __device__ void d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,ABPDSInfo *abpd
 		atomicAdd(&(ama->count), 1);
 	}
 	pool->item[pool_position].state = t.toState;
-	int insertPosition = t.fromState * abpds_info->stack_size+t.stack;
+	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
 	bool next = true;
 	while (next) {
 		int v = atomicCAS(&(ama->list[insertPosition].mutex), 0, 1);
@@ -66,8 +67,9 @@ bool isEqual(AMA *ama_1, AMA *ama_2) {
 	}
 	return false;
 }
-__device__ __host__ bool isTransInAMA(Trans t, AMA *ama,ABPDSInfo *abpds_info) {
-	int pos=t.fromState*abpds_info->stack_size+ t.stack;
+__device__ __host__ bool isTransInAMA(Trans t, AMA *ama,
+		ABPDSInfo *abpds_info) {
+	int pos = t.fromState * abpds_info->stack_size + t.stack;
 	AMANode *currentNode = ama->list[pos].head.next;
 	while (currentNode != NULL) {
 		if (currentNode->state == t.toState) {
@@ -88,7 +90,7 @@ void initAMA(AMA *ama, Pool *pool) {
 		//尾指针指向头结点
 		ama->list[i].tail = &(ama->list[i].head);
 	}
-	ama->count=amaSize;
+	ama->count = amaSize;
 //	CUDA_CHECK_RETURN(cudaMallocManaged(&pool, sizeof(Pool)));
 	CUDA_CHECK_RETURN(
 			cudaMallocManaged (&pool->item, sizeof(AMANode) * AMAPOOLSIZE));
@@ -108,12 +110,14 @@ void printAMA(AMA *ama) {
 	string from_state;
 	string stack;
 	string to_state;
-	cout <<"打印结果"<<endl;
+	cout << "打印结果" << endl;
 	for (int i = 0; i < (abpds_info->state_size); i++) {
 		for (int j = 0; j < (abpds_info->stack_size); j++) {
 			AMANode *tem_node =
 					ama->list[i * abpds_info->stack_size + j].head.next;
-			while (tem_node != NULL) {
+			bool flag = false;
+			if (tem_node != NULL) {
+				flag = true;
 				it_find = rv_state_mp.find(i);
 				if (it_find != rv_state_mp.end()) {
 					from_state = it_find->second;
@@ -122,21 +126,26 @@ void printAMA(AMA *ama) {
 				if (it_find != rv_state_mp.end()) {
 					stack = it_find->second;
 				}
+				cout << from_state << " " << stack << "-->{ ";
+			}
+			while (tem_node != NULL) {
 				it_find = rv_state_mp.find(tem_node->state);
 				if (it_find != rv_state_mp.end()) {
 					to_state = it_find->second;
-				}else{
-					if(tem_node->state==-1)
-					{
-						to_state="Qf";
+				} else {
+					if (tem_node->state == -1) {
+						to_state = "Qf";
 					}
 				}
-				cout << from_state <<" "<< stack << "-->" << to_state << endl;
+				cout << to_state << ",";
 				tem_node = tem_node->next;
 			}
-
+			if (flag) {
+				cout<< "}" <<endl;
+				flag = false;
+			}
 		}
 	}
-	cout <<"结果输出结束"<<endl;
+	cout << "结果输出结束" << endl;
 }
 

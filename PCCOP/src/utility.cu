@@ -46,7 +46,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 			CUDA_SAFE_CALL(
 					cudaMallocManaged(&finalStateArray,
 							sizeof(int) * finalStateSize));
-			abpds_info->finalStateSize=finalStateSize;
+			abpds_info->finalStateSize = finalStateSize;
 			xmlNodePtr stateCur = cur->xmlChildrenNode;
 			while (stateCur != NULL) {
 				if (!xmlStrcmp(stateCur->name, (const xmlChar *) "state")) {
@@ -378,4 +378,32 @@ void print_parse_result() {
 			r = r->next;
 		}
 	}
+}
+
+void printStateMap() {
+	map<int, string>::iterator it_find;
+	string state;
+	cout<<"state map"<<endl;
+	for (int i = 0; i < abpds_info->state_size; i++) {
+		it_find = rv_state_mp.find(i);
+		if (it_find != rv_state_mp.end()) {
+			state = it_find->second;
+		}
+		cout<<state<<" "<<i<<endl;
+	}
+	cout<<"state map end"<<endl;
+}
+
+void printStackMap() {
+	map<int, string>::iterator it_find;
+	string stack;
+	cout<<"stack map"<<endl;
+	for (int i = 0; i < abpds_info->stack_size; i++) {
+		it_find = rv_stack_mp.find(i);
+		if (it_find != rv_stack_mp.end()) {
+			stack = it_find->second;
+		}
+		cout<<stack<<" "<<i<<endl;
+	}
+	cout<<"stack map end"<<endl;
 }

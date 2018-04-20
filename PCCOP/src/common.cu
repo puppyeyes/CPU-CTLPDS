@@ -14,7 +14,10 @@ void initGQueue(int queue_size) {
 void add_one_to_queue(Trans t) {
 	int pos = gqueue->head;
 	if (gqueue->head < gqueue->size) {
-		gqueue->queue[pos] = t;
+		gqueue->queue[pos].fromState = t.fromState;
+		gqueue->queue[pos].stack = t.stack;
+		gqueue->queue[pos].toState = t.toState;
+		gqueue->head++;
 		pos++;
 	} else {
 		printf("queue full\n");
@@ -43,4 +46,13 @@ __device__ void free_Gqueue_Mutex(Gqueue *gqueue) {
 
 __device__ __host__ void printTrans(Trans t){
 	printf("%d %d --> %d\n",t.fromState,t.stack,t.toState);
+}
+
+__device__ __host__ void printGQueue(Gqueue *gqueue){
+	printf("打印queue\n");
+	for(int i=0;i<gqueue->head;i++)
+	{
+		printTrans(gqueue->queue[i]);
+	}
+	printf("打印queue结束\n");
 }

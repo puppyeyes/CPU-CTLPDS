@@ -14,8 +14,22 @@ void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 		for (int j = 1; j < abpds_info->stack_size; j++) {
 			Trans new_t = { finalStateArray[i], j, -1 };
 			add_one_to_queue(new_t);
-			if (!isTransInAMA(new_t, ama,abpds_info)) {
+			if (!isTransInAMA(new_t, ama, abpds_info)) {
 				insertTransToAMA(new_t, ama, pool);
+			}
+		}
+	}
+}
+
+void add_Epsilon_to_queue(AMA *ama) {
+	for (int i = 0; i < abpds_info->finalStateSize; i++) {
+		for (int j = 0; j < abpds_info->state_size; j++) {
+			int pos = i * abpds_info->stack_size + j;
+			AMANode *node = ama->list[pos].head.next;
+			while (node != NULL) {
+				Trans new_t = { i, j, node->state };
+				add_one_to_queue(new_t);
+				node = node->next;
 			}
 		}
 	}
@@ -23,14 +37,16 @@ void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 
 int main() {
 
-		char * file_name = DEFAULT_XML_FILE;
-	 if (parse_abpds_xml(file_name) != 0) {
-	 printf("Failed to parse abpds\n ");
-	 } else {
-	 printf("parse abpds compelet\n");
-	 }
+	char * file_name = DEFAULT_XML_FILE;
+	if (parse_abpds_xml(file_name) != 0) {
+		printf("Failed to parse abpds\n ");
+	} else {
+		printf("parse abpds compelet\n");
+	}
 
 	print_parse_result();
+	printStateMap();
+	printStackMap();
 
 	AMA *ama_1, *ama_2;
 	Pool *pool;
@@ -78,18 +94,24 @@ int main() {
 	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool, abpds_info,
 			gqueue);
 	cudaDeviceSynchronize();
-	printAMA(ama_1);
+	printGQueue(gqueue);
+	add_Epsilon_to_queue(ama_1);
+	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
+					dimBlock, kernelArgs);
+			cudaDeviceSynchronize();
+			printAMA(ama_1);
 /*	while (!(i > 2 && isEqual)) {
 		//计算epsilon
 		int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-		compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool, abpds_info,
-				gqueue);
+		compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool,
+				abpds_info, gqueue);
 		cudaDeviceSynchronize();
 		//插入p epsilon -->p
+		add_Epsilon_to_queue(ama_1);
+		//计算pre*
 		cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 				dimBlock, kernelArgs);
 		cudaDeviceSynchronize();
-
 		//更新ama，对比ama
 		i++;
 	}*/
