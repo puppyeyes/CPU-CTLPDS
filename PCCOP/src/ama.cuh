@@ -67,6 +67,7 @@ void updateAMA(AMA *ama);
 void initAMA(AMA *ama,Pool *pool);
 
 void printAMA(AMA *ama);
+bool isFinalState(int state);
 
 
 #endif /* AMA_H_ */
