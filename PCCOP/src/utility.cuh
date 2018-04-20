@@ -4,8 +4,6 @@
  *  Created on: Apr 11, 2018
  *      Author: scott
  */
-#include <stdio.h>
-#include "stdlib.h"
 #include <map>
 #include <assert.h>
 #include <cuda_util.h>

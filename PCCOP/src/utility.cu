@@ -26,7 +26,7 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 		int stack_size = atoi((char *) xmlGetProp(cur, BAD_CAST "stack_size"));
 		delta_size = state_size * state_size;
 		initABPDSInfo();
-		abpds_info->stack_size = stack_size;
+		abpds_info->stack_size = stack_size+1;
 		abpds_info->state_size = state_size;
 	}
 	initDelta(delta_size);

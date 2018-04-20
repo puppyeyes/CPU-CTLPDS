@@ -14,9 +14,7 @@ void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 		for (int j = 1; j < abpds_info->stack_size; j++) {
 			Trans new_t = { finalStateArray[i], j, -1 };
 			add_one_to_queue(new_t);
-			if (!isTransInAMA(new_t, ama, abpds_info)) {
 				insertTransToAMA(new_t, ama, pool);
-			}
 		}
 	}
 }
@@ -27,7 +25,7 @@ void add_Epsilon_to_queue(AMA *ama) {
 			int pos = i * abpds_info->stack_size + j;
 			AMANode *node = ama->list[pos].head.next;
 			while (node != NULL) {
-				Trans new_t = { i, j, node->state };
+				Trans new_t = { finalStateArray[i], j, node->state };
 				add_one_to_queue(new_t);
 				node = node->next;
 			}
@@ -77,8 +75,8 @@ int main() {
 	kernelArgs[1] = malloc(sizeof(delta));
 	memcpy(kernelArgs[1], &delta, sizeof(delta));
 
-	kernelArgs[2] = malloc(sizeof(ama_1));
-	memcpy(kernelArgs[2], &ama_1, sizeof(ama_1));
+	kernelArgs[2] = malloc(sizeof(ama_2));
+	memcpy(kernelArgs[2], &ama_2, sizeof(ama_2));
 
 	kernelArgs[3] = malloc(sizeof(recursion));
 	memcpy(kernelArgs[3], &recursion, sizeof(recursion));
@@ -100,12 +98,12 @@ int main() {
 	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2, abpds_info,
 			gqueue,recursion);
 	cudaDeviceSynchronize();
+	add_Epsilon_to_queue(ama_2);
 	//printGQueue(gqueue);
-	add_Epsilon_to_queue(ama_1);
 	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
 			kernelArgs);
 	cudaDeviceSynchronize();
-	printAMA(ama_1);
+	printAMA(ama_2);
 	/*	while (!(i > 2 && isEqual)) {
 	 //计算epsilon
 	 int epsilion_thread_num = abpds_info->state_size / 32 + 1;

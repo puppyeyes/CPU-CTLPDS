@@ -4,7 +4,8 @@
  *  Created on: Apr 11, 2018
  *      Author: scott
  */
-
+#include <stdio.h>
+#include "stdlib.h"
 #ifndef ABPDS_H_
 #define ABPDS_H_
 
@@ -54,6 +55,8 @@ void initABPDSInfo();
 void initDelta(int delta_size);
 
 void addRuleToDelta(TransitionRule *t);
+
+__device__ void printRule(TransitionRule *rule);
 
 
 
