@@ -49,12 +49,18 @@ int main() {
 	printStackMap();
 
 	AMA *ama_1, *ama_2;
-	Pool *pool;
-	cudaMallocManaged(&ama_1, sizeof(AMA));
-	cudaMallocManaged(&pool, sizeof(Pool));
+	Pool *pool_1, *pool_2;
+	CUDA_SAFE_CALL(cudaMallocManaged(&ama_1, sizeof(AMA)));
+	CUDA_SAFE_CALL(cudaMallocManaged(&pool_1, sizeof(Pool));)
+	CUDA_SAFE_CALL(cudaMallocManaged(&ama_2, sizeof(AMA)));
+	CUDA_SAFE_CALL(cudaMallocManaged(&pool_2, sizeof(Pool)));
 	initGQueue(QUEUEBASESIZE * abpds_info->stack_size);
 
-	initAMA(ama_1, pool);
+	initAMA(ama_1, pool_1);
+	initAMA(ama_2, pool_2);
+
+	short int *recursion;
+	CUDA_SAFE_CALL(cudaMallocManaged(&recursion, sizeof(short int)));
 
 	dim3 dimBlock(THREADPERNUM, 1, 1); //一个块中开threadsPerBlock个线程
 	dim3 dimGrid(BLOCKSIZE, 1, 1); //一个gird里开blockSize个块
@@ -74,8 +80,8 @@ int main() {
 	kernelArgs[2] = malloc(sizeof(ama_1));
 	memcpy(kernelArgs[2], &ama_1, sizeof(ama_1));
 
-	kernelArgs[3] = malloc(sizeof(finalStateArray));
-	memcpy(kernelArgs[3], &finalStateArray, sizeof(finalStateArray));
+	kernelArgs[3] = malloc(sizeof(recursion));
+	memcpy(kernelArgs[3], &recursion, sizeof(recursion));
 
 	kernelArgs[4] = malloc(sizeof(gqueue));
 	memcpy(kernelArgs[4], &gqueue, sizeof(gqueue));
@@ -83,38 +89,38 @@ int main() {
 	kernelArgs[5] = malloc(sizeof(abpds_info));
 	memcpy(kernelArgs[5], &abpds_info, sizeof(abpds_info));
 
-	kernelArgs[6] = malloc(sizeof(pool));
-	memcpy(kernelArgs[6], &pool, sizeof(pool));
+	kernelArgs[6] = malloc(sizeof(pool_1));
+	memcpy(kernelArgs[6], &pool_1, sizeof(pool_1));
 	int i = 0;
 	//向queue中添加初始化数据
-	add_initTrans_to_GQueue_AMA(ama_1, pool);
+	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
 	i++;
 	bool isEqual = false;
 	int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool, abpds_info,
-			gqueue);
+	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2, abpds_info,
+			gqueue,recursion);
 	cudaDeviceSynchronize();
-	printGQueue(gqueue);
+	//printGQueue(gqueue);
 	add_Epsilon_to_queue(ama_1);
-	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
-					dimBlock, kernelArgs);
-			cudaDeviceSynchronize();
-			printAMA(ama_1);
-/*	while (!(i > 2 && isEqual)) {
-		//计算epsilon
-		int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-		compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool,
-				abpds_info, gqueue);
-		cudaDeviceSynchronize();
-		//插入p epsilon -->p
-		add_Epsilon_to_queue(ama_1);
-		//计算pre*
-		cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
-				dimBlock, kernelArgs);
-		cudaDeviceSynchronize();
-		//更新ama，对比ama
-		i++;
-	}*/
+	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
+			kernelArgs);
+	cudaDeviceSynchronize();
+	printAMA(ama_1);
+	/*	while (!(i > 2 && isEqual)) {
+	 //计算epsilon
+	 int epsilion_thread_num = abpds_info->state_size / 32 + 1;
+	 compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool,
+	 abpds_info, gqueue);
+	 cudaDeviceSynchronize();
+	 //插入p epsilon -->p
+	 add_Epsilon_to_queue(ama_1);
+	 //计算pre*
+	 cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
+	 dimBlock, kernelArgs);
+	 cudaDeviceSynchronize();
+	 //更新ama，对比ama
+	 i++;
+	 }*/
 
 	return 0;
 }

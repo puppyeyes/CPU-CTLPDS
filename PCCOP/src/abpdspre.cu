@@ -4,6 +4,7 @@
 using namespace std;
 using namespace cooperative_groups;
 
+#define STATEBIT 10
 //extern __shared__ Trans queue[32][64];
 
 __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
@@ -84,7 +85,7 @@ __device__ inline void compute(Delta delta, AMA *latest_ama, Pool *pool,
 ;
 
 __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
-		int *finalStateArray, Gqueue *gqueue, ABPDSInfo *abpds_info,
+		short int *recursion, Gqueue *gqueue, ABPDSInfo *abpds_info,
 		Pool *pool) {
 	grid_group grid = this_grid();
 	int thread_num = threadIdx.x;
@@ -157,13 +158,24 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 	}
 }
 
+__device__ int encode_state_superScript(int state,short int recursion){
+	int res=state|(recursion<<STATEBIT);
+	return res;
+}
+
+__host__ __device__ short int decode_state_superScript(int state){
+	int res =state>>STATEBIT;
+	return res;
+}
+
 __global__ void compute_epsilon(Delta delta, AMA *ama, Pool *pool,
-		ABPDSInfo *abpds_info, Gqueue *gqueue) {
+		ABPDSInfo *abpds_info, Gqueue *gqueue,short int *recursion) {
 	int thread_num = threadIdx.x + blockIdx.x * blockDim.x;
 	if (thread_num < abpds_info->state_size) {
 		TransitionRule *r_h = delta[thread_num * abpds_info->stack_size].next;
 		while (r_h != NULL) {
 			if (r_h->to_config_size == 1) {
+				encode_state_superScript(r_h->to[0].controlLocation,*recursion);
 				Trans new_t = { r_h->from.controlLocation, r_h->from.stack,
 						r_h->to[0].controlLocation };
 				d_add_one_to_queue(new_t, gqueue);

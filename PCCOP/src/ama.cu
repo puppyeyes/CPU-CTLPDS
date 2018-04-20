@@ -1,5 +1,6 @@
 #include"ama.cuh"
 using namespace std;
+#define STATEMASK 0x3ff
 #define CUDA_CHECK_RETURN(value) CheckCudaErrorAux(__FILE__,__LINE__, #value, value)
 static void CheckCudaErrorAux(const char *, unsigned, const char *,
 		cudaError_t);
@@ -139,7 +140,8 @@ void printAMA(AMA *ama) {
 				cout << from_state << " " << stack << "-->{ ";
 			}
 			while (tem_node != NULL) {
-				it_find = rv_state_mp.find(tem_node->state);
+				short int superScript=decode_state_superScript(tem_node->state);
+				it_find = rv_state_mp.find(tem_node->state&STATEMASK);
 				if (it_find != rv_state_mp.end()) {
 					to_state = it_find->second;
 				} else {
@@ -158,4 +160,3 @@ void printAMA(AMA *ama) {
 	}
 	cout << "结果输出结束" << endl;
 }
-
