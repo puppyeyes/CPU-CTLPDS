@@ -20,6 +20,7 @@ typedef struct AMAHead{
 	 * */
 	//long int from;
 	//AMANode *tail;//尾指针
+	int count;
 	AMANode head; //记录头     初始化时要将尾指针指向头结点的地址
 	AMANode *tail;
 	int mutex;//互斥量
@@ -49,9 +50,11 @@ struct Pool{
 
 /*判断是否两个自动机是否相等*/
 bool isEqual(AMA *ama_1,AMA *ama_2);
-/*插入一个trans到ama*/
-void insertTransToAMA(Trans t,AMA *ama,Pool *pool);
-__device__ void d_insertTransToAMA(Trans t,AMA *ama,Pool *pool,ABPDSInfo *abpds_info);
+/*插入一个trans到ama
+ * 不加锁
+ * */
+__device__ __host__ insertTransToAMA(int amaListPosition,int state,AMA *ama,Pool *pool);
+__device__ void d_insertTransToAMA(int amaListPosition,int state,AMA *ama,Pool *pool,ABPDSInfo *abpds_info);
 /*删除ama*/
 void deleteAMA(AMA *ama,Pool *pool);
 
@@ -61,7 +64,7 @@ __device__ __host__  bool isTransInAMA(Trans t,AMA *ama,ABPDSInfo *abpds_info);
 
 
 /*更新AMA中state上标*/
-void updateAMA(AMA *ama);
+__global__ void updateAMA(AMA *ama, int recursion, Pool *pool,ABPDSInfo *abpds_info);
 
 /*初始化AMA*/
 void initAMA(AMA *ama,Pool *pool);
