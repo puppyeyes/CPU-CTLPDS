@@ -14,6 +14,12 @@ struct AMANode{
 	int state;
 	AMANode *next;
 };
+typedef struct TMPINDEX{
+	AMANode *next;
+}*TMPAMA;
+
+extern TMPAMA tmp_ama;
+
 typedef struct AMAHead{
 	/* from 表示链表的头结点 表现为一个格局的编码 类型long int
 	 * tail 指向链表的尾部节点 表现为一个state的编码 类型是int的指针
@@ -58,8 +64,8 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,ABPDSInfo *abpd
 __device__ bool d_insertStateToAMA(int amaListPosition, int state,AMA *ama, Pool *pool);
 /*删除ama*/
 void deleteAMA(AMA *ama,Pool *pool);
-
-
+void initTMP();
+void add_to_TMP(AMA *ama);
 /*判断ama中是否存在trans*/
 __device__ __host__  bool isTransInAMA(Trans t,AMA *ama,ABPDSInfo *abpds_info);
 

@@ -44,11 +44,14 @@ struct ABPDSInfo{
 	int finalStateSize;
 };
 
+
 extern ABPDSInfo *abpds_info;
 
 extern Delta delta;
 
 extern int *finalStateArray;
+
+void initTMP();
 
 void initABPDSInfo();
 

@@ -1,6 +1,11 @@
 #include "common.cuh"
 
+#define FROMSTATEMASK 0xffff000000000000
+#define STACKMASK 0x0000ffffffff0000
+#define TOSTATEMASK 0x000000000000ffff
+
 Gqueue *gqueue;
+
 
 void initGQueue(int queue_size) {
 	CUDA_SAFE_CALL(cudaMallocManaged(&(gqueue), sizeof(Gqueue)));
@@ -14,20 +19,36 @@ void initGQueue(int queue_size) {
 void add_one_to_queue(Trans t) {
 	int pos = gqueue->head;
 	if (gqueue->head < gqueue->size) {
-		gqueue->queue[pos].fromState = t.fromState;
-		gqueue->queue[pos].stack = t.stack;
-		gqueue->queue[pos].toState = t.toState;
+		gqueue->queue[pos]=encode_trans_to_long(t);
 		gqueue->head++;
-		pos++;
+
 	} else {
 		printf("queue full\n");
 	}
 }
 
+__device__ __host__ unsigned long long int encode_trans_to_long(Trans t) {
+	unsigned long long int res = 0;
+	res=t.fromState;
+	res=res<<32;
+	res=res+t.stack;
+	res=res<<16;
+	res=res+(unsigned short)t.toState;
+	return res;
+}
+
+__device__ __host__ Trans decode_long_to_trans(unsigned long long int t){
+	Trans res;
+	res.fromState=(short int)((t&FROMSTATEMASK)>>48);
+	res.stack=(int)((t&STACKMASK)>>16);
+	res.toState=(short int)(t&TOSTATEMASK);
+	return res;
+}
+
 __device__ void d_add_one_to_queue(Trans t, Gqueue *gqueue) {
 	int pos = atomicAdd(&(gqueue->head), 1);
 	if (gqueue->head < gqueue->size) {
-		gqueue->queue[pos] = t;
+		gqueue->queue[pos] = encode_trans_to_long(t);
 	} else {
 		printf("queue full\n");
 	}
@@ -44,15 +65,15 @@ __device__ void free_Gqueue_Mutex(Gqueue *gqueue) {
 	atomicCAS(&(gqueue->mutex), 1, 0);
 }
 
-__device__ __host__ void printTrans(Trans t){
-	printf("%d %d --> %d\n",t.fromState,t.stack,t.toState);
+__device__ __host__ void printTrans(Trans t) {
+	printf("%d %d --> %d\n", t.fromState, t.stack, t.toState);
 }
 
-__device__ __host__ void printGQueue(Gqueue *gqueue){
+__device__ __host__ void printGQueue(Gqueue *gqueue) {
 	printf("打印queue\n");
-	for(int i=0;i<gqueue->head;i++)
-	{
-		printTrans(gqueue->queue[i]);
+	for (int i = 0; i < gqueue->head; i++) {
+		Trans t=decode_long_to_trans(gqueue->queue[i]);
+		printTrans(t);
 	}
 	printf("打印queue结束\n");
 }

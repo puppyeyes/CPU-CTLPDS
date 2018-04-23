@@ -1,5 +1,7 @@
 #include"ama.cuh"
 using namespace std;
+
+TMPAMA tmp_ama;
 #define STATEMASK 0x3ff
 #define STATEBIT 10
 #define CUDA_CHECK_RETURN(value) CheckCudaErrorAux(__FILE__,__LINE__, #value, value)
@@ -17,6 +19,25 @@ static void CheckCudaErrorAux(const char *file, unsigned line,
 			<< err << ") at " << file << ":" << line << std::endl;
 	exit(1);
 }
+
+
+
+
+void initTMP(){
+	CUDA_SAFE_CALL(cudaMallocManaged(&tmp_ama, sizeof(TMPINDEX) * abpds_info->state_size*abpds_info->stack_size));
+}
+
+void add_to_TMP(AMA *ama){
+	for(int i=0;i<abpds_info->finalStateSize;i++)
+	{
+		for(int j=0;j<abpds_info->stack_size;j++)
+		{
+			tmp_ama[finalStateArray[i] * abpds_info->stack_size+j].next=ama->list[finalStateArray[i] * abpds_info->stack_size+j].head.next;
+		}
+	}
+}
+
+
 bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 	//if (!isTransInAMA(t, ama, abpds_info)) {
 	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
@@ -34,6 +55,22 @@ bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 
 		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
 		ama->list[insertPosition].tail = &(pool->item[pool_position]);
+		return true;
+	}
+	//head->3  插-1 head->-1->3
+	if ((currentNode->state > t.toState)&&currentNode != NULL) {
+		//插入
+		int pool_position = pool->tail++;
+		if (pool_position > pool->size) {
+			printf("pool exceed \n");
+		}
+		if (t.toState != -1) {
+			ama->count++;
+		}
+		pool->item[pool_position].state = t.toState;
+
+		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
+		pool->item[pool_position].next = currentNode;
 		return true;
 	}
 	while (currentNode != NULL) {
@@ -61,12 +98,13 @@ bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 	}
 	return false;
 }
+
 __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 		ABPDSInfo *abpds_info) {
-
 	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
-	bool flag=false;
+	bool flag = false;
 	bool next = true;
+
 	while (next) {
 		int v = atomicCAS(&(ama->list[insertPosition].mutex), 0, 1);
 		if (v == 0) {
@@ -86,7 +124,24 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 				ama->list[insertPosition].tail->next =
 						&(pool->item[pool_position]);
 				ama->list[insertPosition].tail = &(pool->item[pool_position]);
-				flag= true;
+				flag = true;
+			}
+			//head->3  插-1 head->-1->3
+			if (currentNode != NULL&&(currentNode->state > t.toState)) {
+				//插入
+				int pool_position = pool->tail++;
+				if (pool_position > pool->size) {
+					printf("pool exceed \n");
+				}
+				if (t.toState != -1) {
+					ama->count++;
+				}
+				pool->item[pool_position].state = t.toState;
+
+				ama->list[insertPosition].head.next =
+						&(pool->item[pool_position]);
+				pool->item[pool_position].next = currentNode;
+				return true;
 			}
 			while (currentNode != NULL) {
 				if (currentNode->state < t.toState
@@ -96,7 +151,7 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 					int pool_position = pool->tail++;
 					if (pool_position > pool->size) {
 						printf("pool exceed \n");
-						flag= false;
+						flag = false;
 					}
 					if (t.toState != -1) {
 						ama->count++;
@@ -105,14 +160,15 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 					AMANode *tmp = currentNode->next;
 					currentNode->next = &(pool->item[pool_position]);
 					pool->item[pool_position].next = tmp;
-					flag= true;
+					flag = true;
 				} else if (currentNode->state == t.toState) {
-					flag= false;
+					flag = false;
 				}
 				currentNode = currentNode->next;
 			}
 			//临界区结束
 			atomicExch(&(ama->list[insertPosition].mutex), 0);
+
 			next = false;
 		}  //此处是安全的汇聚点
 	}  //此处是安全的汇聚点2
@@ -121,46 +177,61 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 
 __device__ bool d_insertStateToAMA(int insertPosition, int state, AMA *ama,
 		Pool *pool) {
-		AMANode *currentNode = ama->list[insertPosition].head.next;
-		if (currentNode == NULL) {
+	AMANode *currentNode = ama->list[insertPosition].head.next;
+	if (currentNode == NULL) {
+		//插入
+		int pool_position = pool->tail++;
+		if (pool_position > pool->size) {
+			printf("pool exceed \n");
+		}
+		if (state != -1) {
+			ama->count++;
+		}
+		pool->item[pool_position].state = state;
+		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
+		ama->list[insertPosition].tail = &(pool->item[pool_position]);
+		return true;
+	}
+	//head->3  插-1 head->-1->3
+	if (currentNode != NULL&&(currentNode->state > state)) {
+		//插入
+		int pool_position = pool->tail++;
+		if (pool_position > pool->size) {
+			printf("pool exceed \n");
+		}
+		if (state != -1) {
+			ama->count++;
+		}
+		pool->item[pool_position].state = state;
+
+		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
+		pool->item[pool_position].next = currentNode;
+		return true;
+	}
+	while (currentNode != NULL) {
+		if (currentNode->state < state
+				&& (currentNode->next == NULL
+						|| currentNode->next->state > state)) {
 			//插入
 			int pool_position = pool->tail++;
 			if (pool_position > pool->size) {
 				printf("pool exceed \n");
+				return false;
 			}
 			if (state != -1) {
 				ama->count++;
 			}
-			pool->item[pool_position].state =state;
-			ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
-			ama->list[insertPosition].tail = &(pool->item[pool_position]);
+			pool->item[pool_position].state = state;
+			AMANode *tmp = currentNode->next;
+			currentNode->next = &(pool->item[pool_position]);
+			pool->item[pool_position].next = tmp;
 			return true;
+		} else if (currentNode->state == state) {
+			return false;
 		}
-		while (currentNode != NULL) {
-			if (currentNode->state < state
-					&& (currentNode->next == NULL
-							|| currentNode->next->state > state)) {
-				//插入
-				int pool_position = pool->tail++;
-				if (pool_position > pool->size) {
-					printf("pool exceed \n");
-					return false;
-				}
-				if (state != -1) {
-					ama->count++;
-				}
-				pool->item[pool_position].state = state;
-				AMANode *tmp = currentNode->next;
-				currentNode->next = &(pool->item[pool_position]);
-				pool->item[pool_position].next = tmp;
-				return true;
-			} else if (currentNode->state == state) {
-				return false;
-			}
-			currentNode = currentNode->next;
-		}
-		return false;
-
+		currentNode = currentNode->next;
+	}
+	return false;
 
 //	int pool_position = pool->tail++;
 //	if (pool_position > pool->size) {

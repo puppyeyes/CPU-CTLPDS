@@ -5,23 +5,25 @@
 using namespace cooperative_groups;
 #define QUEUEBASESIZE 5
 #define DEFAULT_XML_FILE "abpds.xml"
-#define ARGSNUM 7
+#define ARGSNUM 8
 #define THREADPERNUM 32
 #define BLOCKSIZE 1
 AMA *ama_1, *ama_2;
+
 void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
-		for (int j = 1; j < abpds_info->stack_size; j++) {
+		for (int j = 0; j < abpds_info->stack_size; j++) {
 			Trans new_t = { finalStateArray[i], j, -1 };
-			add_one_to_queue(new_t);
+			//add_one_to_queue(new_t);
 				insertTransToAMA(new_t, ama, pool);
 		}
 	}
 }
 
 void add_Epsilon_to_queue(AMA *ama) {
+	add_to_TMP(ama);
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
-		for (int j = 0; j < abpds_info->state_size; j++) {
+		for (int j = 0; j < abpds_info->stack_size; j++) {
 			int pos = i * abpds_info->stack_size + j;
 			AMANode *node = ama->list[pos].head.next;
 			while (node != NULL) {
@@ -56,6 +58,7 @@ int main() {
 
 	initAMA(ama_1, pool_1);
 	initAMA(ama_2, pool_2);
+	initTMP();
 
 	short int *recursion;
 	CUDA_SAFE_CALL(cudaMallocManaged(&recursion, sizeof(short int)));
@@ -87,8 +90,11 @@ int main() {
 	kernelArgs[5] = malloc(sizeof(abpds_info));
 	memcpy(kernelArgs[5], &abpds_info, sizeof(abpds_info));
 
-	kernelArgs[6] = malloc(sizeof(pool_1));
-	memcpy(kernelArgs[6], &pool_1, sizeof(pool_1));
+	kernelArgs[6] = malloc(sizeof(pool_2));
+	memcpy(kernelArgs[6], &pool_2, sizeof(pool_2));
+
+	kernelArgs[7] = malloc(sizeof(tmp_ama));
+	memcpy(kernelArgs[7], &tmp_ama, sizeof(tmp_ama));
 	int i = 0;
 	//向queue中添加初始化数据
 	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
@@ -98,7 +104,8 @@ int main() {
 	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2, abpds_info,
 			gqueue,recursion);
 	cudaDeviceSynchronize();
-	add_Epsilon_to_queue(ama_2);
+
+	add_Epsilon_to_queue(ama_1);
 	//printGQueue(gqueue);
 	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
 			kernelArgs);
