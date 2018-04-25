@@ -1,9 +1,6 @@
 #include"ama.cuh"
-using namespace std;
 
 TMPAMA tmp_ama;
-#define STATEMASK 0x3ff
-#define STATEBIT 10
 #define CUDA_CHECK_RETURN(value) CheckCudaErrorAux(__FILE__,__LINE__, #value, value)
 static void CheckCudaErrorAux(const char *, unsigned, const char *,
 		cudaError_t);
@@ -20,23 +17,29 @@ static void CheckCudaErrorAux(const char *file, unsigned line,
 	exit(1);
 }
 
-
-
-
-void initTMP(){
-	CUDA_SAFE_CALL(cudaMallocManaged(&tmp_ama, sizeof(TMPINDEX) * abpds_info->state_size*abpds_info->stack_size));
+void initTMP() {
+	CUDA_SAFE_CALL(
+			cudaMallocManaged(&tmp_ama,
+					sizeof(TMPINDEX) * abpds_info->state_size
+							* abpds_info->stack_size));
 }
 
-void add_to_TMP(AMA *ama){
-	for(int i=0;i<abpds_info->finalStateSize;i++)
-	{
-		for(int j=0;j<abpds_info->stack_size;j++)
-		{
-			tmp_ama[finalStateArray[i] * abpds_info->stack_size+j].next=ama->list[finalStateArray[i] * abpds_info->stack_size+j].head.next;
+void deleteTMP() {
+	for (int i = 0; i < abpds_info->finalStateSize; i++) {
+		for (int j = 0; j < abpds_info->stack_size; j++) {
+			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].next = NULL;
 		}
 	}
 }
 
+void add_to_TMP(AMA *ama) {
+	for (int i = 0; i < abpds_info->finalStateSize; i++) {
+		for (int j = 0; j < abpds_info->stack_size; j++) {
+			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].next =
+					ama->list[finalStateArray[i] * abpds_info->stack_size + j].head.next;
+		}
+	}
+}
 
 bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 	//if (!isTransInAMA(t, ama, abpds_info)) {
@@ -48,27 +51,27 @@ bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 		if (pool_position > pool->size) {
 			printf("pool exceed \n");
 		}
-		if (t.toState != -1) {
+/*		if (t.toState != -1) {
 			ama->count++;
-		}
+		}*/
 		pool->item[pool_position].state = t.toState;
-
+		pool->item[pool_position].next=NULL;
 		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
 		ama->list[insertPosition].tail = &(pool->item[pool_position]);
 		return true;
 	}
 	//head->3  插-1 head->-1->3
-	if ((currentNode->state > t.toState)&&currentNode != NULL) {
+	if ((currentNode->state > t.toState) && currentNode != NULL) {
 		//插入
 		int pool_position = pool->tail++;
 		if (pool_position > pool->size) {
 			printf("pool exceed \n");
 		}
-		if (t.toState != -1) {
+/*		if (t.toState != -1) {
 			ama->count++;
-		}
+		}*/
 		pool->item[pool_position].state = t.toState;
-
+		pool->item[pool_position].next=NULL;
 		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
 		pool->item[pool_position].next = currentNode;
 		return true;
@@ -83,10 +86,11 @@ bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 				printf("pool exceed \n");
 				return false;
 			}
-			if (t.toState != -1) {
+/*			if (t.toState != -1) {
 				ama->count++;
-			}
+			}*/
 			pool->item[pool_position].state = t.toState;
+			pool->item[pool_position].next=NULL;
 			AMANode *tmp = currentNode->next;
 			currentNode->next = &(pool->item[pool_position]);
 			pool->item[pool_position].next = tmp;
@@ -112,14 +116,15 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 			AMANode *currentNode = ama->list[insertPosition].head.next;
 			if (currentNode == NULL) {
 				//插入
-				int pool_position = pool->tail++;
+				int pool_position = atomicAdd( &pool->tail,1);
 				if (pool_position > pool->size) {
 					printf("pool exceed \n");
 				}
-				if (t.toState != -1) {
-					ama->count++;
-				}
+/*				if (t.toState != -1) {
+					atomicAdd( &ama->count,1);
+				}*/
 				pool->item[pool_position].state = t.toState;
+				pool->item[pool_position].next=NULL;
 
 				ama->list[insertPosition].tail->next =
 						&(pool->item[pool_position]);
@@ -127,36 +132,37 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 				flag = true;
 			}
 			//head->3  插-1 head->-1->3
-			if (currentNode != NULL&&(currentNode->state > t.toState)) {
+			if (currentNode != NULL && (currentNode->state > t.toState)) {
 				//插入
-				int pool_position = pool->tail++;
+				int pool_position = atomicAdd( &pool->tail,1);
 				if (pool_position > pool->size) {
 					printf("pool exceed \n");
 				}
-				if (t.toState != -1) {
-					ama->count++;
-				}
+/*				if (t.toState != -1) {
+					atomicAdd( &ama->count,1);
+				}*/
 				pool->item[pool_position].state = t.toState;
-
+				pool->item[pool_position].next=NULL;
 				ama->list[insertPosition].head.next =
 						&(pool->item[pool_position]);
 				pool->item[pool_position].next = currentNode;
-				return true;
+				flag = true;
 			}
 			while (currentNode != NULL) {
 				if (currentNode->state < t.toState
 						&& (currentNode->next == NULL
 								|| currentNode->next->state > t.toState)) {
 					//插入
-					int pool_position = pool->tail++;
+					int pool_position = atomicAdd( &pool->tail,1);
 					if (pool_position > pool->size) {
-						printf("pool exceed \n");
+						printf("ama->list[i].headpool exceed \n");
 						flag = false;
 					}
-					if (t.toState != -1) {
-						ama->count++;
-					}
+/*					if (t.toState != -1) {
+						atomicAdd( &ama->count,1);
+					}*/
 					pool->item[pool_position].state = t.toState;
+					pool->item[pool_position].next=NULL;
 					AMANode *tmp = currentNode->next;
 					currentNode->next = &(pool->item[pool_position]);
 					pool->item[pool_position].next = tmp;
@@ -178,60 +184,64 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 __device__ bool d_insertStateToAMA(int insertPosition, int state, AMA *ama,
 		Pool *pool) {
 	AMANode *currentNode = ama->list[insertPosition].head.next;
+	bool flag = false;
 	if (currentNode == NULL) {
 		//插入
-		int pool_position = pool->tail++;
+		int pool_position = atomicAdd( &pool->tail,1);
 		if (pool_position > pool->size) {
 			printf("pool exceed \n");
 		}
 		if (state != -1) {
-			ama->count++;
+			atomicAdd( &ama->count,1);
 		}
 		pool->item[pool_position].state = state;
+		pool->item[pool_position].next=NULL;
 		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
 		ama->list[insertPosition].tail = &(pool->item[pool_position]);
-		return true;
+		flag = true;
 	}
 	//head->3  插-1 head->-1->3
-	if (currentNode != NULL&&(currentNode->state > state)) {
+	if (currentNode != NULL && (currentNode->state > state)) {
 		//插入
-		int pool_position = pool->tail++;
+		int pool_position =atomicAdd( &pool->tail,1);
 		if (pool_position > pool->size) {
 			printf("pool exceed \n");
 		}
 		if (state != -1) {
-			ama->count++;
+			atomicAdd( &ama->count,1);
 		}
 		pool->item[pool_position].state = state;
-
+		pool->item[pool_position].next=NULL;
 		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
 		pool->item[pool_position].next = currentNode;
-		return true;
+		flag = true;
 	}
 	while (currentNode != NULL) {
 		if (currentNode->state < state
 				&& (currentNode->next == NULL
 						|| currentNode->next->state > state)) {
 			//插入
-			int pool_position = pool->tail++;
+			int pool_position = atomicAdd( &pool->tail,1);
 			if (pool_position > pool->size) {
 				printf("pool exceed \n");
-				return false;
+				flag = false;
 			}
 			if (state != -1) {
-				ama->count++;
+				atomicAdd( &ama->count,1);
 			}
 			pool->item[pool_position].state = state;
+			pool->item[pool_position].next=NULL;
 			AMANode *tmp = currentNode->next;
 			currentNode->next = &(pool->item[pool_position]);
 			pool->item[pool_position].next = tmp;
-			return true;
+			flag = true;
 		} else if (currentNode->state == state) {
-			return false;
+			printf("--id %d-- %d  exist\n",insertPosition,currentNode->state);
+			flag = false;
 		}
 		currentNode = currentNode->next;
 	}
-	return false;
+	return flag;
 
 //	int pool_position = pool->tail++;
 //	if (pool_position > pool->size) {
@@ -239,16 +249,21 @@ __device__ bool d_insertStateToAMA(int insertPosition, int state, AMA *ama,
 //	}
 //	pool->item[pool_position].state = state;
 //	//尾插
-//	ama->list[amaListPosition].tail->next = &(pool->item[pool_position]);
+//	ama->list[amaListPosition].tail->next = &(pooupdateAMAl->item[pool_position]);
 //	ama->list[amaListPosition].tail = &(pool->item[pool_position]);
 
 }
 void deleteAMA(AMA *ama, Pool *pool) {
 	ama->count = 0;
-	for (int i = 0; i < AMASIZE; i++) {
-		ama->list[i].head.next = NULL;
+	for (int i = 0; i < abpds_info->stack_size*abpds_info->stack_size; i++) {
+		ama->list[i].head.next=NULL;
+		//尾指针指向头结点
+		ama->list[i].tail = &(ama->list[i].head);
+		ama->list[i].mutex = 0;
+		ama->list[i].count = 0;
 	}
 	pool->tail = 0;
+
 }
 bool isEqual(AMA *ama_1, AMA *ama_2) {
 	if (ama_1->count == ama_2->count) {
@@ -277,30 +292,39 @@ __device__ __host__ bool isTransInAMA(Trans t, AMA *ama,
 	return false;
 }
 
-__global__ void updateAMA(int *tmpStateList, AMA *ama, int recursion,
-		Pool *pool, ABPDSInfo *abpds_info) {
+__global__ void updateAMA(AMA *ama, int recursion, Pool *pool,
+		ABPDSInfo *abpds_info) {
 	//需要一个数组存储每个AMAList的所有元素  这个数组空间在哪开？
 	int amaListPosition = threadIdx.x + blockIdx.x * blockDim.x;
 	//int *tmpStateList;
-	int tmpListPosition = 0;
+	if(amaListPosition<abpds_info->stack_size*abpds_info->state_size&&(amaListPosition==7|17)){
+		int tmpListPosition = 0;
+		int *tmpStateList;
+		tmpStateList = (int *) malloc(
+				sizeof(int) * ama->list[amaListPosition].count);
 //	cudaMallocManaged(&tmpStateList,
 //			sizeof(int) * ama->list[amaListPosition].count);
-	AMANode *currentNode = ama->list[amaListPosition].head.next;
-	while (currentNode != NULL) {
-		//updateState
-		if (currentNode->state != -1) {
-			tmpStateList[tmpListPosition++] = encode_state_superScript(
-					currentNode->state, recursion);
+		AMANode *currentNode = ama->list[amaListPosition].head.next;
+		while (currentNode != NULL) {
+			//updateState
+			if (currentNode->state != -1) {
+				tmpStateList[tmpListPosition++] = encode_state_superScript(
+						currentNode->state, recursion);
+			}else{
+				tmpStateList[tmpListPosition++] = currentNode->state;
+			}
 			currentNode = currentNode->next;
 		}
+		//断链
+		ama->list[amaListPosition].head.next = NULL;
+		ama->list[amaListPosition].tail = &(ama->list[amaListPosition].head);
+		ama->list[amaListPosition].count=0;
+		//重新插入
+		for (int i = 0; i < tmpListPosition; i++) {
+			int result=d_insertStateToAMA(amaListPosition, tmpStateList[i], ama, pool);
+		}
 	}
-	//断链
-	ama->list[amaListPosition].head.next = NULL;
-	ama->list[amaListPosition].tail = &(ama->list[amaListPosition].head);
-	//重新插入
-	for (int i = 0; i < tmpListPosition; i++) {
-		d_insertStateToAMA(amaListPosition, tmpStateList[i], ama, pool);
-	}
+
 }
 
 void initAMA(AMA *ama, Pool *pool) {
@@ -314,7 +338,7 @@ void initAMA(AMA *ama, Pool *pool) {
 		//尾指针指向头结点
 		ama->list[i].tail = &(ama->list[i].head);
 	}
-	ama->count = amaSize;
+	ama->count = 0;
 //	CUDA_CHECK_RETURN(cudaMallocManaged(&pool, sizeof(Pool)));
 	CUDA_CHECK_RETURN(
 			cudaMallocManaged (&pool->item, sizeof(AMANode) * AMAPOOLSIZE));
@@ -330,21 +354,12 @@ void initAMA(AMA *ama, Pool *pool) {
 //cout<<isTransInAMA(t2,ama);
 }
 
-__device__ int encode_state_superScript(int state, short int recursion) {
-	int res = state | (recursion << STATEBIT);
-	return res;
-}
-
-__host__ __device__ short int decode_state_superScript(int state) {
-	int res = state >> STATEBIT;
-	return res;
-}
-
 void printAMA(AMA *ama) {
 	map<int, string>::iterator it_find;
 	string from_state;
 	string stack;
 	string to_state;
+	string super_script;
 	cout << "打印结果" << endl;
 	for (int i = 0; i < (abpds_info->state_size); i++) {
 		for (int j = 0; j < (abpds_info->stack_size); j++) {
@@ -374,7 +389,13 @@ void printAMA(AMA *ama) {
 						to_state = "Qf";
 					}
 				}
-				cout << to_state << ",";
+				cout << to_state;
+				if (tem_node->state != -1) {
+					printf("[%d]",
+							(int) ((tem_node->state & SPUPERSCRIPTMASK)
+									>> STATEBIT));
+				}
+				cout << "("<<tem_node->state<<")"<<",";
 				tem_node = tem_node->next;
 			}
 			if (flag) {

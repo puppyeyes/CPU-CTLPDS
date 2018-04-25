@@ -6,8 +6,9 @@ using namespace cooperative_groups;
 
 //extern __shared__ Trans queue[32][64];
 
-__device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
-		Trans t, ABPDSInfo *abpds_info, int thread_num, Trans queue[32][64],
+__device__ inline int compute(Delta delta, AMA *pre_ama, Pool *pool_1,
+		AMA *latest_ama, Pool *pool_2, int recursion, Trans t,
+		ABPDSInfo *abpds_info, int thread_num, Trans queue[32][64],
 		int count[32], TMPAMA tmp_ama) {
 	int isDone = 1;
 	TransitionRule *tmp_rule = delta[t.fromState * abpds_info->stack_size
@@ -17,7 +18,6 @@ __device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
 //	printf("--------\n");
 	int queue_count = 0;
 	while (tmp_rule != NULL) {
-//		printf("thread:%d\n",thread_num);
 //		printRule(tmp_rule);
 		if (tmp_rule->to_config_size == 1) {
 			if (tmp_rule->to->stack1 == 0) {
@@ -28,41 +28,64 @@ __device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
 						tmp_rule->from.stack, t.toState };
 				//<p,r>--><p,r>
 
-				if (d_insertTransToAMA(new_t, latest_ama, pool, abpds_info)) {
-					printTrans(new_t);
+				if (d_insertTransToAMA(new_t, latest_ama, pool_2, abpds_info)) {
+					//printTrans(new_t);
 					queue[thread_num][queue_count] = new_t;
 					queue_count++;
 					isDone = 0;
 				}
 			} else {
 				//<p,r>--><p,r,r>
-				int tmp_state = t.toState;
+				int tmp_state = t.toState&STATEMASK;
 				if (t.toState == -1) {
 					Trans new_t = { tmp_rule->from.controlLocation,
 							tmp_rule->from.stack, -1 };
-					if (d_insertTransToAMA(new_t, latest_ama, pool,
+					if (d_insertTransToAMA(new_t, latest_ama, pool_2,
 							abpds_info)) {
-						printTrans(new_t);
+						//printTrans(new_t);
 						queue[thread_num][queue_count] = new_t;
 						queue_count++;
 						isDone = 0;
 					}
 				} else {
-					AMANode *tmp_node =
-							latest_ama->list[tmp_state * abpds_info->stack_size
-									+ tmp_rule->to->stack2].head.next;
-					while (tmp_node != NULL) {
-						Trans new_t = { tmp_rule->from.controlLocation,
-								tmp_rule->from.stack, tmp_node->state };
-						if (d_insertTransToAMA(new_t, latest_ama, pool,
-								abpds_info)) {
-							printTrans(new_t);
-							queue[thread_num][queue_count] = new_t;
-							queue_count++;
-							isDone = 0;
+					int to_state_superScript = decode_state_superScript(
+							t.toState);
+					if (to_state_superScript < recursion) {
+						AMANode *tmp_node =
+								pre_ama->list[tmp_state
+										* abpds_info->stack_size
+										+ tmp_rule->to->stack2].head.next;
+						while (tmp_node != NULL) {
+							Trans new_t = { tmp_rule->from.controlLocation,
+									tmp_rule->from.stack, tmp_node->state };
+							if (d_insertTransToAMA(new_t, latest_ama, pool_2,
+									abpds_info)) {
+								//printTrans(new_t);
+								queue[thread_num][queue_count] = new_t;
+								queue_count++;
+								isDone = 0;
+							}
+							tmp_node = tmp_node->next;
 						}
-						tmp_node = tmp_node->next;
+					} else {
+						AMANode *tmp_node =
+								latest_ama->list[tmp_state
+										* abpds_info->stack_size
+										+ tmp_rule->to->stack2].head.next;
+						while (tmp_node != NULL) {
+							Trans new_t = { tmp_rule->from.controlLocation,
+									tmp_rule->from.stack, tmp_node->state };
+							if (d_insertTransToAMA(new_t, latest_ama, pool_2,
+									abpds_info)) {
+								//printTrans(new_t);
+								queue[thread_num][queue_count] = new_t;
+								queue_count++;
+								isDone = 0;
+							}
+							tmp_node = tmp_node->next;
+						}
 					}
+
 				}
 
 			}
@@ -88,7 +111,7 @@ __device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
 						int new_to_state = tmp_node->state;
 						Trans new_t = { tmp_rule->from.controlLocation,
 								tmp_rule->from.stack, new_to_state };
-						if (d_insertTransToAMA(new_t, latest_ama, pool,
+						if (d_insertTransToAMA(new_t, latest_ama, pool_2,
 								abpds_info)) {
 							//printTrans(new_t);
 							queue[thread_num][queue_count] = new_t;
@@ -102,7 +125,7 @@ __device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
 						int new_to_state = tmp_node->state;
 						Trans new_t = { tmp_rule->from.controlLocation,
 								tmp_rule->from.stack, new_to_state };
-						if (d_insertTransToAMA(new_t, latest_ama, pool,
+						if (d_insertTransToAMA(new_t, latest_ama, pool_2,
 								abpds_info)) {
 							//printTrans(new_t);
 							queue[thread_num][queue_count] = new_t;
@@ -120,9 +143,9 @@ __device__ inline int compute(Delta delta, AMA *latest_ama, Pool *pool,
 	return isDone;
 }
 
-__global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
-		short int *recursion, Gqueue *gqueue, ABPDSInfo *abpds_info, Pool *pool,
-		TMPAMA tmp_ama) {
+__global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *pre_ama,
+		Pool *pool_1, AMA *latest_ama, Pool *pool_2, short int *recursion,
+		Gqueue *gqueue, ABPDSInfo *abpds_info, TMPAMA tmp_ama) {
 	grid_group grid = this_grid();
 	int thread_num = threadIdx.x;
 
@@ -132,8 +155,8 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 	__shared__ int isDone;
 
 	while (true) {
+		isDone = true;
 		if (thread_num == 0) {
-			isDone = true;
 			get_Gqueue_Mutex(gqueue);
 			//printf("取\n");
 		}
@@ -153,8 +176,9 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *latest_ama,
 			//计算
 			//printf("------\n");
 			atomicAnd(&isDone,
-					compute(delta, latest_ama, pool, t, abpds_info, thread_num,
-							queue, count, tmp_ama));
+					compute(delta, pre_ama, pool_1, latest_ama, pool_2,
+							*recursion, t, abpds_info, thread_num, queue, count,
+							tmp_ama));
 		}
 		//计算完成之后进行同步
 		__syncthreads();
@@ -209,10 +233,10 @@ __global__ void compute_epsilon(Delta delta, AMA *ama, Pool *pool,
 		TransitionRule *r_h = delta[thread_num * abpds_info->stack_size].next;
 		while (r_h != NULL) {
 			if (r_h->to_config_size == 1) {
-				encode_state_superScript(r_h->to[0].controlLocation,
-						*recursion);
+				int to_controlLocation = encode_state_superScript(
+						r_h->to[0].controlLocation, *recursion);
 				Trans new_t = { r_h->from.controlLocation, r_h->from.stack,
-						r_h->to[0].controlLocation };
+						to_controlLocation };
 				if (d_insertTransToAMA(new_t, ama, pool, abpds_info)) {
 					d_add_one_to_queue(new_t, gqueue);
 				}

@@ -3,7 +3,6 @@
 #define FROMSTATEMASK 0xffff000000000000
 #define STACKMASK 0x0000ffffffff0000
 #define TOSTATEMASK 0x000000000000ffff
-
 Gqueue *gqueue;
 
 
@@ -65,8 +64,26 @@ __device__ void free_Gqueue_Mutex(Gqueue *gqueue) {
 	atomicCAS(&(gqueue->mutex), 1, 0);
 }
 
+__device__ int encode_state_superScript(int state, short int recursion) {
+	int res = (state&STATEMASK) | (recursion << STATEBIT);
+	return res;
+}
+
+__host__ __device__ short int decode_state_superScript(int state) {
+	int res = state >> STATEBIT;
+	return res;
+}
+
 __device__ __host__ void printTrans(Trans t) {
-	printf("%d %d --> %d\n", t.fromState, t.stack, t.toState);
+	if(t.toState!=-1){
+		int superScript = decode_state_superScript(t.toState);
+		int toState = t.toState & STATEMASK;
+		printf("%d %d --> %d[%d]\n", t.fromState, t.stack, toState,
+				superScript);
+	}else{
+		printf("%d %d --> %d\n", t.fromState, t.stack, t.toState);
+	}
+
 }
 
 __device__ __host__ void printGQueue(Gqueue *gqueue) {

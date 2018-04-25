@@ -8,7 +8,7 @@
 #ifndef AMA_H_
 #define AMA_H_
 
-#define AMASIZE 1000 //ama.list大小
+//#define AMASIZE 1000 //ama.list大小
 #define AMAPOOLSIZE 1000 //ama poll大小
 struct AMANode{
 	int state;
@@ -47,7 +47,7 @@ struct Pool{
 	AMANode *item;
 	int size;
 	int head;
-	int tail;
+	int tail; //pool当前位置
 };
 
 /*保存最近两次的自动机*/
@@ -79,7 +79,5 @@ void initAMA(AMA *ama,Pool *pool);
 void printAMA(AMA *ama);
 bool isFinalState(int state);
 
-__host__ __device__ short int decode_state_superScript(int state);
-__device__ int encode_state_superScript(int state,short int recursion);
 
 #endif /* AMA_H_ */

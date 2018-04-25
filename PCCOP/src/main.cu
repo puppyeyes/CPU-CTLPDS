@@ -5,7 +5,7 @@
 using namespace cooperative_groups;
 #define QUEUEBASESIZE 5
 #define DEFAULT_XML_FILE "abpds.xml"
-#define ARGSNUM 8
+#define ARGSNUM 10
 #define THREADPERNUM 32
 #define BLOCKSIZE 1
 AMA *ama_1, *ama_2;
@@ -15,9 +15,26 @@ void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
 			Trans new_t = { finalStateArray[i], j, -1 };
 			//add_one_to_queue(new_t);
-				insertTransToAMA(new_t, ama, pool);
+			insertTransToAMA(new_t, ama, pool);
 		}
 	}
+}
+
+bool isReach(AMA *ama, Config init_config) {
+	int pos1 = init_config.controlLocation * abpds_info->stack_size
+			+ init_config.stack1;
+	AMANode *node = ama->list[pos1].head.next;
+	if (init_config.stack2 == 0 && node != NULL) {
+		return true;
+	}
+	while (node != NULL) {
+		int pos2 = node->state * abpds_info->stack_size + init_config.stack2;
+		AMANode *node2 = ama->list[pos2].head.next;
+		if (node2 != NULL) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void add_Epsilon_to_queue(AMA *ama) {
@@ -36,14 +53,13 @@ void add_Epsilon_to_queue(AMA *ama) {
 }
 
 int main() {
-
+	Config init_config = { 4, 4, 5 };
 	char * file_name = DEFAULT_XML_FILE;
 	if (parse_abpds_xml(file_name) != 0) {
 		printf("Failed to parse abpds\n ");
 	} else {
 		printf("parse abpds compelet\n");
 	}
-
 	print_parse_result();
 	printStateMap();
 	printStackMap();
@@ -69,63 +85,136 @@ int main() {
 	int *finish;
 	CUDA_SAFE_CALL(cudaMallocManaged(&finish, sizeof(int)));
 
-	void **kernelArgs = NULL;
-	kernelArgs = (void**) malloc(ARGSNUM * sizeof(*kernelArgs));
+	void **kernelArgs_1 = NULL;
+	kernelArgs_1 = (void**) malloc(ARGSNUM * sizeof(*kernelArgs_1));
 
-	kernelArgs[0] = malloc(sizeof(finish));
-	memcpy(kernelArgs[0], &finish, sizeof(finish));
+	kernelArgs_1[0] = malloc(sizeof(finish));
+	memcpy(kernelArgs_1[0], &finish, sizeof(finish));
 
-	kernelArgs[1] = malloc(sizeof(delta));
-	memcpy(kernelArgs[1], &delta, sizeof(delta));
+	kernelArgs_1[1] = malloc(sizeof(delta));
+	memcpy(kernelArgs_1[1], &delta, sizeof(delta));
 
-	kernelArgs[2] = malloc(sizeof(ama_2));
-	memcpy(kernelArgs[2], &ama_2, sizeof(ama_2));
+	kernelArgs_1[2] = malloc(sizeof(ama_1));
+	memcpy(kernelArgs_1[2], &ama_1, sizeof(ama_1));
 
-	kernelArgs[3] = malloc(sizeof(recursion));
-	memcpy(kernelArgs[3], &recursion, sizeof(recursion));
+	kernelArgs_1[3] = malloc(sizeof(pool_1));
+	memcpy(kernelArgs_1[3], &pool_1, sizeof(pool_1));
 
-	kernelArgs[4] = malloc(sizeof(gqueue));
-	memcpy(kernelArgs[4], &gqueue, sizeof(gqueue));
+	kernelArgs_1[4] = malloc(sizeof(ama_2));
+	memcpy(kernelArgs_1[4], &ama_2, sizeof(ama_2));
 
-	kernelArgs[5] = malloc(sizeof(abpds_info));
-	memcpy(kernelArgs[5], &abpds_info, sizeof(abpds_info));
+	kernelArgs_1[5] = malloc(sizeof(pool_2));
+	memcpy(kernelArgs_1[5], &pool_2, sizeof(pool_2));
 
-	kernelArgs[6] = malloc(sizeof(pool_2));
-	memcpy(kernelArgs[6], &pool_2, sizeof(pool_2));
+	kernelArgs_1[6] = malloc(sizeof(recursion));
+	memcpy(kernelArgs_1[6], &recursion, sizeof(recursion));
 
-	kernelArgs[7] = malloc(sizeof(tmp_ama));
-	memcpy(kernelArgs[7], &tmp_ama, sizeof(tmp_ama));
-	int i = 0;
+	kernelArgs_1[7] = malloc(sizeof(gqueue));
+	memcpy(kernelArgs_1[7], &gqueue, sizeof(gqueue));
+
+	kernelArgs_1[8] = malloc(sizeof(abpds_info));
+	memcpy(kernelArgs_1[8], &abpds_info, sizeof(abpds_info));
+
+	kernelArgs_1[9] = malloc(sizeof(tmp_ama));
+	memcpy(kernelArgs_1[9], &tmp_ama, sizeof(tmp_ama));
+
+	/*偶数次计算*/
+
+	void **kernelArgs_2 = NULL;
+	kernelArgs_2 = (void**) malloc(ARGSNUM * sizeof(*kernelArgs_2));
+
+	kernelArgs_2[0] = malloc(sizeof(finish));
+	memcpy(kernelArgs_2[0], &finish, sizeof(finish));
+
+	kernelArgs_2[1] = malloc(sizeof(delta));
+	memcpy(kernelArgs_2[1], &delta, sizeof(delta));
+
+	kernelArgs_2[2] = malloc(sizeof(ama_2));
+	memcpy(kernelArgs_2[2], &ama_2, sizeof(ama_2));
+
+	kernelArgs_2[3] = malloc(sizeof(pool_2));
+	memcpy(kernelArgs_2[3], &pool_2, sizeof(pool_2));
+
+	kernelArgs_2[4] = malloc(sizeof(ama_1));
+	memcpy(kernelArgs_2[4], &ama_1, sizeof(ama_1));
+
+	kernelArgs_2[5] = malloc(sizeof(pool_1));
+	memcpy(kernelArgs_2[5], &pool_1, sizeof(pool_1));
+
+	kernelArgs_2[6] = malloc(sizeof(recursion));
+	memcpy(kernelArgs_2[6], &recursion, sizeof(recursion));
+
+	kernelArgs_2[7] = malloc(sizeof(gqueue));
+	memcpy(kernelArgs_2[7], &gqueue, sizeof(gqueue));
+
+	kernelArgs_2[8] = malloc(sizeof(abpds_info));
+	memcpy(kernelArgs_2[8], &abpds_info, sizeof(abpds_info));
+
+	kernelArgs_2[9] = malloc(sizeof(tmp_ama));
+	memcpy(kernelArgs_2[9], &tmp_ama, sizeof(tmp_ama));
+
+	*recursion = 0;
 	//向queue中添加初始化数据
 	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
-	i++;
-	bool isEqual = false;
+	(*recursion)++;
+	bool is_equal = false;
 	int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-	compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2, abpds_info,
-			gqueue,recursion);
-	cudaDeviceSynchronize();
+//	int update_block_num=abpds_info->state_size;
+	int update_thread_num = abpds_info->stack_size * abpds_info->state_size;
+	while (true) {
+		if ((*recursion) % 2 == 0) {
+			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool_1,
+					abpds_info, gqueue, recursion);
+			cudaDeviceSynchronize();
 
-	add_Epsilon_to_queue(ama_1);
-	//printGQueue(gqueue);
-	cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid, dimBlock,
-			kernelArgs);
-	cudaDeviceSynchronize();
+			add_Epsilon_to_queue(ama_2);
+			//printGQueue(gqueue);
+			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
+					dimBlock, kernelArgs_2);
+			cudaDeviceSynchronize();
+			ama_1->count = 0;
+			printf("%d:\n", (*recursion));
+			printAMA(ama_1);
+			updateAMA<<<1, update_thread_num>>>(ama_1, *recursion, pool_1,
+					abpds_info);
+			cudaDeviceSynchronize();
+
+		} else {
+			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2,
+					abpds_info, gqueue, recursion);
+			cudaDeviceSynchronize();
+
+			add_Epsilon_to_queue(ama_1);
+			//printGQueue(gqueue);
+			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
+					dimBlock, kernelArgs_1);
+			cudaDeviceSynchronize();
+			ama_2->count = 0;
+			printf("%d:\n", (*recursion));
+			printAMA(ama_2);
+			updateAMA<<<1, update_thread_num>>>(ama_2, *recursion, pool_2,
+					abpds_info);
+			cudaDeviceSynchronize();
+
+		}
+		is_equal = isEqual(ama_1, ama_2);
+		if ((*recursion) > 2 && is_equal) {
+			break;
+		}
+		deleteTMP();
+		if ((*recursion) % 2 == 0) {
+			deleteAMA(ama_2, pool_2);
+		} else {
+			deleteAMA(ama_1, pool_1);
+		}
+		(*recursion)++;
+	}
+	printAMA(ama_1);
 	printAMA(ama_2);
-	/*	while (!(i > 2 && isEqual)) {
-	 //计算epsilon
-	 int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-	 compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool,
-	 abpds_info, gqueue);
-	 cudaDeviceSynchronize();
-	 //插入p epsilon -->p
-	 add_Epsilon_to_queue(ama_1);
-	 //计算pre*
-	 cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
-	 dimBlock, kernelArgs);
-	 cudaDeviceSynchronize();
-	 //更新ama，对比ama
-	 i++;
-	 }*/
-
+	if (isReach(ama_2, init_config)) {
+		printf("The ABPDS has an accepting run from the initial configuration\n");
+	}else{
+		printf("The ABPDS has not an accepting run from the initial configuration\n");
+	}
 	return 0;
 }

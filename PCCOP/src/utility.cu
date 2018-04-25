@@ -71,7 +71,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 				if ((!xmlStrcmp(ruleCur->name, (const xmlChar *) "rule"))) {
 					int to_config_size = atoi(
 							(char *) xmlGetProp(ruleCur, BAD_CAST "toSize"));
-
 					TransitionRule *r;
 					CUDA_SAFE_CALL(
 							cudaMallocManaged(&r, sizeof(TransitionRule)));
@@ -121,7 +120,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								}
 							}
 						}
-
 						if (to_config_size == 1) {
 							r->to_config_size = to_config_size;
 							if ((!xmlStrcmp(configCur->name,
@@ -286,7 +284,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 int parse_abpds_xml(const char *file_name) {
 
 	assert(file_name);
-
 	xmlDocPtr doc;   //xml整个文档的树形结构
 	xmlNodePtr cur;   //xml节点
 
@@ -403,6 +400,7 @@ void printStackMap() {
 		if (it_find != rv_stack_mp.end()) {
 			stack = it_find->second;
 		}
+
 		cout<<stack<<" "<<i<<endl;
 	}
 	cout<<"stack map end"<<endl;

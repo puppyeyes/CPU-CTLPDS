@@ -37,7 +37,7 @@ void addRuleToDelta(TransitionRule *t) {
 					+ t->to[i].stack1;
 			TransitionRule *t_copy;
 			cudaMallocManaged(&t_copy,sizeof(t));
-			t_copy=t;
+			*t_copy=*t;
 			t_copy->next=NULL;
 			if (delta[pos].next == NULL) {
 				delta[pos].next = t_copy;

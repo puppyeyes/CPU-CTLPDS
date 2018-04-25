@@ -12,6 +12,10 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
+#define STATEMASK 0x3ff
+#define SPUPERSCRIPTMASK 0xffffffc00
+#define STATEBIT 10
+
 struct InitConfig{
 	int initState;
 	int *stack;
@@ -44,5 +48,7 @@ __device__  void free_Gqueue_Mutex(Gqueue *gqueue);
 __device__ __host__ void printTrans(Trans t);
 __device__ __host__ void printGQueue(Gqueue *gqueue);
 
+__host__ __device__ short int decode_state_superScript(int state);
+__device__ int encode_state_superScript(int state,short int recursion);
 
 #endif /* COMMON_H_ */

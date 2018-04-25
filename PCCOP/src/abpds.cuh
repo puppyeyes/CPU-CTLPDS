@@ -15,11 +15,11 @@ struct FromConfig{
 	int stack;
 };
 
-struct ToConfig{
+typedef struct ToConfig{
 	short int controlLocation;
 	int stack1;
 	int stack2;
-};
+}Config;
 
 struct TransitionRule{
 	short int to_config_size;
@@ -52,6 +52,8 @@ extern Delta delta;
 extern int *finalStateArray;
 
 void initTMP();
+
+void deleteTMP();
 
 void initABPDSInfo();
 
