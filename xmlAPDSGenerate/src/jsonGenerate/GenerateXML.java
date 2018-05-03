@@ -4,13 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.lang.reflect.AnnotatedParameterizedType;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,9 +14,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import ABPDS.Configuration;
 import ABPDS.PDS;
@@ -35,13 +27,13 @@ public class GenerateXML {
 		List<String> final_state = new LinkedList<String>();
 		List<String> state_list = new LinkedList<>();
 		List<String> stack_list = new LinkedList<>();
-		try { // ·ÀÖ¹ÎÄ¼ş½¨Á¢»ò¶ÁÈ¡Ê§°Ü£¬ÓÃcatch²¶×½´íÎó²¢´òÓ¡£¬Ò²¿ÉÒÔthrow
+		try { // ï¿½ï¿½Ö¹ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê§ï¿½Ü£ï¿½ï¿½ï¿½catchï¿½ï¿½×½ï¿½ï¿½ï¿½ó²¢´ï¿½Ó¡ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½throw
 
-			/* ¶ÁÈëTXTÎÄ¼ş */
-			String pathname = "abpds.txt"; // ¾ø¶ÔÂ·¾¶»òÏà¶ÔÂ·¾¶¶¼¿ÉÒÔ£¬ÕâÀïÊÇ¾ø¶ÔÂ·¾¶£¬Ğ´ÈëÎÄ¼şÊ±ÑİÊ¾Ïà¶ÔÂ·¾¶
-			File filename = new File(pathname); // Òª¶ÁÈ¡ÒÔÉÏÂ·¾¶µÄinput¡£txtÎÄ¼ş
-			InputStreamReader reader = new InputStreamReader(new FileInputStream(filename)); // ½¨Á¢Ò»¸öÊäÈëÁ÷¶ÔÏóreader
-			BufferedReader br = new BufferedReader(reader); // ½¨Á¢Ò»¸ö¶ÔÏó£¬Ëü°ÑÎÄ¼şÄÚÈİ×ª³É¼ÆËã»úÄÜ¶Á¶®µÄÓïÑÔ
+			/* ï¿½ï¿½ï¿½ï¿½TXTï¿½Ä¼ï¿½ */
+			String pathname = "/home/chuancy/git/GPU-CTLPDS/PuMoC/abpds.txt"; // ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½Ê±ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+			File filename = new File(pathname); // Òªï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½inputï¿½ï¿½txtï¿½Ä¼ï¿½
+			InputStreamReader reader = new InputStreamReader(new FileInputStream(filename)); // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½reader
+			BufferedReader br = new BufferedReader(reader); // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½Ü¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String line = "";
 			line = br.readLine();
 
@@ -114,7 +106,7 @@ public class GenerateXML {
 					}
 				}
 				// System.out.println(br.readLine());
-				line = br.readLine(); // Ò»´Î¶ÁÈëÒ»ĞĞÊı¾İ
+				line = br.readLine(); // Ò»ï¿½Î¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 			abpds.setFinalState(final_state);
 			abpds.setRulelist(rule_list);
@@ -128,6 +120,7 @@ public class GenerateXML {
 			e.printStackTrace();
 		}
 		createXMLDemo(abpds);
+		System.out.println("è½¬æ¢ç»“æŸ");
 	}
 
 	public static void createXMLDemo(PDS abpds) throws Exception {
@@ -157,33 +150,33 @@ public class GenerateXML {
 				toElement.addAttribute("stack2", abpds.getRulelist().get(i).getTo().get(j).stack2);
 			}
 		}
-		// Ğ´Èëµ½Ò»¸öĞÂµÄÎÄ¼şÖĞ
+		// Ğ´ï¿½ëµ½Ò»ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 		writer(document);
 	}
 
 	/**
-	 * °Ñdocument¶ÔÏóĞ´ÈëĞÂµÄÎÄ¼ş
+	 * ï¿½ï¿½documentï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½
 	 * 
 	 * @param document
 	 * @throws Exception
 	 */
 	public static void writer(Document document) throws Exception {
-		// ½ô´ÕµÄ¸ñÊ½
+		// ï¿½ï¿½ï¿½ÕµÄ¸ï¿½Ê½
 		// OutputFormat format = OutputFormat.createCompactFormat();
-		// ÅÅ°æËõ½øµÄ¸ñÊ½
+		// ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½Ê½
 		OutputFormat format = OutputFormat.createPrettyPrint();
-		// ÉèÖÃ±àÂë
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
 		format.setEncoding("UTF-8");
-		// ´´½¨XMLWriter¶ÔÏó,Ö¸¶¨ÁËĞ´³öÎÄ¼ş¼°±àÂë¸ñÊ½
+		// ï¿½ï¿½ï¿½ï¿½XMLWriterï¿½ï¿½ï¿½ï¿½,Ö¸ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
 		// XMLWriter writer = new XMLWriter(new FileWriter(new
 		// File("src//a.xml")),format);
 		XMLWriter writer = new XMLWriter(new OutputStreamWriter(new FileOutputStream(new File("abpds.xml")), "UTF-8"),
 				format);
-		// Ğ´Èë
+		// Ğ´ï¿½ï¿½
 		writer.write(document);
-		// Á¢¼´Ğ´Èë
+		// ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½
 		writer.flush();
-		// ¹Ø±Õ²Ù×÷
+		// ï¿½Ø±Õ²ï¿½ï¿½ï¿½
 		writer.close();
 	}
 }

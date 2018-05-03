@@ -7,11 +7,11 @@ ABPDSInfo *abpds_info;
 int *finalStateArray;
 
 void initABPDSInfo() {
-	cudaMallocManaged(&abpds_info, sizeof(int) * 2);
+	cudaMallocManaged(&abpds_info, sizeof(int) * 3);
 }
 
 void initDelta(int delta_size) {
-	cudaMallocManaged(&delta, sizeof(int) * delta_size);
+	cudaMallocManaged(&delta, sizeof(Delta) * delta_size);
 }
 
 int getTransitionPos(TransitionRule *t) {
@@ -30,7 +30,6 @@ void addRuleToDelta(TransitionRule *t) {
 		t->next = delta[pos].next;
 		delta[pos].next = t;
 	}
-
 	if (t->to_config_size > 1) {
 		for (int i = 1; i < t->to_config_size; i++) {
 			int pos = t->to[i].controlLocation * (abpds_info->stack_size)
@@ -47,9 +46,8 @@ void addRuleToDelta(TransitionRule *t) {
 			}
 		}
 	}
-
 }
-__device__ void printRule(TransitionRule *rule) {
+__device__ __host__ void printRule(TransitionRule *rule) {
 	if (rule != NULL) {
 		if (rule->to_config_size == 1) {
 			printf("<%d,%d>--><%d,%d %d>\n", rule->from.controlLocation,

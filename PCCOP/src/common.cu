@@ -12,7 +12,7 @@ void initGQueue(int queue_size) {
 	gqueue->size = queue_size;
 	CUDA_SAFE_CALL(
 			cudaMallocManaged(&(gqueue->queue),
-					sizeof(TransQueue) * queue_size));
+					sizeof(unsigned long long int) * queue_size));
 }
 
 void add_one_to_queue(Trans t) {
@@ -49,7 +49,7 @@ __device__ void d_add_one_to_queue(Trans t, Gqueue *gqueue) {
 	if (gqueue->head < gqueue->size) {
 		gqueue->queue[pos] = encode_trans_to_long(t);
 	} else {
-		printf("queue full\n");
+		printf("one queue full\n");
 	}
 }
 
@@ -78,8 +78,8 @@ __device__ __host__ void printTrans(Trans t) {
 	if(t.toState!=-1){
 		int superScript = decode_state_superScript(t.toState);
 		int toState = t.toState & STATEMASK;
-		printf("%d %d --> %d[%d]\n", t.fromState, t.stack, toState,
-				superScript);
+		printf("%d %d --> %d[%d](%d)\n", t.fromState, t.stack, toState,
+				superScript,t.toState);
 	}else{
 		printf("%d %d --> %d\n", t.fromState, t.stack, t.toState);
 	}

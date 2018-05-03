@@ -9,7 +9,7 @@
 #define AMA_H_
 
 //#define AMASIZE 1000 //ama.list大小
-#define AMAPOOLSIZE 1000 //ama poll大小
+#define AMAPOOLSIZE 5000 //ama poll大小
 struct AMANode{
 	int state;
 	AMANode *next;

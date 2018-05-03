@@ -26,8 +26,6 @@ public class BMGenerate {
 			file.delete();// 删除文件
 			file.createNewFile();
 		}
-		
-		
 
 		// write
 		FileWriter fw = new FileWriter(file, true);
@@ -44,17 +42,21 @@ public class BMGenerate {
 			FromConfig from = new FromConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
 			rule.setFrom(from);
 			int type = random.nextInt(30);
-			if (type < 24) {
+			if (type < 20) {
+				while (true) {
+					state = random.nextInt(state_num);
+					stack = random.nextInt(stack_num);
+					ToConfig to = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
+					rule.setTo(to);
+					if (!to.toString().equals(from.toString())) {
+						break;
+					}
+				}
+			} else if (type >= 20 && type <= 25) {
 				state = random.nextInt(state_num);
-				stack = random.nextInt(stack_num);
-				ToConfig to = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
-				rule.setTo(to);
-			} else if (type >= 24 && type <= 26) {
-				state = random.nextInt(state_num);
-				stack = random.nextInt(stack_num);
 				ToConfig to = new ToConfig("p" + String.valueOf(state), " ");
 				rule.setTo(to);
-			} else if (type > 26 && type <= 28) {
+			} else if (type > 25 && type <= 28) {
 				state = random.nextInt(state_num);
 				stack = random.nextInt(stack_num);
 				int stack2 = random.nextInt(stack_num);
@@ -62,17 +64,30 @@ public class BMGenerate {
 						"r" + String.valueOf(stack2));
 				rule.setTo(to);
 			} else if (type == 29) {
-				state = random.nextInt(state_num);
-				stack = random.nextInt(stack_num);
 				int size = random.nextInt(10) + 2;
 				Set<String> toConfig_set = new HashSet<String>();
-				ToConfig to = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
-				toConfig_set.add(to.toString());
-				ToConfig tmp = to;
-				for (int i = 0; i < size;) {
+				ToConfig tmp;
+				ToConfig to;
+				ToConfig sub;
+				while (true) {
 					state = random.nextInt(state_num);
 					stack = random.nextInt(stack_num);
-					ToConfig sub = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
+					to = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
+					toConfig_set.add(to.toString());
+					tmp = to;
+					if (!to.toString().equals(from.toString())) {
+						break;
+					}
+				}
+				for (int i = 0; i < size;) {
+					while (true) {
+						state = random.nextInt(state_num);
+						stack = random.nextInt(stack_num);
+						sub = new ToConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
+						if (!sub.toString().equals(from.toString())) {
+							break;
+						}
+					}
 					if (!toConfig_set.contains(sub.toString())) {
 						toConfig_set.add(sub.toString());
 						tmp.next = sub;

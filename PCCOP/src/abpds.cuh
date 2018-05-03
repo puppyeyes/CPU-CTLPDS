@@ -61,7 +61,7 @@ void initDelta(int delta_size);
 
 void addRuleToDelta(TransitionRule *t);
 
-__device__ void printRule(TransitionRule *rule);
+__device__ __host__ void printRule(TransitionRule *rule);
 
 
 

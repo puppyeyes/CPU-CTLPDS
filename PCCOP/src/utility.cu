@@ -24,9 +24,9 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	if (!xmlStrcmp(cur->name, (const xmlChar *) "abpds")) {
 		int state_size = atoi((char *) xmlGetProp(cur, BAD_CAST "state_size"));
 		int stack_size = atoi((char *) xmlGetProp(cur, BAD_CAST "stack_size"));
-		delta_size = state_size * state_size;
+		delta_size = state_size * stack_size;
 		initABPDSInfo();
-		abpds_info->stack_size = stack_size+1;
+		abpds_info->stack_size = stack_size + 1;
 		abpds_info->state_size = state_size;
 	}
 	initDelta(delta_size);
@@ -127,8 +127,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 								string to_control_location =
 										(char *) xmlGetProp(configCur,
 										BAD_CAST "controlLocation");
-								//cout << to_control_location;
-								//r.to = (ToConfig *) malloc(sizeof(ToConfig));
 								CUDA_SAFE_CALL(
 										cudaMallocManaged(&(r->to),
 												sizeof(ToConfig)));
@@ -178,7 +176,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 									string to_control_stack_2 =
 											(char *) xmlGetProp(configCur,
 											BAD_CAST "stack2");
-									//cout << " " << to_control_stack_2 << endl;
 									if (!stack_mp.count(to_control_stack_2)) {
 										stack_mp.insert(
 												pair<string, int>(
@@ -206,8 +203,6 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 										cudaMallocManaged(&(r->to),
 												sizeof(ToConfig)
 														* to_config_size));
-								//int toSize = sizeof(ToConfig);
-								//cout<<toSize<<endl;
 								int i = -1;
 								while (configCur != NULL) {
 									if ((!xmlStrcmp(configCur->name,
@@ -264,11 +259,11 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 									}
 									configCur = configCur->next;
 								}
-								//cout << endl;
 								continue;
 							}
 						}
 						configCur = configCur->next;
+
 					}
 					addRuleToDelta(r);
 				}
@@ -380,28 +375,28 @@ void print_parse_result() {
 void printStateMap() {
 	map<int, string>::iterator it_find;
 	string state;
-	cout<<"state map"<<endl;
+	cout << "state map" << endl;
 	for (int i = 0; i < abpds_info->state_size; i++) {
 		it_find = rv_state_mp.find(i);
 		if (it_find != rv_state_mp.end()) {
 			state = it_find->second;
 		}
-		cout<<state<<" "<<i<<endl;
+		cout << state << " " << i << endl;
 	}
-	cout<<"state map end"<<endl;
+	cout << "state map end" << endl;
 }
 
 void printStackMap() {
 	map<int, string>::iterator it_find;
 	string stack;
-	cout<<"stack map"<<endl;
+	cout << "stack map" << endl;
 	for (int i = 0; i < abpds_info->stack_size; i++) {
 		it_find = rv_stack_mp.find(i);
 		if (it_find != rv_stack_mp.end()) {
 			stack = it_find->second;
 		}
 
-		cout<<stack<<" "<<i<<endl;
+		cout << stack << " " << i << endl;
 	}
-	cout<<"stack map end"<<endl;
+	cout << "stack map end" << endl;
 }

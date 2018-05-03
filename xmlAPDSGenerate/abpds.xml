@@ -1,32 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<abpds>
+<abpds state_size="3" stack_size="5">
   <finalState size="1">
     <state>p1</state>
   </finalState>
-  <delta size="5">
+  <delta size="10">
     <rule toSize="1">
-      <from controlLocation="p2.1.2" stack="r2"/>
-      <to controlLocation="p2" stack1="r2" stack2="r1"/>
+      <from controlLocation="p1" stack="r2"/>
+      <to controlLocation="p0" stack1="*"/>
     </rule>
-    <rule toSize="4">
-      <from controlLocation="p0" stack="r0"/>
-      <to controlLocation="p1" stack1="r1"/>
+    <rule toSize="1">
+      <from controlLocation="p0" stack="r2"/>
+      <to controlLocation="p1" stack1="r2" stack2="r4"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p2" stack="r4"/>
+      <to controlLocation="p1" stack1="r0"/>
+    </rule>
+    <rule toSize="12">
+      <from controlLocation="p0" stack="r3"/>
+      <to controlLocation="p0" stack1="r1"/>
+      <to controlLocation="p0" stack1="r1"/>
       <to controlLocation="p2" stack1="r2"/>
-      <to controlLocation="p2.1" stack1="epsilon.1"/>
-      <to controlLocation="p2.1.2" stack1="r2"/>
+      <to controlLocation="p2" stack1="r4"/>
+      <to controlLocation="p2" stack1="r3"/>
+      <to controlLocation="p2" stack1="r1"/>
+      <to controlLocation="p0" stack1="r2"/>
+      <to controlLocation="p1" stack1="r0"/>
+      <to controlLocation="p1" stack1="r3"/>
+      <to controlLocation="p1" stack1="r1"/>
+      <to controlLocation="p1" stack1="r2"/>
+      <to controlLocation="p2" stack1="r0"/>
     </rule>
     <rule toSize="1">
       <from controlLocation="p1" stack="r1"/>
-      <to controlLocation="p2" stack1="*"/>
+      <to controlLocation="p2" stack1="r4" stack2="r0"/>
     </rule>
     <rule toSize="1">
-      <from controlLocation="p2" stack="r2"/>
+      <from controlLocation="p0" stack="r3"/>
+      <to controlLocation="p2" stack1="r4" stack2="r1"/>
+    </rule>
+    <rule toSize="12">
+      <from controlLocation="p1" stack="r3"/>
+      <to controlLocation="p1" stack1="r2"/>
+      <to controlLocation="p1" stack1="r2"/>
+      <to controlLocation="p0" stack1="r3"/>
+      <to controlLocation="p0" stack1="r0"/>
+      <to controlLocation="p2" stack1="r1"/>
+      <to controlLocation="p0" stack1="r1"/>
+      <to controlLocation="p1" stack1="r4"/>
+      <to controlLocation="p2" stack1="r2"/>
+      <to controlLocation="p1" stack1="r0"/>
       <to controlLocation="p1" stack1="r1"/>
+      <to controlLocation="p2" stack1="r4"/>
+      <to controlLocation="p0" stack1="r2"/>
     </rule>
     <rule toSize="1">
-      <from controlLocation="p2" stack="r3"/>
-      <to controlLocation="p1" stack1="r1" stack2="r3"/>
+      <from controlLocation="p1" stack="r0"/>
+      <to controlLocation="p0" stack1="r3"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p1" stack="r0"/>
+      <to controlLocation="p1" stack1="*"/>
+    </rule>
+    <rule toSize="1">
+      <from controlLocation="p2" stack="r1"/>
+      <to controlLocation="p1" stack1="r1"/>
     </rule>
   </delta>
 </abpds>
