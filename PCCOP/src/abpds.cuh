@@ -41,6 +41,7 @@ typedef struct RuleHead{
 struct ABPDSInfo{
 	int state_size;
 	int stack_size;
+	int rule_size;
 	int finalStateSize;
 };
 

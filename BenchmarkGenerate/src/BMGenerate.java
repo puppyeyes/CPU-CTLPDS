@@ -41,7 +41,7 @@ public class BMGenerate {
 			int stack = random.nextInt(stack_num);
 			FromConfig from = new FromConfig("p" + String.valueOf(state), "r" + String.valueOf(stack));
 			rule.setFrom(from);
-			int type = random.nextInt(30);
+			int type = random.nextInt(29);
 			if (type < 20) {
 				while (true) {
 					state = random.nextInt(state_num);

@@ -24,10 +24,12 @@ static int parse_abpds(xmlDocPtr doc, xmlNodePtr cur) {
 	if (!xmlStrcmp(cur->name, (const xmlChar *) "abpds")) {
 		int state_size = atoi((char *) xmlGetProp(cur, BAD_CAST "state_size"));
 		int stack_size = atoi((char *) xmlGetProp(cur, BAD_CAST "stack_size"));
+		int rule_size = atoi((char *) xmlGetProp(cur, BAD_CAST "rule_size"));
 		delta_size = state_size * stack_size;
 		initABPDSInfo();
 		abpds_info->stack_size = stack_size + 1;
 		abpds_info->state_size = state_size;
+		abpds_info->rule_size = rule_size;
 	}
 	initDelta(delta_size);
 	/*

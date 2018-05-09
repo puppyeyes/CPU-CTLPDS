@@ -7,20 +7,8 @@ using namespace cooperative_groups;
 #define DEFAULT_XML_FILE "/home/chuancy/git/GPU-CTLPDS/xmlAPDSGenerate/abpds.xml"
 #define ARGSNUM 10
 #define THREADPERNUM 32
-#define BLOCKSIZE 32
+#define BLOCKSIZE 1
 AMA *ama_1, *ama_2;
-void deleteAMA_1(AMA *ama, Pool *pool, AMA *ama_2) {
-	ama->count = 0;
-	for (int i = 0; i < abpds_info->state_size * abpds_info->stack_size; i++) {
-		ama->list[i].head.next = NULL;
-		//尾指针指向头结点
-		ama->list[i].tail = &(ama->list[i].head);
-		ama->list[i].mutex = 0;
-		ama->list[i].count = 0;
-	}
-	pool->tail = 0;
-
-}
 void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
@@ -39,6 +27,10 @@ bool isReach(AMA *ama, Config init_config) {
 		return true;
 	}
 	while (node != NULL) {
+		if (node->state == -1) {
+			return true;
+		}
+		node->state = node->state & STATEMASK;
 		int pos2 = node->state * abpds_info->stack_size + init_config.stack2;
 		AMANode *node2 = ama->list[pos2].head.next;
 		if (node2 != NULL) {
@@ -72,9 +64,9 @@ int main() {
 	} else {
 		printf("parse abpds compelet\n");
 	}
-//	print_parse_result();
-	printStateMap();
-	printStackMap();
+	//print_parse_result();
+	//printStateMap();
+	//printStackMap();
 	//添加初始格局
 	map<string, int>::iterator it_find;
 	string init_state, init_stack1, init_stack2;
@@ -102,7 +94,7 @@ int main() {
 	CUDA_SAFE_CALL(cudaMallocManaged(&pool_1, sizeof(Pool));)
 	CUDA_SAFE_CALL(cudaMallocManaged(&ama_2, sizeof(AMA)));
 	CUDA_SAFE_CALL(cudaMallocManaged(&pool_2, sizeof(Pool)));
-	initGQueue(QUEUEBASESIZE * abpds_info->stack_size * abpds_info->state_size);
+	initGQueue(abpds_info->rule_size);
 
 	initAMA(ama_1, pool_1);
 	initAMA(ama_2, pool_2);
@@ -195,42 +187,65 @@ int main() {
 	//向queue中添加初始化数据
 	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
 	(*recursion)++;
-	bool is_equal = false;
 	int epsilion_thread_num = abpds_info->state_size / 32 + 1;
 //	int update_block_num=abpds_info->state_size;
 	int update_thread_num = abpds_info->stack_size * abpds_info->state_size;
 	while (true) {
 		if ((*recursion) % 2 == 0) {
+			printf("%d:\n", (*recursion));
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool_1,
 					abpds_info, gqueue, recursion);
 			cudaDeviceSynchronize();
 
 			add_Epsilon_to_queue(ama_2);
-			printGQueue(gqueue);
+			//printGQueue(gqueue);
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_2);
 			cudaDeviceSynchronize();
+			cudaEventRecord(stop, 0);
+			cudaEventSynchronize(stop);
+
+			cudaEventElapsedTime(&elapsedTime, start, stop);
+
+			cout << "calculate Time :" << elapsedTime << "ms" << endl;
 			ama_1->count = 0;
-			printf("%d:\n", (*recursion));
 			updateAMA<<<1, update_thread_num>>>(ama_1, *recursion, pool_1,
 					abpds_info);
 			cudaDeviceSynchronize();
+			cudaEventRecord(stop, 0);
+			cudaEventSynchronize(stop);
+
+			cudaEventElapsedTime(&elapsedTime, start, stop);
+
+			cout << "update Time :" << elapsedTime << "ms" << endl;
 			printAMA(ama_1);
 		} else {
+			printf("%d:\n", (*recursion));
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2,
 					abpds_info, gqueue, recursion);
 			cudaDeviceSynchronize();
 
 			add_Epsilon_to_queue(ama_1);
-			printGQueue(gqueue);
+			//printGQueue(gqueue);
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_1);
 			cudaDeviceSynchronize();
 			ama_2->count = 0;
-			printf("%d:\n", (*recursion));
+			cudaEventRecord(stop, 0);
+			cudaEventSynchronize(stop);
+
+			cudaEventElapsedTime(&elapsedTime, start, stop);
+
+			cout << "calculate Time :" << elapsedTime << "ms" << endl;
 			updateAMA<<<1, update_thread_num>>>(ama_2, *recursion, pool_2,
 					abpds_info);
 			cudaDeviceSynchronize();
+			cudaEventRecord(stop, 0);
+			cudaEventSynchronize(stop);
+
+			cudaEventElapsedTime(&elapsedTime, start, stop);
+
+			cout << "update Time :" << elapsedTime << "ms" << endl;
 			printAMA(ama_2);
 		}
 
@@ -241,18 +256,17 @@ int main() {
 		if ((*recursion) % 2 == 0) {
 			deleteAMA(ama_2, pool_2);
 		} else {
-			//deleteAMA(ama_1, pool_1);
-			deleteAMA_1(ama_1, pool_1, ama_2);
+			deleteAMA(ama_1, pool_1);
 		}
 		(*recursion)++;
 	}
-	if (isReach(ama_2, init_config)) {
+/*	if (isReach(ama_2, init_config)) {
 		printf(
 				"The ABPDS has an accepting run from the initial configuration\n");
 	} else {
 		printf(
 				"The ABPDS has not an accepting run from the initial configuration\n");
-	}
+	}*/
 
 	cudaEventRecord(stop, 0);
 	cudaEventSynchronize(stop);

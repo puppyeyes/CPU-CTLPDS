@@ -7,6 +7,14 @@ public class PDS {
 	List<String> finalState;
 	int stateSize;
 	int stackSize;
+	int ruleSize;
+	
+	public int getRuleSize() {
+		return ruleSize;
+	}
+	public void setRuleSize(int ruleSize) {
+		this.ruleSize = ruleSize;
+	}
 	public List<Rule> getRulelist() {
 		return rulelist;
 	}

@@ -112,6 +112,7 @@ public class GenerateXML {
 			abpds.setRulelist(rule_list);
 			abpds.setStateSize(state_list.size());
 			abpds.setStackSize(stack_list.size());
+			abpds.setRuleSize(rule_list.size());
 //			for(String s:stack_list)
 //			{
 //				System.out.println(s);
@@ -128,6 +129,7 @@ public class GenerateXML {
 		Element root = document.addElement("abpds");
 		root.addAttribute("state_size", String.valueOf(abpds.getStateSize()));
 		root.addAttribute("stack_size", String.valueOf(abpds.getStackSize()));
+		root.addAttribute("rule_size", String.valueOf(abpds.getRuleSize()));
 		Element finalStateElement = root.addElement("finalState").addAttribute("size",
 				String.valueOf(abpds.getFinalState().size()));
 		Element deltaElement = root.addElement("delta").addAttribute("size",

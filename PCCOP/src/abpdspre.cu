@@ -16,8 +16,10 @@ __device__ inline int compute(Delta delta, AMA *pre_ama, Pool *pool_1,
 //	printf("--------\n");
 //	printRule(tmp_rule);
 //	printf("--------\n");
+	int exe_count=0;
 	int queue_count = 0;
 	while (tmp_rule != NULL) {
+		exe_count++;
 //		printRule(tmp_rule);
 		if (tmp_rule->to_config_size == 1) {
 			if (tmp_rule->to->stack1 == 0) {
@@ -31,9 +33,6 @@ __device__ inline int compute(Delta delta, AMA *pre_ama, Pool *pool_1,
 				//printTrans(new_t);
 				if (d_insertTransToAMA(new_t, latest_ama, pool_2, abpds_info)) {
 					//printTrans(new_t);
-					if(t.fromState==3&&t.stack==2&&t.toState==1024){
-						printf("test3\n");
-					}
 					queue[thread_num][queue_count] = new_t;
 					queue_count++;
 					isDone = 0;
@@ -142,6 +141,7 @@ __device__ inline int compute(Delta delta, AMA *pre_ama, Pool *pool_1,
 		}
 		tmp_rule = tmp_rule->next;
 	}
+//	printf("thread %d:%d\n",thread_num,exe_count);
 	count[thread_num] = queue_count;
 	return isDone;
 }
@@ -165,7 +165,7 @@ __global__ void compute_pre_on_pds(int*finish, Delta delta, AMA *pre_ama,
 		offset[thread_num] = 0;
 		if (thread_num == 0&&active_thread_num>0) {
 			get_Gqueue_Mutex(gqueue);
-			//printf("取\n");
+			//printf("queue size:%d\n",gqueue->head);
 		}
 		active_thread_num = gqueue->head - gqueue->tail;
 		if(active_thread_num==0)

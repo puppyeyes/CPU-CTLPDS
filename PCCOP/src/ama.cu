@@ -143,9 +143,6 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 				/*				if (t.toState != -1) {
 				 atomicAdd( &ama->count,1);
 				 }*/
-				if (t.fromState == 3 && t.stack == 2 && t.toState == 1024) {
-					printf("test1\n");
-				}
 				pool->item[pool_position].state = t.toState;
 				pool->item[pool_position].next = NULL;
 				ama->list[insertPosition].head.next =
@@ -175,9 +172,6 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 					pool->item[pool_position].next = tmp;
 					atomicExch(&(ama->list[insertPosition].mutex), 0);
 					return true;
-
-					if (t.fromState == 3 && t.stack == 2 && t.toState == 1024) {
-					}
 				} else if (currentNode->state == t.toState) {
 					atomicExch(&(ama->list[insertPosition].mutex), 0);
 					return false;
@@ -189,8 +183,6 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 			next = false;
 		}  //此处是安全的汇聚点
 	}  //此处是安全的汇聚点2
-	if (t.fromState == 3 && t.stack == 2 && t.toState == 1024) {
-	}
 	return false;
 }
 
