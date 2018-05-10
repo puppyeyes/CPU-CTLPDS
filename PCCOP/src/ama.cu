@@ -109,7 +109,7 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
 	//bool flag = false;
 	bool next = true;
-
+	//printTrans(t);
 	while (next) {
 		int v = atomicCAS(&(ama->list[insertPosition].mutex), 0, 1);
 		if (v == 0) {
@@ -121,9 +121,6 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 				if (pool_position > pool->size) {
 					printf("pool exceed \n");
 				}
-				/*				if (t.toState != -1) {
-				 atomicAdd( &ama->count,1);
-				 }*/
 				pool->item[pool_position].state = t.toState;
 				pool->item[pool_position].next = NULL;
 
@@ -140,9 +137,6 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 				if (pool_position > pool->size) {
 					printf("pool exceed \n");
 				}
-				/*				if (t.toState != -1) {
-				 atomicAdd( &ama->count,1);
-				 }*/
 				pool->item[pool_position].state = t.toState;
 				pool->item[pool_position].next = NULL;
 				ama->list[insertPosition].head.next =
@@ -183,6 +177,7 @@ __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 			next = false;
 		}  //此处是安全的汇聚点
 	}  //此处是安全的汇聚点2
+	printf("-----\n");
 	return false;
 }
 
@@ -302,15 +297,13 @@ __global__ void updateAMA(AMA *ama, int recursion, Pool *pool,
 	//需要一个数组存储每个AMAList的所有元素  这个数组空间在哪开？
 	int amaListPosition = threadIdx.x + blockIdx.x * blockDim.x;
 	//int *tmpStateList;
-	if (amaListPosition < abpds_info->stack_size * abpds_info->state_size
-			&& (amaListPosition == 7 | 17)) {
+	if (amaListPosition < abpds_info->stack_size * abpds_info->state_size) {
 		int tmpListPosition = 0;
 		int *tmpStateList;
 		tmpStateList = (int *) malloc(
 				sizeof(int) * ama->list[amaListPosition].count);
-//	cudaMallocManaged(&tmpStateList,
-//			sizeof(int) * ama->list[amaListPosition].count);
 		AMANode *currentNode = ama->list[amaListPosition].head.next;
+		//printf("pos :%d\n",amaListPosition);
 		while (currentNode != NULL) {
 			//updateState
 			if (currentNode->state != -1) {
@@ -329,7 +322,9 @@ __global__ void updateAMA(AMA *ama, int recursion, Pool *pool,
 		for (int i = 0; i < tmpListPosition; i++) {
 			int result = d_insertStateToAMA(amaListPosition, tmpStateList[i],
 					ama, pool);
+			//printf("tttt\n");
 		}
+	//	printf("test2:%d\n",ama->count);
 	}
 
 }
@@ -369,6 +364,7 @@ void printAMA(AMA *ama) {
 	string super_script;
 	int state_id;
 	int stack_id;
+	//int count=0;
 	cout << "打印结果" << endl;
 	for (int i = 0; i < (abpds_info->state_size); i++) {
 		for (int j = 0; j < (abpds_info->stack_size); j++) {
@@ -399,6 +395,7 @@ void printAMA(AMA *ama) {
 				it_find = rv_state_mp.find(tem_node->state & STATEMASK);
 				if (it_find != rv_state_mp.end()) {
 					to_state = it_find->second;
+					//count++;
 				} else {
 					if (tem_node->state == -1) {
 						to_state = "Qf";
@@ -420,5 +417,5 @@ void printAMA(AMA *ama) {
 			}
 		}
 	}
-	cout << "结果输出结束" << endl;
+	cout << "结果输出结束 count: "<<ama->count << endl;
 }

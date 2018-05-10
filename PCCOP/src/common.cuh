@@ -30,7 +30,7 @@ typedef struct Trans{
 struct Gqueue{
 	int head;
 	int tail;
-	short size;
+	int size;
 	int mutex;
 	unsigned long long int *queue;
 };
@@ -49,6 +49,6 @@ __device__ __host__ void printTrans(Trans t);
 __device__ __host__ void printGQueue(Gqueue *gqueue);
 
 __host__ __device__ short int decode_state_superScript(int state);
-__device__ int encode_state_superScript(int state,short int recursion);
+__host__ __device__ int encode_state_superScript(int state,short int recursion);
 
 #endif /* COMMON_H_ */

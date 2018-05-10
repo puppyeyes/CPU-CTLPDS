@@ -64,7 +64,7 @@ __device__ void free_Gqueue_Mutex(Gqueue *gqueue) {
 	atomicCAS(&(gqueue->mutex), 1, 0);
 }
 
-__device__ int encode_state_superScript(int state, short int recursion) {
+__host__ __device__ int encode_state_superScript(int state, short int recursion) {
 	int res = (state&STATEMASK) | (recursion << STATEBIT);
 	return res;
 }

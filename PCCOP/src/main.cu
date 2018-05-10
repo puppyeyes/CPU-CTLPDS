@@ -8,6 +8,7 @@ using namespace cooperative_groups;
 #define ARGSNUM 10
 #define THREADPERNUM 32
 #define BLOCKSIZE 1
+
 AMA *ama_1, *ama_2;
 void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
@@ -41,7 +42,7 @@ bool isReach(AMA *ama, Config init_config) {
 	return false;
 }
 
-void add_Epsilon_to_queue(AMA *ama) {
+void add_Epsilon_to_queue(AMA *ama, int recursion) {
 	add_to_TMP(ama);
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
@@ -52,6 +53,16 @@ void add_Epsilon_to_queue(AMA *ama) {
 				add_one_to_queue(new_t);
 				node = node->next;
 			}
+		}
+	}
+	for (int i = 0; i < abpds_info->finalStateSize; i++) {
+		if (recursion > 1) {
+			Trans new_t = { finalStateArray[i], 0, encode_state_superScript(
+					finalStateArray[i], recursion - 1) };
+			add_one_to_queue(new_t);
+		} else {
+			Trans new_t = { finalStateArray[i], 0, -1 };
+			add_one_to_queue(new_t);
 		}
 	}
 }
@@ -94,7 +105,7 @@ int main() {
 	CUDA_SAFE_CALL(cudaMallocManaged(&pool_1, sizeof(Pool));)
 	CUDA_SAFE_CALL(cudaMallocManaged(&ama_2, sizeof(AMA)));
 	CUDA_SAFE_CALL(cudaMallocManaged(&pool_2, sizeof(Pool)));
-	initGQueue(abpds_info->rule_size);
+	initGQueue(QUEUEBASESIZE * abpds_info->rule_size);
 
 	initAMA(ama_1, pool_1);
 	initAMA(ama_2, pool_2);
@@ -188,28 +199,25 @@ int main() {
 	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
 	(*recursion)++;
 	int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-//	int update_block_num=abpds_info->state_size;
-	int update_thread_num = abpds_info->stack_size * abpds_info->state_size;
+	int update_block_num=(abpds_info->stack_size* abpds_info->state_size)/256+1;
+	int update_thread_num = 256;
 	while (true) {
+//	int n = 4;
+//	while (n >= 0) {
+//		n--;
 		if ((*recursion) % 2 == 0) {
 			printf("%d:\n", (*recursion));
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool_1,
 					abpds_info, gqueue, recursion);
 			cudaDeviceSynchronize();
 
-			add_Epsilon_to_queue(ama_2);
+			add_Epsilon_to_queue(ama_2, (*recursion));
 			//printGQueue(gqueue);
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_2);
 			cudaDeviceSynchronize();
-			cudaEventRecord(stop, 0);
-			cudaEventSynchronize(stop);
-
-			cudaEventElapsedTime(&elapsedTime, start, stop);
-
-			cout << "calculate Time :" << elapsedTime << "ms" << endl;
 			ama_1->count = 0;
-			updateAMA<<<1, update_thread_num>>>(ama_1, *recursion, pool_1,
+			updateAMA<<<update_block_num, 256>>>(ama_1, *recursion, pool_1,
 					abpds_info);
 			cudaDeviceSynchronize();
 			cudaEventRecord(stop, 0);
@@ -218,26 +226,20 @@ int main() {
 			cudaEventElapsedTime(&elapsedTime, start, stop);
 
 			cout << "update Time :" << elapsedTime << "ms" << endl;
-			printAMA(ama_1);
+			//printAMA(ama_1);
 		} else {
 			printf("%d:\n", (*recursion));
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2,
 					abpds_info, gqueue, recursion);
 			cudaDeviceSynchronize();
 
-			add_Epsilon_to_queue(ama_1);
+			add_Epsilon_to_queue(ama_1, (*recursion));
 			//printGQueue(gqueue);
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_1);
 			cudaDeviceSynchronize();
 			ama_2->count = 0;
-			cudaEventRecord(stop, 0);
-			cudaEventSynchronize(stop);
-
-			cudaEventElapsedTime(&elapsedTime, start, stop);
-
-			cout << "calculate Time :" << elapsedTime << "ms" << endl;
-			updateAMA<<<1, update_thread_num>>>(ama_2, *recursion, pool_2,
+			updateAMA<<<update_block_num, 256>>>(ama_2, *recursion, pool_2,
 					abpds_info);
 			cudaDeviceSynchronize();
 			cudaEventRecord(stop, 0);
@@ -246,10 +248,11 @@ int main() {
 			cudaEventElapsedTime(&elapsedTime, start, stop);
 
 			cout << "update Time :" << elapsedTime << "ms" << endl;
-			printAMA(ama_2);
+			//printAMA(ama_2);
 		}
 
 		if ((*recursion) >= 3 && isEqual(ama_1, ama_2)) {
+			//printAMA(ama_2);
 			break;
 		}
 		deleteTMP();
@@ -260,13 +263,13 @@ int main() {
 		}
 		(*recursion)++;
 	}
-/*	if (isReach(ama_2, init_config)) {
+	if (isReach(ama_2, init_config)) {
 		printf(
 				"The ABPDS has an accepting run from the initial configuration\n");
 	} else {
 		printf(
 				"The ABPDS has not an accepting run from the initial configuration\n");
-	}*/
+	}
 
 	cudaEventRecord(stop, 0);
 	cudaEventSynchronize(stop);
