@@ -29,6 +29,8 @@ void deleteTMP() {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
 			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].next =
 			NULL;
+			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].nodeFlag =
+					0;
 		}
 	}
 }
@@ -36,8 +38,10 @@ void deleteTMP() {
 void add_to_TMP(AMA *ama) {
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
+			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].nodeFlag =
+					ama->list[finalStateArray[i] * abpds_info->stack_size + j].nodeFlag;
 			tmp_ama[finalStateArray[i] * abpds_info->stack_size + j].next =
-					ama->list[finalStateArray[i] * abpds_info->stack_size + j].head.next;
+					ama->list[finalStateArray[i] * abpds_info->stack_size + j].next;
 		}
 	}
 }
@@ -45,222 +49,90 @@ void add_to_TMP(AMA *ama) {
 bool insertTransToAMA(Trans t, AMA *ama, Pool *pool) {
 	//if (!isTransInAMA(t, ama, abpds_info)) {
 	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
-	AMANode *currentNode = ama->list[insertPosition].head.next;
-	if (currentNode == NULL) {
+	if (!isExist(ama->list[insertPosition].nodeFlag, t.toState)) {
 		//插入
 		int pool_position = pool->tail++;
 		if (pool_position > pool->size) {
 			printf("pool exceed \n");
 		}
-		/*		if (t.toState != -1) {
-		 ama->count++;
-		 }*/
 		pool->item[pool_position].state = t.toState;
 		pool->item[pool_position].next = NULL;
-		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
-		ama->list[insertPosition].tail = &(pool->item[pool_position]);
+		pool->item[pool_position].next = ama->list[insertPosition].next;
+		ama->list[insertPosition].next = &(pool->item[pool_position]);
+		ama->list[insertPosition].nodeFlag |= (1
+				<< ((t.toState & STATEMASK) + 1));
 		return true;
-	}
-	//head->3  插-1 head->-1->3
-	if ((currentNode->state > t.toState) && currentNode != NULL) {
-		//插入
-		int pool_position = pool->tail++;
-		if (pool_position > pool->size) {
-			printf("pool exceed \n");
-		}
-		/*		if (t.toState != -1) {
-		 ama->count++;
-		 }*/
-		pool->item[pool_position].state = t.toState;
-		pool->item[pool_position].next = NULL;
-		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
-		pool->item[pool_position].next = currentNode;
-		return true;
-	}
-	while (currentNode != NULL) {
-		if (currentNode->state < t.toState
-				&& (currentNode->next == NULL
-						|| currentNode->next->state > t.toState)) {
-			//插入
-			int pool_position = pool->tail++;
-			if (pool_position > pool->size) {
-				printf("pool exceed \n");
-				return false;
-			}
-			/*			if (t.toState != -1) {
-			 ama->count++;
-			 }*/
-			pool->item[pool_position].state = t.toState;
-			pool->item[pool_position].next = NULL;
-			AMANode *tmp = currentNode->next;
-			currentNode->next = &(pool->item[pool_position]);
-			pool->item[pool_position].next = tmp;
-			return true;
-		} else if (currentNode->state == t.toState) {
-			return false;
-		}
-		currentNode = currentNode->next;
 	}
 	return false;
+}
+
+__device__ __host__ bool isExist(unsigned long long int nodeFlag,
+		short int state) {
+	int res = 0;
+	if (state == -1) {
+		res = (nodeFlag) & 0x01;
+	} else {
+		res = (nodeFlag >> ((state & STATEMASK) + 1)) & 0x01;
+	}
+	if (res == 0) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,
 		ABPDSInfo *abpds_info) {
 	int insertPosition = t.fromState * abpds_info->stack_size + t.stack;
-	//bool flag = false;
 	bool next = true;
-	//printTrans(t);
+	unsigned long long int nodeFlag;
 	while (next) {
 		int v = atomicCAS(&(ama->list[insertPosition].mutex), 0, 1);
 		if (v == 0) {
 			//在此放置你的临界区
-			AMANode *currentNode = ama->list[insertPosition].head.next;
-			if (currentNode == NULL) {
-				//插入
-				int pool_position = atomicAdd(&pool->tail, 1);
-				if (pool_position > pool->size) {
-					printf("pool exceed \n");
-				}
-				pool->item[pool_position].state = t.toState;
-				pool->item[pool_position].next = NULL;
-
-				ama->list[insertPosition].tail->next =
-						&(pool->item[pool_position]);
-				ama->list[insertPosition].tail = &(pool->item[pool_position]);
-				atomicExch(&(ama->list[insertPosition].mutex), 0);
-				return true;
-			}
-			//head->3  插-1 head->-1->3
-			if (currentNode != NULL && (currentNode->state > t.toState)) {
-				//插入
-				int pool_position = atomicAdd(&pool->tail, 1);
-				if (pool_position > pool->size) {
-					printf("pool exceed \n");
-				}
-				pool->item[pool_position].state = t.toState;
-				pool->item[pool_position].next = NULL;
-				ama->list[insertPosition].head.next =
-						&(pool->item[pool_position]);
-				pool->item[pool_position].next = currentNode;
-				atomicExch(&(ama->list[insertPosition].mutex), 0);
-				return true;
-			}
-			while (currentNode != NULL) {
-				if (currentNode->state < t.toState
-						&& (currentNode->next == NULL
-								|| currentNode->next->state > t.toState)) {
-					//插入
-					int pool_position = atomicAdd(&pool->tail, 1);
-					if (pool_position > pool->size) {
-						printf("ama->list[i].headpool exceed \n");
-						atomicExch(&(ama->list[insertPosition].mutex), 0);
-						return false;
-					}
-					/*					if (t.toState != -1) {
-					 atomicAdd( &ama->count,1);
-					 }*/
-					pool->item[pool_position].state = t.toState;
-					pool->item[pool_position].next = NULL;
-					AMANode *tmp = currentNode->next;
-					currentNode->next = &(pool->item[pool_position]);
-					pool->item[pool_position].next = tmp;
-					atomicExch(&(ama->list[insertPosition].mutex), 0);
-					return true;
-				} else if (currentNode->state == t.toState) {
+			if (!isExist(ama->list[insertPosition].nodeFlag, t.toState)) {
+				if((nodeFlag) & 0x01){
+					nodeFlag = ama->list[insertPosition].nodeFlag
+												| (1 << ((t.toState & STATEMASK) + 1));
+					atomicExch(&(ama->list[insertPosition].nodeFlag), nodeFlag);
 					atomicExch(&(ama->list[insertPosition].mutex), 0);
 					return false;
 				}
-				currentNode = currentNode->next;
-			}
-			//临界区结束
-			atomicExch(&(ama->list[insertPosition].mutex), 0);
-			next = false;
-		}  //此处是安全的汇聚点
-	}  //此处是安全的汇聚点2
-	printf("-----\n");
-	return false;
-}
-
-__device__ bool d_insertStateToAMA(int insertPosition, int state, AMA *ama,
-		Pool *pool) {
-	AMANode *currentNode = ama->list[insertPosition].head.next;
-//	bool flag = false;
-	if (currentNode == NULL) {
-		//插入
-		int pool_position = atomicAdd(&pool->tail, 1);
-		if (pool_position > pool->size) {
-			printf("pool exceed \n");
-		}
-		if (state != -1) {
-			atomicAdd(&ama->count, 1);
-		}
-		pool->item[pool_position].state = state;
-		pool->item[pool_position].next = NULL;
-		ama->list[insertPosition].tail->next = &(pool->item[pool_position]);
-		ama->list[insertPosition].tail = &(pool->item[pool_position]);
-		return true;
-	}
-	//head->3  插-1 head->-1->3
-	if (currentNode != NULL && (currentNode->state > state)) {
-		//插入
-		int pool_position = atomicAdd(&pool->tail, 1);
-		if (pool_position > pool->size) {
-			printf("pool exceed \n");
-		}
-		if (state != -1) {
-			atomicAdd(&ama->count, 1);
-		}
-		pool->item[pool_position].state = state;
-		pool->item[pool_position].next = NULL;
-		ama->list[insertPosition].head.next = &(pool->item[pool_position]);
-		pool->item[pool_position].next = currentNode;
-		return true;
-	}
-	while (currentNode != NULL) {
-		if (currentNode->state < state
-				&& (currentNode->next == NULL
-						|| currentNode->next->state > state)) {
-			//插入
-			int pool_position = atomicAdd(&pool->tail, 1);
-			if (pool_position > pool->size) {
-				printf("pool exceed \n");
+				//插入
+				int pool_position = atomicAdd(&(pool->tail), 1);
+				if (pool_position > pool->size) {
+					printf("pool exceed \n");
+				}
+				pool->item[pool_position].state = t.toState;
+				pool->item[pool_position].next = NULL;
+				pool->item[pool_position].next = ama->list[insertPosition].next;
+				ama->list[insertPosition].next = &(pool->item[pool_position]);
+				if (t.toState != -1) {
+					nodeFlag = ama->list[insertPosition].nodeFlag
+							| (1 << ((t.toState & STATEMASK) + 1));
+				} else {
+					nodeFlag = ama->list[insertPosition].nodeFlag | 1;
+				}
+				atomicExch(&(ama->list[insertPosition].nodeFlag), nodeFlag);
+				atomicExch(&(ama->list[insertPosition].mutex), 0);
+				return true;
+			} else {
+				atomicExch(&(ama->list[insertPosition].mutex),0);
 				return false;
 			}
-			if (state != -1) {
-				atomicAdd(&ama->count, 1);
-			}
-			pool->item[pool_position].state = state;
-			pool->item[pool_position].next = NULL;
-			AMANode *tmp = currentNode->next;
-			currentNode->next = &(pool->item[pool_position]);
-			pool->item[pool_position].next = tmp;
-			return true;
-		} else if (currentNode->state == state) {
-			//printf("--id %d-- %d  exist\n",insertPosition,currentNode->state);
-			return false;
-		}
-		currentNode = currentNode->next;
-	}
+			//临界区结束
+		}  //此处是安全的汇聚点
+	}  //此处是安全的汇聚点2
 	return false;
-
-//	int pool_position = pool->tail++;
-//	if (pool_position > pool->size) {
-//		printf("pool exceed \n");
-//	}
-//	pool->item[pool_position].state = state;
-//	//尾插
-//	ama->list[amaListPosition].tail->next = &(pooupdateAMAl->item[pool_position]);
-//	ama->list[amaListPosition].tail = &(pool->item[pool_position]);
-
 }
+
 void deleteAMA(AMA *ama, Pool *pool) {
 	ama->count = 0;
 	for (int i = 0; i < abpds_info->state_size * abpds_info->stack_size; i++) {
-		ama->list[i].head.next = NULL;
 		//尾指针指向头结点
-		ama->list[i].tail = &(ama->list[i].head);
+		ama->list[i].next = NULL;
 		ama->list[i].mutex = 0;
-		ama->list[i].count = 0;
+		ama->list[i].nodeFlag = 0;
 	}
 	pool->tail = 0;
 
@@ -279,54 +151,29 @@ bool isFinalState(int state) {
 	}
 	return false;
 }
-__device__ __host__ bool isTransInAMA(Trans t, AMA *ama,
-		ABPDSInfo *abpds_info) {
-	int pos = t.fromState * abpds_info->stack_size + t.stack;
-	AMANode *currentNode = ama->list[pos].head.next;
-	while (currentNode != NULL) {
-		if (currentNode->state == t.toState) {
-			return true;
-		}
-		currentNode = currentNode->next;
-	}
-	return false;
-}
 
 __global__ void updateAMA(AMA *ama, int recursion, Pool *pool,
 		ABPDSInfo *abpds_info) {
-	//需要一个数组存储每个AMAList的所有元素  这个数组空间在哪开？
+//需要一个数组存储每个AMAList的所有元素  这个数组空间在哪开？
 	int amaListPosition = threadIdx.x + blockIdx.x * blockDim.x;
-	//int *tmpStateList;
+//int *tmpStateList;
 	if (amaListPosition < abpds_info->stack_size * abpds_info->state_size) {
-		int tmpListPosition = 0;
-		int *tmpStateList;
-		tmpStateList = (int *) malloc(
-				sizeof(int) * ama->list[amaListPosition].count);
-		AMANode *currentNode = ama->list[amaListPosition].head.next;
-		//printf("pos :%d\n",amaListPosition);
+		AMANode *currentNode = ama->list[amaListPosition].next;
+		if(ama->list[amaListPosition].nodeFlag&0x01){
+			currentNode->state=-1;
+			ama->list[amaListPosition].next = currentNode;
+				currentNode->next = NULL;
+		}
 		while (currentNode != NULL) {
 			//updateState
 			if (currentNode->state != -1) {
-				tmpStateList[tmpListPosition++] = encode_state_superScript(
+				currentNode->state = encode_state_superScript(
 						currentNode->state, recursion);
-			} else {
-				tmpStateList[tmpListPosition++] = currentNode->state;
+				atomicAdd(&(ama->count),1);
 			}
 			currentNode = currentNode->next;
 		}
-		//断链
-		ama->list[amaListPosition].head.next = NULL;
-		ama->list[amaListPosition].tail = &(ama->list[amaListPosition].head);
-		ama->list[amaListPosition].count = 0;
-		//重新插入
-		for (int i = 0; i < tmpListPosition; i++) {
-			int result = d_insertStateToAMA(amaListPosition, tmpStateList[i],
-					ama, pool);
-			//printf("tttt\n");
-		}
-	//	printf("test2:%d\n",ama->count);
 	}
-
 }
 
 void initAMA(AMA *ama, Pool *pool) {
@@ -336,9 +183,9 @@ void initAMA(AMA *ama, Pool *pool) {
 //初始化ama.list
 	for (int i = 0; i < amaSize; i++) {
 		ama->list[i].mutex = 0;
-		ama->list[i].count = 0;
+		ama->list[i].nodeFlag = 0;
 		//尾指针指向头结点
-		ama->list[i].tail = &(ama->list[i].head);
+		ama->list[i].next = NULL;
 	}
 	ama->count = 0;
 //	CUDA_CHECK_RETURN(cudaMallocManaged(&pool, sizeof(Pool)));
@@ -346,14 +193,6 @@ void initAMA(AMA *ama, Pool *pool) {
 			cudaMallocManaged (&pool->item, sizeof(AMANode) * AMAPOOLSIZE));
 	pool->size = AMAPOOLSIZE;
 	pool->tail = 0;
-//finalStateArray 用-1表示
-//		for(int i=0;i<abpds_info->finalStateSize; i++){
-//			for(int j=0;j<abpds_info->stack_size;j++){
-//				Trans t={finalStateArray[i],j,-1};
-//				insertTransToAMA(t,ama,pool);
-//			}
-//		}
-//cout<<isTransInAMA(t2,ama);
 }
 
 void printAMA(AMA *ama) {
@@ -364,12 +203,11 @@ void printAMA(AMA *ama) {
 	string super_script;
 	int state_id;
 	int stack_id;
-	//int count=0;
+//int count=0;
 	cout << "打印结果" << endl;
 	for (int i = 0; i < (abpds_info->state_size); i++) {
 		for (int j = 0; j < (abpds_info->stack_size); j++) {
-			AMANode *tem_node =
-					ama->list[i * abpds_info->stack_size + j].head.next;
+			AMANode *tem_node = ama->list[i * abpds_info->stack_size + j].next;
 			bool flag = false;
 			if (tem_node != NULL) {
 				flag = true;
@@ -417,5 +255,5 @@ void printAMA(AMA *ama) {
 			}
 		}
 	}
-	cout << "结果输出结束 count: "<<ama->count << endl;
+	cout << "结果输出结束 count: " << ama->count << endl;
 }

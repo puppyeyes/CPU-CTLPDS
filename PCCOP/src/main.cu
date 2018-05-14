@@ -7,7 +7,7 @@ using namespace cooperative_groups;
 #define DEFAULT_XML_FILE "/home/chuancy/git/GPU-CTLPDS/xmlAPDSGenerate/abpds.xml"
 #define ARGSNUM 10
 #define THREADPERNUM 32
-#define BLOCKSIZE 1
+#define BLOCKSIZE 32
 
 AMA *ama_1, *ama_2;
 void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
@@ -23,7 +23,7 @@ void add_initTrans_to_GQueue_AMA(AMA *ama, Pool *pool) {
 bool isReach(AMA *ama, Config init_config) {
 	int pos1 = init_config.controlLocation * abpds_info->stack_size
 			+ init_config.stack1;
-	AMANode *node = ama->list[pos1].head.next;
+	AMANode *node = ama->list[pos1].next;
 	if (init_config.stack2 == 0 && node != NULL) {
 		return true;
 	}
@@ -33,7 +33,7 @@ bool isReach(AMA *ama, Config init_config) {
 		}
 		node->state = node->state & STATEMASK;
 		int pos2 = node->state * abpds_info->stack_size + init_config.stack2;
-		AMANode *node2 = ama->list[pos2].head.next;
+		AMANode *node2 = ama->list[pos2].next;
 		if (node2 != NULL) {
 			return true;
 		}
@@ -47,7 +47,7 @@ void add_Epsilon_to_queue(AMA *ama, int recursion) {
 	for (int i = 0; i < abpds_info->finalStateSize; i++) {
 		for (int j = 0; j < abpds_info->stack_size; j++) {
 			int pos = i * abpds_info->stack_size + j;
-			AMANode *node = ama->list[pos].head.next;
+			AMANode *node = ama->list[pos].next;
 			while (node != NULL) {
 				Trans new_t = { finalStateArray[i], j, node->state };
 				add_one_to_queue(new_t);
@@ -202,9 +202,6 @@ int main() {
 	int update_block_num=(abpds_info->stack_size* abpds_info->state_size)/256+1;
 	int update_thread_num = 256;
 	while (true) {
-//	int n = 4;
-//	while (n >= 0) {
-//		n--;
 		if ((*recursion) % 2 == 0) {
 			printf("%d:\n", (*recursion));
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_1, pool_1,
@@ -216,7 +213,8 @@ int main() {
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_2);
 			cudaDeviceSynchronize();
-			ama_1->count = 0;
+			//ama_1->count = 0;
+			//printAMA(ama_1);
 			updateAMA<<<update_block_num, 256>>>(ama_1, *recursion, pool_1,
 					abpds_info);
 			cudaDeviceSynchronize();
@@ -232,13 +230,14 @@ int main() {
 			compute_epsilon<<<epsilion_thread_num, 32>>>(delta, ama_2, pool_2,
 					abpds_info, gqueue, recursion);
 			cudaDeviceSynchronize();
-
+			//printGQueue(gqueue);
 			add_Epsilon_to_queue(ama_1, (*recursion));
 			//printGQueue(gqueue);
 			cudaLaunchCooperativeKernel((void*) compute_pre_on_pds, dimGrid,
 					dimBlock, kernelArgs_1);
 			cudaDeviceSynchronize();
-			ama_2->count = 0;
+			//ama_2->count = 0;
+			//printAMA(ama_2);
 			updateAMA<<<update_block_num, 256>>>(ama_2, *recursion, pool_2,
 					abpds_info);
 			cudaDeviceSynchronize();

@@ -16,6 +16,7 @@ struct AMANode{
 };
 typedef struct TMPINDEX{
 	AMANode *next;
+	long int nodeFlag;
 }*TMPAMA;
 
 extern TMPAMA tmp_ama;
@@ -26,9 +27,9 @@ typedef struct AMAHead{
 	 * */
 	//long int from;
 	//AMANode *tail;//尾指针
-	int count;
-	AMANode head; //记录头     初始化时要将尾指针指向头结点的地址
-	AMANode *tail;
+	//int count;
+	AMANode *next; //下一个
+	unsigned long long int nodeFlag;
 	int mutex;//互斥量
 }AMAList;
 struct AMA{
@@ -61,14 +62,12 @@ bool isEqual(AMA *ama_1,AMA *ama_2);
  * */
 bool insertTransToAMA(Trans t, AMA *ama, Pool *pool);
 __device__ bool d_insertTransToAMA(Trans t, AMA *ama, Pool *pool,ABPDSInfo *abpds_info);
-__device__ bool d_insertStateToAMA(int amaListPosition, int state,AMA *ama, Pool *pool);
 /*删除ama*/
 void deleteAMA(AMA *ama,Pool *pool);
 void initTMP();
 void add_to_TMP(AMA *ama);
 /*判断ama中是否存在trans*/
-__device__ __host__  bool isTransInAMA(Trans t,AMA *ama,ABPDSInfo *abpds_info);
-
+__device__ __host__ bool isExist(unsigned long long int nodeFlag,short int state);
 
 /*更新AMA中state上标*/
 __global__ void updateAMA(AMA *ama, int recursion, Pool *pool,ABPDSInfo *abpds_info);
