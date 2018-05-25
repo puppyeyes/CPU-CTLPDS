@@ -18,6 +18,7 @@ static void CheckCudaErrorAux(const char *file, unsigned line,
 }
 
 void initTMP() {
+	//存放临时的边，数组大小为abpds_info->state_size* abpds_info->stack_size
 	CUDA_SAFE_CALL(
 			cudaMallocManaged(&tmp_ama,
 					sizeof(TMPINDEX) * abpds_info->state_size

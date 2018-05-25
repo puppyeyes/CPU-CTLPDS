@@ -75,9 +75,9 @@ int main() {
 	} else {
 		printf("parse abpds compelet\n");
 	}
-	//print_parse_result();
-	//printStateMap();
-	//printStackMap();
+	print_parse_result();
+	printStateMap();
+	printStackMap();
 	//添加初始格局
 	map<string, int>::iterator it_find;
 	string init_state, init_stack1, init_stack2;
@@ -199,7 +199,8 @@ int main() {
 	add_initTrans_to_GQueue_AMA(ama_1, pool_1);
 	(*recursion)++;
 	int epsilion_thread_num = abpds_info->state_size / 32 + 1;
-	int update_block_num=(abpds_info->stack_size* abpds_info->state_size)/256+1;
+	int update_block_num = (abpds_info->stack_size * abpds_info->state_size)
+			/ 256 + 1;
 	int update_thread_num = 256;
 	while (true) {
 		if ((*recursion) % 2 == 0) {
@@ -262,13 +263,13 @@ int main() {
 		}
 		(*recursion)++;
 	}
-	if (isReach(ama_2, init_config)) {
-		printf(
-				"The ABPDS has an accepting run from the initial configuration\n");
-	} else {
-		printf(
-				"The ABPDS has not an accepting run from the initial configuration\n");
-	}
+	/*if (isReach(ama_2, init_config)) {
+	 printf(
+	 "The ABPDS has an accepting run from the initial configuration\n");
+	 } else {
+	 printf(
+	 "The ABPDS has not an accepting run from the initial configuration\n");
+	 }*/
 
 	cudaEventRecord(stop, 0);
 	cudaEventSynchronize(stop);

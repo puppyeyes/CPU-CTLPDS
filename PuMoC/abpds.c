@@ -1560,7 +1560,7 @@ void printAcceptingState(ABPDSAcceptingStateList list)
 		fprintf(file,"FinalState:%s", name_cstring(list->state));
 		if(list->Binding) Cudd_PrintMinterm(CTLBDDMgr,list->Binding);
 		printf(";");
-		fprintf(file,";");
+		fprintf(file,";\n");
 		printAcceptingState(list->left);
 		printAcceptingState(list->right);
 	}

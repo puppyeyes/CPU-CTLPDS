@@ -47,13 +47,16 @@ public class GenerateXML {
 					String[] configure_string = line.split("-->");
 					String[] from_string = configure_string[0].trim().substring(1, configure_string[0].length() - 2)
 							.split(",");
-
-					Configuration from = new Configuration(from_string[0], from_string[1]);
+					if(from_string.length>2)
+					{
+						from_string[0]=from_string[0]+','+from_string[1]+','+from_string[2];
+					}
+					Configuration from = new Configuration(from_string[0], from_string[from_string.length-1]);
 					if (!state_list.contains(from_string[0])) {
 						state_list.add(from_string[0]);
 					}
-					if (!stack_list.contains(from_string[1])) {
-						stack_list.add(from_string[1]);
+					if (!stack_list.contains(from_string[from_string.length-1])) {
+						stack_list.add(from_string[from_string.length-1]);
 						//System.out.println(from_string[1]);
 					}
 
@@ -61,7 +64,11 @@ public class GenerateXML {
 							.substring(2, configure_string[1].length() - 3).split("><");
 					for (int i = 0; i < to_configure_string.length; i++) {
 						String[] to_string = to_configure_string[i].split(",");
-						String[] stack_string = to_string[1].split(" ");
+						String[] stack_string = to_string[to_string.length-1].split(" ");
+						if(to_string.length>2)
+						{
+							to_string[0]=to_string[0]+','+to_string[1]+','+to_string[2];	
+						}
 						Configuration to;
 						if (stack_string.length == 1) {
 							to = new Configuration(to_string[0].trim(), stack_string[0].trim());
@@ -85,8 +92,8 @@ public class GenerateXML {
 									//System.out.println(stack_string[0].trim());
 								}
 							}
-							if (!stack_list.contains(stack_string[1].trim())) {
-								stack_list.add(stack_string[1].trim());
+							if (!stack_list.contains(stack_string[stack_string.length-1].trim())) {
+								stack_list.add(stack_string[stack_string.length-1].trim());
 								//System.out.println(stack_string[1].trim());
 							}
 						}
@@ -99,7 +106,10 @@ public class GenerateXML {
 					String[] state = final_state_string.split(";");
 					for (int i = 0; i < state.length; i++) {
 						//System.out.println(state[i]);
-						final_state.add(state[i]);
+						if(!final_state.contains(state[i]))
+						{
+							final_state.add(state[i]);
+						}
 						if (!state_list.contains(state[i])) {
 							state_list.add(state[i]);
 						}
